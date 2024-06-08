@@ -11,8 +11,11 @@
             "scaleInDock": 11
         }
     },
+    "last.exportedFilePath": "D:/Github Repos/nes-jam-2024/assets/tiled",
     "last.imagePath": "D:/Github Repos/nes-jam-2024/assets/sprites/png",
     "map.height": 30,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
     "map.width": 32,
