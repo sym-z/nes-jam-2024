@@ -8,5 +8,6 @@ class Keys extends Phaser.Scene {
         console.log('%cKEYS SCENE :^)', "color: #cfd1af")
 
         // define keys
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 }

@@ -11,7 +11,7 @@ let config = {
     width: 256,
     height: 240,
     zoom: Math.min((window.innerHeight/256), (window.innerWidth/240)),
-    scene: [ Load, Title, Keys ]
+    scene: [ Load, Title, Room, Keys ]
 }
 
 // game variables
