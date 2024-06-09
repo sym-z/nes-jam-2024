@@ -27,7 +27,7 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY)
-        // ------------------------------------------------------------------------- TESTING 
+        // -------------------------------------------------------------------------------- TESTING
         // Test our conversion functions
         this.test_location();
     }
@@ -35,11 +35,12 @@ class Room extends Phaser.Scene {
     update() {
         // This tests the NES controller implementation
         this.test_keys()
+        this.test_levels()
 
         //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
     }
 
-    // ------------------------------------------------------------------------- TESTER FUNCTIONS 
+    // --------------------------------------------------------------------------- TESTER FUNCTIONS
     // Function to show control output.    
     test_keys() {
         if (LEFT.isDown) console.log("LEFT")
@@ -54,20 +55,26 @@ class Room extends Phaser.Scene {
     // This function tests the functions we will use to traverse 
         // the tilemap as an Arcade sprite having to convert between 
         // world and tile coordinates.
-    test_location()
-    {
+    test_location() {
         let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
         let worldLoc = this.tile_to_world(tileLoc.x, tileLoc.y, this.backgroundLayer);
         console.log("Wiz Tile Location: ", tileLoc)
         console.log("Wiz World Location: ", worldLoc)
         console.log("Wiz Default Location: ", this.player.x,this.player.y)
     }
+    // This function is meant to test level/depth before full implimentation
+    test_levels() {
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            RICHES += 1
+            console.log(RICHES)
+            this.events.emit('addRiches')
+        }
+    }
     
-    // ------------------------------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
+    // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
     // This function takes world coordinates in as an argument, 
         // with a tilemap layer, and returns a Vector2 of the tile coords
-    world_to_tile(worldX,worldY,layer)
-    {
+    world_to_tile(worldX,worldY,layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1,-1);
 
@@ -79,8 +86,7 @@ class Room extends Phaser.Scene {
     }
     // This function takes tile coordinates in as an argument, with a 
         // tilemap layer, and returns a Vector2 of the world coords
-    tile_to_world(tileX,tileY,layer)
-    {
+    tile_to_world(tileX,tileY,layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1,-1);
 

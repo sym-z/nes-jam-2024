@@ -6,6 +6,7 @@ class Load extends Phaser.Scene {
     preload() {
         // loading bar
 
+        // ------------------------------------------------------------------------- LOADING ASSETS
         // load tiles
         this.load.image('test-SheetPNG', './assets/sprites/png/test-Sheet.png')
         this.load.image('brick-SheetPNG', './assets/sprites/png/aqua_jade_brick.png')

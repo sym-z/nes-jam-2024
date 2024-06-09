@@ -21,11 +21,12 @@ let config = {
     width: 256,
     height: 240,
     zoom: Math.min((window.innerHeight/256), (window.innerWidth/240)),
-    scene: [ Load, Title, Keys, Room ]
+    scene: [ Load, Title, ItemShop, Room, Keys, Dev ]
 }
 
 // game variables
 const game = new Phaser.Game(config)
+let FLOOR, LEVEL, ITEMS, UPGRADES, RICHES
 // convenience variables
 const centerX = game.config.width/2
 const centerY = game.config.height/2
