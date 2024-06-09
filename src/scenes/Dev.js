@@ -15,11 +15,11 @@ class Dev extends Phaser.Scene {
             // upgrades (player build, updated upon purchase)
             // riches (updated + upon enemy drop, updated - upon death)
         // src = https://www.dynetisgames.com/2018/10/28/how-save-load-player-progress-localstorage/
-        if (localStorage.getItem('level') != null && LEVEL != undefined) {
-            localStorage.setItem('level', LEVEL.toString())
+        if (localStorage.getItem('level') != null) {
+            LEVEL = parseInt(localStorage.getItem('level'))
         } else { LEVEL = 0 }
-        if (localStorage.getItem('riches') != null && RICHES != undefined) {
-            localStorage.setItem('riches', RICHES.toString())
+        if (localStorage.getItem('riches') != null) {
+            RICHES = parseInt(localStorage.getItem('riches'))
         } else { RICHES = 0 }
 
         // -------------------------------------------------------------------------------- DISPLAY
