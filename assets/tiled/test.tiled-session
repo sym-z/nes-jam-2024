@@ -11,7 +11,32 @@
         "": {
             "scaleInDock": 11
         },
+        "D:/Github Repos/game4_final/assets/tilesets/hub.tmx": {
+            "scale": 1.6921875,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 400.3693444136658,
+                "y": 319.7045244690674
+            }
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/hub.tmx#base_black": {
+            "scaleInDock": 1.5
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/hub.tmx#base_transparent": {
+            "scaleInDock": 1
+        },
         "D:/Github Repos/game4_final/assets/tilesets/level1.tmx": {
+            "scale": 1.6921875,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 399.7783933518006,
+                "y": 319.7045244690674
+            }
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx#base_black": {
+            "scaleInDock": 1
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level2.tmx": {
             "scale": 1.6921875,
             "selectedLayer": 0,
             "viewCenter": {
@@ -19,15 +44,26 @@
                 "y": 320.2954755309326
             }
         },
-        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx#base_black": {
+        "D:/Github Repos/game4_final/assets/tilesets/level2.tmx#base_black": {
+            "scaleInDock": 1
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level3.tmx": {
+            "scale": 1.6921875,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 400.3693444136658,
+                "y": 320.2954755309326
+            }
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level3.tmx#base_black": {
             "scaleInDock": 1
         },
         "test.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 1,
+            "scale": 3,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 295,
-                "y": 264
+                "x": 111.5,
+                "y": 144
             }
         },
         "test.tmx#aqua_jade_brick": {
@@ -37,6 +73,7 @@
             "scaleInDock": 5.5
         }
     },
+    "frame.defaultDuration": 600,
     "last.exportedFilePath": "D:/Github Repos/nes-jam-2024/assets/tiled",
     "last.imagePath": "D:/Github Repos/nes-jam-2024/assets/sprites/png",
     "map.height": 30,
