@@ -11,9 +11,7 @@ class ItemShop extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
-        } else if (Phaser.Input.Keyboard.JustDown(cursors.right)) {
-            this.scene.start('roomScene')
-        }
+        // moving on
+        this.scene.start('roomScene')
     }
 }
