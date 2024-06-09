@@ -6,9 +6,35 @@
     "activeFile": "",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 11
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx": {
+            "scale": 1.6921875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.3693444136658,
+                "y": 320.2954755309326
+            }
+        },
+        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx#base_black": {
+            "scaleInDock": 1
+        },
+        "test.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 295,
+                "y": 264
+            }
+        },
+        "test.tmx#aqua_jade_brick": {
+            "scaleInDock": 16
+        },
+        "test.tmx#test-Sheet": {
+            "scaleInDock": 5.5
         }
     },
     "last.exportedFilePath": "D:/Github Repos/nes-jam-2024/assets/tiled",
