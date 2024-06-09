@@ -3,12 +3,17 @@ class Room extends Phaser.Scene {
         super('roomScene')
     }
 
+    init() {
+        this.PLAYERX = 4*tileSize
+        this.PLAYERY = 4*tileSize
+    }
+
     create() {
         // running checks
         console.log('%cROOM SCENE :^)', "color: #cfd1af")
 
         // ----------------------------------------------------------------------------- TILE SETUP
-        // tilemap
+        this.cameras.main.setBackgroundColor('#FF0000') // background will display red in case of error
         this.map = this.make.tilemap({ key: 'test' })
         this.testTileset = this.map.addTilesetImage('test-Sheet', 'test-SheetPNG')
         this.brickTileset = this.map.addTilesetImage('aqua_jade_brick', 'brick-SheetPNG')
@@ -18,5 +23,12 @@ class Room extends Phaser.Scene {
         // brick layer
         this.brickLayer = this.map.createLayer('brick', this.brickTileset, 0, 0)
         this.brickLayer.setCollisionByProperty({ collides: true })
+
+        // ------------------------------------------------------------------------- STARTING SETUP
+        this.player = new Player(this, this.PLAYERX, this.PLAYERY)
+    }
+
+    update() {
+        if (cursors.down.isDown) { console.group('godown') }
     }
 }
