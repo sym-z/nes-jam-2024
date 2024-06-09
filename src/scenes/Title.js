@@ -5,7 +5,7 @@ class Title extends Phaser.Scene {
 
     create() {
         // running checks
-        console.log('%cTITLE SCENE :^)', "color: #cfd1af")
+        console.log('%cTITLE SCENE :^)', testColor)
         // moving through
         this.scene.start('roomScene')
     }

@@ -31,7 +31,11 @@ const centerX = game.config.width/2
 const centerY = game.config.height/2
 const width = game.config.width
 const height = game.config.height
-// Changed this back to 8 to make tile coordinates accurate to Tiled.
 const tileSize = 8
+const bigTileSize = tileSize*2
+// console log color variables
+const testColor = "color: #cfd1af"
+const goodColor = "color: #91aa86"
+const badColor = "color: #c088ae"
 // cursor setup
-let cursors
+let cursors, LEFT, RIGHT, UP, DOWN, A, B, SELECT, START

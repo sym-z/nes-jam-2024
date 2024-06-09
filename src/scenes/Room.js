@@ -11,10 +11,7 @@ class Room extends Phaser.Scene {
 
     create() {
         // running checks
-        console.log('%cROOM SCENE :^)', "color: #cfd1af")
-
-        // ----------------------------------------------------------------------------- KEY SETUP
-        this.keyScene = this.scene.get('keysScene')
+        console.log('%cROOM SCENE :^)', testColor)
 
         // ----------------------------------------------------------------------------- TILE SETUP
         this.cameras.main.setBackgroundColor('#FF0000') // background will display red in case of error
@@ -34,23 +31,22 @@ class Room extends Phaser.Scene {
     }
 
     update() {
-        if (cursors.down.isDown) { console.group('godown') }
-
         // This tests the NES controller implementation
-        this.test_keys();
+        this.test_keys()
 
-        console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
+        //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
     }
+
     // Function to show control output.    
     test_keys() {
-        if (this.keyScene.LEFT.isDown) console.log("LEFT")
-        if (this.keyScene.RIGHT.isDown) console.log("RIGHT")
-        if (this.keyScene.UP.isDown) console.log("UP")
-        if (this.keyScene.DOWN.isDown) console.log("DOWN")
-        if (this.keyScene.B.isDown) console.log("B")
-        if (this.keyScene.A.isDown) console.log("A")
-        if (this.keyScene.SELECT.isDown) console.log("SELECT")
-        if (this.keyScene.START.isDown) console.log("START")
+        if (LEFT.isDown) console.log("LEFT")
+        if (RIGHT.isDown) console.log("RIGHT")
+        if (UP.isDown) console.log("UP")
+        if (DOWN.isDown) console.log("DOWN")
+        if (B.isDown) console.log("B")
+        if (A.isDown) console.log("A")
+        if (SELECT.isDown) console.log("SELECT")
+        if (START.isDown) console.log("START")
     }
     
     // This function takes world coordinates in as an argument, with a tilemap layer, and returns a Vector2 of the tile coords
