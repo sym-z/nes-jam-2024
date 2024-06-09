@@ -11,8 +11,7 @@ class Load extends Phaser.Scene {
         this.load.image('brick-SheetPNG', './assets/sprites/png/aqua_jade_brick.png')
         this.load.tilemapTiledJSON('test', './assets/tiled/test.tmj')
         // load sprites
-        this.load.spritesheet('player', './assets/sprites/png/player.png', { frameWidth: bigTileSize, frameHeight: bigTileSize })
-        this.load.image('wiz', './assets/sprites/png/wiz.png')
+        this.load.spritesheet('wiz', './assets/sprites/png/wiz.png', { frameWidth: bigTileSize, frameHeight: bigTileSize })
     }
 
     create() {
@@ -23,7 +22,7 @@ class Load extends Phaser.Scene {
         // create player character animation
         this.anims.create({
             key: 'neutral',
-            frames: this.anims.generateFrameNames('player', { start: 0, end: 0 }),
+            frames: this.anims.generateFrameNames('wiz', { start: 0, end: 0 }),
             frameRate: 1,
             repeat: -1
         })
