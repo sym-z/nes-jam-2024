@@ -31,6 +31,7 @@ const centerX = game.config.width/2
 const centerY = game.config.height/2
 const width = game.config.width
 const height = game.config.height
-const tileSize = 16
+// Changed this back to 8 to make tile coordinates accurate to Tiled.
+const tileSize = 8
 // cursor setup
 let cursors

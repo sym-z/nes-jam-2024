@@ -12,6 +12,7 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON('test', './assets/tiled/test.tmj')
         // load sprites
         this.load.spritesheet('player', './assets/sprites/png/player.png', { frameWidth: 16, frameHeight: 16 })
+        this.load.image('wiz', './assets/sprites/png/wiz.png')
     }
 
     create() {

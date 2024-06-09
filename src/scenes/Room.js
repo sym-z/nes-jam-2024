@@ -4,8 +4,9 @@ class Room extends Phaser.Scene {
     }
 
     init() {
-        this.PLAYERX = 4 * tileSize
-        this.PLAYERY = 4 * tileSize
+        // Changed this to 8 to make tile coordinates accurate to Tiled.
+        this.PLAYERX = 8 * tileSize
+        this.PLAYERY = 8 * tileSize
     }
 
     create() {
@@ -37,6 +38,8 @@ class Room extends Phaser.Scene {
 
         // This tests the NES controller implementation
         this.test_keys();
+
+        console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
     }
     // Function to show control output.    
     test_keys() {
@@ -48,6 +51,18 @@ class Room extends Phaser.Scene {
         if (this.keyScene.A.isDown) console.log("A")
         if (this.keyScene.SELECT.isDown) console.log("SELECT")
         if (this.keyScene.START.isDown) console.log("START")
+    }
+    
+    // This function takes world coordinates in as an argument, with a tilemap layer, and returns a Vector2 of the tile coords
+    get_tile_coords(worldX,worldY,layer)
+    {
+        // Make empty Vector2
+        let retval = new Phaser.Math.Vector2(-1,-1);
 
+        // Assign the proper components to the vector
+        retval.x = layer.worldToTileX(worldX)
+        retval.y = layer.worldToTileY(worldY)
+
+        return retval;
     }
 }
