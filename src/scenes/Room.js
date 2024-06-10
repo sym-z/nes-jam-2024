@@ -40,6 +40,8 @@ class Room extends Phaser.Scene {
         this.test_levels()
 
         //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
+
+        // when player exits, update FLOOR variable
     }
 
     // --------------------------------------------------------------------------- TESTER FUNCTIONS
@@ -66,7 +68,7 @@ class Room extends Phaser.Scene {
     }
     // This function is meant to test level/depth before full implimentation
     test_levels() {
-        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.down)) {
             RICHES += 1
             console.log(RICHES)
             this.events.emit('addRiches')
@@ -78,6 +80,7 @@ class Room extends Phaser.Scene {
         let tileY = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer).y
         console.log("The player is standing on the tile: ", this.get_tile(tileX,tileY, this.backgroundLayer))
     }
+
     // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
     // This function takes world coordinates in as an argument, 
         // with a tilemap layer, and returns a Vector2 of the tile coords
