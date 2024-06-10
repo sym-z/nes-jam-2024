@@ -6,7 +6,9 @@ let config = {
     parent: 'game',
     type: Phaser.AUTO,
     render: {
-        pixelArt: true
+        pixelArt: true,
+        antialias: false,
+        roundPixels: true
     },
     physics: {
         default: 'arcade',
