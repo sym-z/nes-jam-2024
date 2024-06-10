@@ -30,6 +30,8 @@ class Room extends Phaser.Scene {
         // -------------------------------------------------------------------------------- TESTING
         // Test our conversion functions
         this.test_location();
+        // Test tile grabber
+        this.test_get_tile();
     }
 
     update() {
@@ -70,7 +72,12 @@ class Room extends Phaser.Scene {
             this.events.emit('addRiches')
         }
     }
-    
+    // Testing the tile grabbing function
+    test_get_tile(){
+        let tileX = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer).x
+        let tileY = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer).y
+        console.log("The player is standing on the tile: ", this.get_tile(tileX,tileY, this.backgroundLayer))
+    }
     // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
     // This function takes world coordinates in as an argument, 
         // with a tilemap layer, and returns a Vector2 of the tile coords
@@ -94,6 +101,12 @@ class Room extends Phaser.Scene {
         retval.x = layer.tileToWorldX(tileX)
         retval.y = layer.tileToWorldY(tileY)
 
+        return retval;
+    }
+    // Returns a Tile data type at the given coordinates (in tile-based coordinate system)
+    get_tile(tileX,tileY,layer){
+        let retval = this.map.getTileAt(tileX,tileY,false,layer)
+        if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval;
     }
 }

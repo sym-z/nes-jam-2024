@@ -3,13 +3,14 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "test.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 11
+            "scaleInDock": 11,
+            "scaleInEditor": 2
         },
         "D:/Github Repos/game4_final/assets/tilesets/hub.tmx": {
             "scale": 1.6921875,
@@ -52,7 +53,7 @@
             "selectedLayer": 5,
             "viewCenter": {
                 "x": 400.3693444136658,
-                "y": 320.2954755309326
+                "y": 319.7045244690674
             }
         },
         "D:/Github Repos/game4_final/assets/tilesets/level3.tmx#base_black": {
@@ -83,10 +84,20 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
+        "test.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/level2.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/hub.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/level3.tmx"
     ],
     "project": "test.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "D:/Github Repos/game4_final/assets/tilesets/level3.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/hub.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/level2.tmx",
+        "D:/Github Repos/game4_final/assets/tilesets/level1.tmx",
+        "test.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
