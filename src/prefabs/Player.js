@@ -14,5 +14,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setMaxVelocity(2000)
         this.body.setDamping(true)
         this.body.setDrag(.03)
+        
+        // attributes
+        // This will be a multiplied into the move function,
+            // The player moves (movementSpeed * 1 Tile) every input press.
+        this.movementSpeed = 1;
     }
 }

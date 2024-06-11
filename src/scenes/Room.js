@@ -46,6 +46,13 @@ class Room extends Phaser.Scene {
         DOWN.on("down", (key, event) => {
             this.move(DOWN)
         })
+        // Sprinting
+        B.on("down", (key, event) => {
+            this.player.movementSpeed = 2;
+        })
+        B.on("up", (key, event) => {
+            this.player.movementSpeed = 1;
+        })
     }
 
     update() {
@@ -177,7 +184,7 @@ class Room extends Phaser.Scene {
         switch (input) {
             case LEFT:
                 // See if tile exists and doesn't collide
-                var destTile = this.get_tile(tileLoc.x - 1, tileLoc.y, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, this.backgroundLayer)
                 if (destTile && !destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
                     this.player.x = worldDest.x;
@@ -185,7 +192,7 @@ class Room extends Phaser.Scene {
                 }
                 break;
             case RIGHT:
-                var destTile = this.get_tile(tileLoc.x + 1, tileLoc.y, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, this.backgroundLayer)
                 if (destTile && !destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
                     this.player.x = worldDest.x;
@@ -193,7 +200,7 @@ class Room extends Phaser.Scene {
                 }
                 break;
             case UP:
-                var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, this.backgroundLayer)
                 if (destTile && !destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
                     this.player.x = worldDest.x;
@@ -201,7 +208,7 @@ class Room extends Phaser.Scene {
                 }
                 break;
             case DOWN:
-                var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, this.backgroundLayer)
                 if (destTile && !destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
                     this.player.x = worldDest.x;
