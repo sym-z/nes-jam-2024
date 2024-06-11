@@ -7,6 +7,11 @@ class Room extends Phaser.Scene {
         // Changed this to 8 to make tile coordinates accurate to Tiled.
         this.PLAYERX = 8 * tileSize
         this.PLAYERY = 8 * tileSize
+
+        // For camera movement function
+        this.SCREENX = 256;
+        this.SCREENY = 240;
+
     }
 
     create() {
@@ -36,15 +41,55 @@ class Room extends Phaser.Scene {
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
             this.move(LEFT, this.brickLayer)
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0) {
+                this.move_cam('LEFT')
+                for (let i = 0; i < this.player.transitionOffset; i++)
+                    {
+                        this.move(LEFT, this.brickLayer)
+                    }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('LEFT')
         })
         RIGHT.on("down", (key, event) => {
             this.move(RIGHT, this.brickLayer)
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0) {
+                this.move_cam('RIGHT')
+                for (let i = 0; i < this.player.transitionOffset; i++)
+                    {
+                        this.move(RIGHT, this.brickLayer)
+                    }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('RIGHT')
         })
         UP.on("down", (key, event) => {
             this.move(UP, this.brickLayer)
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0) {
+                this.move_cam('UP')
+                for (let i = 0; i < this.player.transitionOffset; i++)
+                    {
+                        this.move(UP, this.brickLayer)
+                    }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('UP')
         })
         DOWN.on("down", (key, event) => {
             this.move(DOWN, this.brickLayer)
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0) {
+                this.move_cam('DOWN')
+                for (let i = 0; i < this.player.transitionOffset; i++)
+                    {
+                        this.move(DOWN, this.brickLayer)
+                    }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('DOWN')
         })
         // Sprinting
         B.on("down", (key, event) => {
@@ -62,7 +107,6 @@ class Room extends Phaser.Scene {
         //this.test_scan(this.brickLayer)
         //this.process_movement()
         //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
-
         // when player exits, update FLOOR variable
     }
 
@@ -209,7 +253,6 @@ class Room extends Phaser.Scene {
                 }
                 break;
             case DOWN:
-                console.log("WHAT THE")
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
@@ -220,5 +263,31 @@ class Room extends Phaser.Scene {
             default:
                 break;
         }
+    }
+    // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
+    // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
+    move_cam(direction) {
+        // Using these variables declutters the switch statement
+        let deltaX = 0;
+        let deltaY = 0;
+        switch (direction) {
+            case 'LEFT':
+                deltaX = -this.SCREENX;
+                break;
+            case 'RIGHT':
+                deltaX = this.SCREENX;
+                break;
+            case 'UP':
+                deltaY = -this.SCREENY;
+                break;
+            case 'DOWN':
+                deltaY = this.SCREENY;
+                break;
+            default:
+                break;
+        }
+        // Move camera based on argument
+        this.cameras.main.scrollX += deltaX;
+        this.cameras.main.scrollY += deltaY;
     }
 }
