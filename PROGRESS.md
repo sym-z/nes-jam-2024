@@ -6,7 +6,7 @@
 - [x] **NES controls mapping** 06-09-2024
 - [x] **Basic Grid Movement and Tile Collision** 06-11-2024
 - [ ] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 
-- [ ] **Room-Based Camera Movement**
+- [x] **Room-Based Camera Movement**
 - [ ] **Enemies**
 - [ ] **Enemy Spawner Tiles**
 - [ ] **Wave Based Difficulty**
