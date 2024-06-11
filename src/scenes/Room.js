@@ -35,16 +35,16 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
-            this.move(LEFT)
+            this.move(LEFT, this.brickLayer)
         })
         RIGHT.on("down", (key, event) => {
-            this.move(RIGHT)
+            this.move(RIGHT, this.brickLayer)
         })
         UP.on("down", (key, event) => {
-            this.move(UP)
+            this.move(UP, this.brickLayer)
         })
         DOWN.on("down", (key, event) => {
-            this.move(DOWN)
+            this.move(DOWN, this.brickLayer)
         })
         // Sprinting
         B.on("down", (key, event) => {
@@ -59,7 +59,7 @@ class Room extends Phaser.Scene {
         // This tests the NES controller implementation
         this.test_keys()
         this.test_levels()
-        //this.test_scan()
+        //this.test_scan(this.brickLayer)
         //this.process_movement()
         //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
 
@@ -79,11 +79,11 @@ class Room extends Phaser.Scene {
         if (START.isDown) console.log("START")
     }
     // This function tells whether the tile in the direction inputted is available to be moved to
-    test_scan() {
+    test_scan(layer) {
         if (LEFT.isDown) {
-            let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
-            let destinationTile = this.get_tile(tileLoc.x - 1, tileLoc.y, this.backgroundLayer)
-            if (destinationTile && !destinationTile.properties.collides) {
+            let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
+            let destinationTile = this.get_tile(tileLoc.x - 1, tileLoc.y, layer)
+            if (destinationTile != null && !destinationTile.properties.collides) {
                 console.log("The tile to the left is a walkable tile, the tile is: ", destinationTile)
             }
             else {
@@ -91,9 +91,9 @@ class Room extends Phaser.Scene {
             }
         }
         if (RIGHT.isDown) {
-            let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
-            let destinationTile = this.get_tile(tileLoc.x + 1, tileLoc.y, this.backgroundLayer)
-            if (destinationTile && !destinationTile.properties.collides) {
+            let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
+            let destinationTile = this.get_tile(tileLoc.x + 1, tileLoc.y, layer)
+            if (destinationTile != null && !destinationTile.properties.collides) {
                 console.log("The tile to the right is a walkable tile, the tile is: ", destinationTile)
             }
             else {
@@ -101,9 +101,9 @@ class Room extends Phaser.Scene {
             }
         }
         if (UP.isDown) {
-            let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
-            let destinationTile = this.get_tile(tileLoc.x, tileLoc.y - 1, this.backgroundLayer)
-            if (destinationTile && !destinationTile.properties.collides) {
+            let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
+            let destinationTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
+            if (destinationTile != null && !destinationTile.properties.collides) {
                 console.log("The tile upward is a walkable tile, the tile is: ", destinationTile)
             }
             else {
@@ -111,9 +111,9 @@ class Room extends Phaser.Scene {
             }
         }
         if (DOWN.isDown) {
-            let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
-            let destinationTile = this.get_tile(tileLoc.x - 1, tileLoc.y + 1, this.backgroundLayer)
-            if (destinationTile && !destinationTile.properties.collides) {
+            let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
+            let destinationTile = this.get_tile(tileLoc.x - 1, tileLoc.y + 1, layer)
+            if (destinationTile != null && !destinationTile.properties.collides) {
                 console.log("The tile downward is a walkable tile, the tile is: ", destinationTile)
             }
             else {
@@ -173,44 +173,46 @@ class Room extends Phaser.Scene {
     }
     // Returns a Tile data type at the given coordinates (in tile-based coordinate system)
     get_tile(tileX, tileY, layer) {
-        let retval = this.map.getTileAt(tileX, tileY, false, layer)
+        // Instead of returning a null tile, empty tiles return tiles of index -1
+        let retval = this.map.getTileAt(tileX, tileY, true, layer)
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval;
     }
     // This function takes in the input from the handlers in create and moves the player
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
-    move(input) {
-        let tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer);
+    move(input, layer) {
+        let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
         switch (input) {
             case LEFT:
                 // See if tile exists and doesn't collide
-                var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, this.backgroundLayer)
-                if (destTile && !destTile.properties.collides) {
-                    let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, layer)
+                if (!destTile.properties.collides) {
+                    let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
                     this.player.y = worldDest.y;
                 }
                 break;
             case RIGHT:
-                var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, this.backgroundLayer)
-                if (destTile && !destTile.properties.collides) {
-                    let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, layer)
+                if (!destTile.properties.collides) {
+                    let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
                     this.player.y = worldDest.y;
                 }
                 break;
             case UP:
-                var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, this.backgroundLayer)
-                if (destTile && !destTile.properties.collides) {
-                    let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
+                var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, layer)
+                if (!destTile.properties.collides) {
+                    let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
                     this.player.y = worldDest.y;
                 }
                 break;
             case DOWN:
-                var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, this.backgroundLayer)
-                if (destTile && !destTile.properties.collides) {
-                    let worldDest = this.tile_to_world(destTile.x, destTile.y, this.backgroundLayer)
+                console.log("WHAT THE")
+                var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, layer)
+                if (!destTile.properties.collides) {
+                    let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
                     this.player.y = worldDest.y;
                 }
