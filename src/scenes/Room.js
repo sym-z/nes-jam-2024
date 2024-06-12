@@ -226,8 +226,10 @@ class Room extends Phaser.Scene {
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval;
     }
-    // This function takes in the input from the handlers in create and moves the player
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
+    // This function takes in the input from the handlers in create and moves the player
+    // isChangingRooms is used to make sure that the offset when entering a room isn't affected
+        // by sprinting
     move(input, layer, isChangingRooms) {
         let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
         switch (input) {
