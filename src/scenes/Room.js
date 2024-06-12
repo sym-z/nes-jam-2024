@@ -41,8 +41,9 @@ class Room extends Phaser.Scene {
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
             this.move(LEFT, this.brickLayer)
+            console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0) {
+            if (this.player.x % this.SCREENX <= 8) {
                 this.move_cam('LEFT')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
@@ -53,9 +54,10 @@ class Room extends Phaser.Scene {
             //this.move_cam('LEFT')
         })
         RIGHT.on("down", (key, event) => {
+            console.log(this.player.x % this.SCREENX)
             this.move(RIGHT, this.brickLayer)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0) {
+            if (this.player.x % this.SCREENX == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize){
                 this.move_cam('RIGHT')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
@@ -67,8 +69,9 @@ class Room extends Phaser.Scene {
         })
         UP.on("down", (key, event) => {
             this.move(UP, this.brickLayer)
+            console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0) {
+            if (this.player.y % this.SCREENY <= tileSize) {
                 this.move_cam('UP')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
@@ -80,8 +83,9 @@ class Room extends Phaser.Scene {
         })
         DOWN.on("down", (key, event) => {
             this.move(DOWN, this.brickLayer)
+            console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0) {
+            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
