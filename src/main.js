@@ -37,8 +37,9 @@ const height = game.config.height
 const tileSize = 8
 const bigTileSize = tileSize*2
 // console log color variables
-const testColor = "color: #cfd1af"
-const goodColor = "color: #91aa86"
-const badColor = "color: #c088ae"
+const testColor = "color: #cfd1af;"
+const goodColor = "color: #91aa86;"
+const badColor = "color: #c088ae;"
+const logSize = "font-size: 1.5em;"
 // cursor setup
 let cursors, LEFT, RIGHT, UP, DOWN, A, B, SELECT, START

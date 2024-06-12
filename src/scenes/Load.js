@@ -18,7 +18,6 @@ class Load extends Phaser.Scene {
     create() {
         // running checks
         console.log('%cLOAD SCENE :^)', testColor)
-        window.localStorage ? console.log('%cLocal storage supported by this cat! (^･･^=)~', goodColor) : console.log('%cLocal storage not supported by this cat ~(=^･･^)', badColor)
 
         // create player character animation
         // neutral position is to face down, frame 0.

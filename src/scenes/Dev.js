@@ -35,6 +35,7 @@ class Dev extends Phaser.Scene {
         if (localStorage.getItem('upgrades') != null) {
             UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
         } else { UPGRADES = [] }
+        this.playerLog()
 
         // -------------------------------------------------------------------------------- DISPLAY
         // dev ui
@@ -75,5 +76,6 @@ class Dev extends Phaser.Scene {
 
     playerLog() {
         // console log all saved player info
+        console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}\nITEMS: ${JSON.stringify(ITEMS)}\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize)
     }
 }

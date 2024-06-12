@@ -106,7 +106,7 @@ class Room extends Phaser.Scene {
 
     update() {
         // This tests the NES controller implementation
-        this.test_keys()
+        //this.test_keys()
         this.test_levels()
         //this.test_scan(this.brickLayer)
         //this.process_movement()
