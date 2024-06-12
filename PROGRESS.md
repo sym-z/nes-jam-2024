@@ -21,35 +21,70 @@
 ## UPGRADES
 
 | NAME | LEVEL | EFFECT | NOTES | PRIORITY |
-| ---- | :---: | ------ | ----- | -------- |
-| sickness | 1 | 1dmg inflicted every 3 seconds | triggered on first attack in room | |
-| sickness | 2 | 3dmg inflicted every 3 seconds | triggered on first attack in room | |
-| sickness | 3 | 5dmg inflicted every 3 seconds | triggered on first attack in room | |
-| sickness | 4 | 7dmg inflicted every 3 seconds | triggered on first attack in room | |
-| sickness | 5 | 10dmg inflicted every 3 seconds | triggered on first attack in room | |
-| paralysis | 1 | enemey slowed for 1 second | triggered on first attack per enemy | |
-| paralysis | 2 | enemey slowed for 3 second | triggered on first attack per enemy | |
-| paralysis | 3 | enemey slowed for 5 second | triggered on first attack per enemy | |
-| paralysis | 4 | enemey slowed for 7 second | triggered on first attack per enemy | |
-| paralysis | 5 | enemey slowed for 10 seconds | triggered on first attack per enemy | |
-| charm | 1 | half damage from attacks for 3 seconds | triggered on enetering room | |
-| charm | 2 | half damage from attacks for 6 seconds | triggered on enetering room | |
-| charm | 3 | half damage from attacks for 10 seconds | triggered on enetering room | |
-| fear | 1 | enemy flees/does not attack for 2 seconds | triggered on crit | |
-| fear | 2 | enemy flees/does not attack for 4 seconds | triggered on crit | |
-| fear | 3 | enemy flees/does not attack for 6 seconds | triggered on crit | |
-| max HP | inf | max HP +5 | | |
-| HP restore | 0 | HP is restored by 1p every 10 seconds | | |
-| HP restore | 1 | HP is restored by 1p every 8 seconds | | |
-| HP restore | 1 | HP is restored by 1p every 6 seconds | | |
-| HP restore | 1 | HP is restored by 1p every 4 seconds | | |
-| HP restore | 1 | HP is restored by 1p every 1 seconds | | |
-| max mana | inf | max mana +5 | | |
-| mana restore | 0 | HP is restored by 1p every 10 seconds | | |
-| mana restore | 0 | HP is restored by 1p every 8 seconds | | |
-| mana restore | 0 | HP is restored by 1p every 6 seconds | | |
-| mana restore | 0 | HP is restored by 1p every 4 seconds | | |
-| mana restore | 0 | HP is restored by 1p every 1 seconds | | |
-| attack | inf | attack +1 | | |
+| :--- | :---: | :----- | ----: | -------: |
+| sickness | 1 | 1dmg inflicted every 3 seconds | triggered on first attack in room | 8 |
+| sickness | 2 | 3dmg inflicted every 3 seconds | triggered on first attack in room | 8 |
+| sickness | 3 | 5dmg inflicted every 3 seconds | triggered on first attack in room | 8 |
+| sickness | 4 | 7dmg inflicted every 3 seconds | triggered on first attack in room | 8 |
+| sickness | 5 | 10dmg inflicted every 3 seconds | triggered on first attack in room | 8 |
+| paralysis | 1 | enemey slowed for 1 second | triggered on first attack per enemy | 6 |
+| paralysis | 2 | enemey slowed for 3 second | triggered on first attack per enemy | 6 |
+| paralysis | 3 | enemey slowed for 5 second | triggered on first attack per enemy | 6 |
+| paralysis | 4 | enemey slowed for 7 second | triggered on first attack per enemy | 6 |
+| paralysis | 5 | enemey slowed for 10 seconds | triggered on first attack per enemy | 6 |
+| charm | 1 | half damage from attacks for 3 seconds | triggered on enetering room | 7 |
+| charm | 2 | half damage from attacks for 6 seconds | triggered on enetering room | 7 |
+| charm | 3 | half damage from attacks for 10 seconds | triggered on enetering room | 7 |
+| fear | 1 | enemy flees/does not attack for 2 seconds | triggered on crit | 11 |
+| fear | 2 | enemy flees/does not attack for 4 seconds | triggered on crit | 11 |
+| fear | 3 | enemy flees/does not attack for 6 seconds | triggered on crit | 11 |
+| max HP | inf | max HP +5 | | 1 |
+| HP restore | 0 | HP is restored by 1p every 10 seconds | | 5 |
+| HP restore | 1 | HP is restored by 1p every 8 seconds | | 5 |
+| HP restore | 2 | HP is restored by 1p every 6 seconds | | 5 |
+| HP restore | 3 | HP is restored by 1p every 4 seconds | | 5 |
+| HP restore | 4 | HP is restored by 1p every 1 seconds | | 5 |
+| max mana | inf | max mana +5 | | 2 |
+| mana restore | 0 | HP is restored by 1p every 10 seconds | | 4 |
+| mana restore | 1 | HP is restored by 1p every 8 seconds | | 4 |
+| mana restore | 2 | HP is restored by 1p every 6 seconds | | 4 |
+| mana restore | 3 | HP is restored by 1p every 4 seconds | | 4 |
+| mana restore | 4 | HP is restored by 1p every 1 seconds | | 4 |
+| attack | inf | attack +1 | | 3 |
+| crit damage | 0 | crit = attack +5 | | 9 |
+| crit damage | inf | crit +2 | | 9 |
+| crit chance | 0 | crit = 4% | | 10 |
+| crit chance | 1 | crit = 7%  | | 10 |
+| crit chance | 2 | crit = 10%  | | 10 |
+| crit chance | 3 | crit = 13%  | | 10 |
+| crit chance | 4 | crit = 16%  | | 10 |
+| crit chance | 5 | crit = 20%  | | 10 |
+| magical attack | 0 | magical attack = attack +3 | | 3 |
+| magical attack | inf | magical attack +1 | | 3 |
+| magical heal | 0 | +1 HP | | 3 |
 
 ## ITEMS
+
+| NAME | COST | EFFECT | PRIORITY |
+| :--- | :--: |:----- | -------: |
+|  |  | HP +5 | 1 |
+|  |  | HP +10 | 1 |
+|  |  | HP +15 | 1 |
+|  |  | HP +25 | 1 |
+|  |  | temp HP maximum +25 for 1 minute |  |
+|  |  | temp HP maximum +35 for 1 minute |  |
+|  |  | temp HP maximum +45 for 1 minute |  |
+|  |  | temp HP maximum +60 for 1 minute |  |
+|  |  | attack(and crit) +5 for 30 seconds |  |
+|  |  | attack(and crit) +10 for 30 seconds |  |
+|  |  | attack(and crit) +15 for 30 seconds |  |
+|  |  | attack(and crit) +25 for 30 seconds |  |
+|  |  | mana +5 | 2 |
+|  |  | mana +10 | 2 |
+|  |  | mana +15 | 2 |
+|  |  | mana +25 | 2 |
+|  |  | attack(and crit) +5 for 30 seconds |  |
+|  |  | attack(and crit) +10 for 30 seconds |  |
+|  |  | attack(and crit) +15 for 30 seconds |  |
+|  |  | attack(and crit) +25 for 30 seconds |  |
+|  |  | extra life, automatically respawn at front of room on defeat |  |
