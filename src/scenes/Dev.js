@@ -22,6 +22,7 @@ class Dev extends Phaser.Scene {
             // magical attack: sickness (poison damage), paralyze (slows enemy), freeze (stops enemy briefly), charm (enemy attack lowered)
             // stretch: crit chance, crit damage percent
         // src = https://www.dynetisgames.com/2018/10/28/how-save-load-player-progress-localstorage/
+        // src = https://www.geeksforgeeks.org/how-to-store-an-array-in-localstorage/
         if (localStorage.getItem('level') != null) {
             // level needs to be stored, floor does not. if player closes game, they will spawn at their level, not floor
             LEVEL = parseInt(localStorage.getItem('level'))
