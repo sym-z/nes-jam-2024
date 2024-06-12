@@ -13,7 +13,7 @@ class Room extends Phaser.Scene {
         this.SCREENY = 240;
 
         this.turboCooldown = false;
-        this.turboTick = 200;
+        this.turboTick = 375;
 
     }
 
