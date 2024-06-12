@@ -40,56 +40,56 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
-            this.move(LEFT, this.brickLayer)
+            this.move(LEFT, this.brickLayer, false)
             console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX <= 8) {
                 this.move_cam('LEFT')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
-                        this.move(LEFT, this.brickLayer)
+                        this.move(LEFT, this.brickLayer, true)
                     }
             }
             // Uncomment to test camera movement
             //this.move_cam('LEFT')
         })
         RIGHT.on("down", (key, event) => {
+            this.move(RIGHT, this.brickLayer, false)
             console.log(this.player.x % this.SCREENX)
-            this.move(RIGHT, this.brickLayer)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize){
                 this.move_cam('RIGHT')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
-                        this.move(RIGHT, this.brickLayer)
+                        this.move(RIGHT, this.brickLayer, true)
                     }
             }
             // Uncomment to test camera movement
             //this.move_cam('RIGHT')
         })
         UP.on("down", (key, event) => {
-            this.move(UP, this.brickLayer)
+            this.move(UP, this.brickLayer, false)
             console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY <= tileSize) {
                 this.move_cam('UP')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
-                        this.move(UP, this.brickLayer)
+                        this.move(UP, this.brickLayer, true)
                     }
             }
             // Uncomment to test camera movement
             //this.move_cam('UP')
         })
         DOWN.on("down", (key, event) => {
-            this.move(DOWN, this.brickLayer)
+            this.move(DOWN, this.brickLayer, false)
             console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
                 for (let i = 0; i < this.player.transitionOffset; i++)
                     {
-                        this.move(DOWN, this.brickLayer)
+                        this.move(DOWN, this.brickLayer, true)
                     }
             }
             // Uncomment to test camera movement
@@ -228,12 +228,13 @@ class Room extends Phaser.Scene {
     }
     // This function takes in the input from the handlers in create and moves the player
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
-    move(input, layer) {
+    move(input, layer, isChangingRooms) {
         let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
         switch (input) {
             case LEFT:
                 // See if tile exists and doesn't collide
                 var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, layer)
+                if(isChangingRooms) destTile = this.get_tile(tileLoc.x - 1 , tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -242,6 +243,7 @@ class Room extends Phaser.Scene {
                 break;
             case RIGHT:
                 var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, layer)
+                if(isChangingRooms) destTile = this.get_tile(tileLoc.x + 1 , tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -250,6 +252,7 @@ class Room extends Phaser.Scene {
                 break;
             case UP:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, layer)
+                if(isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -258,6 +261,7 @@ class Room extends Phaser.Scene {
                 break;
             case DOWN:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, layer)
+                if(isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
