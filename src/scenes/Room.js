@@ -32,6 +32,8 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY)
+        // Fixes weird collision problem with Mr. Wiz
+        this.player.setOrigin(0.25)
         // -------------------------------------------------------------------------------- TESTING
         // Test our conversion functions
         this.test_location();
