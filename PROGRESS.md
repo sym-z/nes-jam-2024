@@ -8,6 +8,7 @@
 - [ ] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 
 - [x] **Room-Based Camera Movement**
 - [ ] **Enemies**
+- [ ] **Player Animations**
 - [ ] **Enemy Spawner Tiles**
 - [ ] **Wave Based Difficulty**
 - [ ] **Polish Level Design**

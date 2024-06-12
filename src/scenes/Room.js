@@ -69,7 +69,6 @@ class Room extends Phaser.Scene {
         })
         UP.on("down", (key, event) => {
             this.move(UP, this.brickLayer, false)
-            console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY <= tileSize) {
                 this.move_cam('UP')
@@ -83,7 +82,6 @@ class Room extends Phaser.Scene {
         })
         DOWN.on("down", (key, event) => {
             this.move(DOWN, this.brickLayer, false)
-            console.log(this.player.y % this.SCREENY)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
@@ -106,7 +104,7 @@ class Room extends Phaser.Scene {
 
     update() {
         // This tests the NES controller implementation
-        //this.test_keys()
+        this.test_keys()
         this.test_levels()
         //this.test_scan(this.brickLayer)
         //this.process_movement()
@@ -226,7 +224,6 @@ class Room extends Phaser.Scene {
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval;
     }
-
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
@@ -275,7 +272,6 @@ class Room extends Phaser.Scene {
                 break;
         }
     }
-
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
     // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
     move_cam(direction) {
