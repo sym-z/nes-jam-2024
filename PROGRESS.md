@@ -5,7 +5,7 @@
 - [x] **Initial Player Movement** 06-08-2024
 - [x] **NES Controls Mapping** 06-09-2024
 - [x] **Basic Grid Movement and Tile Collision** 06-11-2024
-- [ ] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 
+- [x] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 
 - [x] **Room-Based Camera Movement**
 - [x] **Local Storage Setup** 06-11-2024
 - [ ] **Enemies**
