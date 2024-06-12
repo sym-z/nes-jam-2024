@@ -7,7 +7,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         // physics
-        //this.body.setCollideWorldBounds(true)
         this.body.setSize(this.width/2)
         this.body.onCollide = true
         this.body.onOverlap = true

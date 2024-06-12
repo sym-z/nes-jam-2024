@@ -226,6 +226,7 @@ class Room extends Phaser.Scene {
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval;
     }
+
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
@@ -274,6 +275,7 @@ class Room extends Phaser.Scene {
                 break;
         }
     }
+
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
     // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
     move_cam(direction) {

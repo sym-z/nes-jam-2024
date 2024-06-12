@@ -14,6 +14,13 @@ class Dev extends Phaser.Scene {
             // items (updated upon purchasing/finding (riches))
             // upgrades (player build, updated upon purchase (unlocked on *completion* of landmark levels))
             // riches (updated + upon enemy drop, updated - upon death)
+        // notes on upgrades (arrays in arrays)
+            // UPGRADES = [['name 1', 23], ['name 2', 73]]
+            // magical attacks are at first, attacks with extra damage and that heal you slightly then are upgraded (sickness, paralyze, etc)
+            // attack (points dealt on attack), defense (points dealt to you on attack), hp (amnt points), mana heal amnt (better word pls)
+            // mana (amnt that can be spend on magical attacks), ___ (rate at which player heals), ___ (rate at which mana is restored)
+            // magical attack: sickness (poison damage), paralyze (slows enemy), freeze (stops enemy briefly), charm (enemy attack lowered)
+            // stretch: crit chance, crit damage percent
         // src = https://www.dynetisgames.com/2018/10/28/how-save-load-player-progress-localstorage/
         if (localStorage.getItem('level') != null) {
             // level needs to be stored, floor does not. if player closes game, they will spawn at their level, not floor
@@ -22,24 +29,22 @@ class Dev extends Phaser.Scene {
         if (localStorage.getItem('riches') != null) {
             RICHES = parseInt(localStorage.getItem('riches'))
         } else { RICHES = 0 }
-        // items will need to inventory implementation
-        // upgrades should be an array 
-            // magical attacks are at first, attacks with extra damage and that heal you slightly then are upgraded (sickness, paralyze, etc)
-            // attack (points dealt on attack), defense (points dealt to you on attack), hp (amnt points), mana heal amnt (better word pls)
-            // mana (amnt that can be spend on magical attacks), ___ (rate at which player heals), ___ (rate at which mana is restored)
-            // magical attack: sickness (poison damage), paralyze (slows enemy), freeze (stops enemy briefly), charm (enemy attack lowered)
-            // stretch: crit chance, crit damage percent
+        if (localStorage.getItem('items') != null) {
+            ITEMS = JSON.parse(localStorage.getItem('items'))
+        } else { ITEMS = [] }
+        if (localStorage.getItem('upgrades') != null) {
+            UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
+        } else { UPGRADES = [] }
 
         // -------------------------------------------------------------------------------- DISPLAY
         // dev ui
-        this.devUI = this.add.text(centerX, tileSize, 'level: ' + LEVEL + ' riches: ' + RICHES, { fontSize: 8 }).setOrigin(.5, 0)
+        this.devUI = this.add.text(centerX, tileSize*3, 'level: ' + LEVEL + ' riches: ' + RICHES, { fontSize: 8 }).setOrigin(.5, 0)
         // connect to game
         // src = https://labs.phaser.io/edit.html?src=src%5Cscenes%5Cui%20scene.js
         this.itemShop = this.scene.get('itemShopScene')
         this.room = this.scene.get('roomScene')
         // level
         this.itemShop.events.on('addLevel', function () {
-            console.log('here')
             localStorage.setItem('level', LEVEL.toString())
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
         }, this)
@@ -48,5 +53,27 @@ class Dev extends Phaser.Scene {
             localStorage.setItem('riches', RICHES.toString())
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
         }, this)
+        // items
+        this.itemShop.events.on('addItem', function () {
+            localStorage.setItem('items', JSON.stringify(ITEMS))
+        })
+        this.room.events.on('addItem', function () {
+            localStorage.setItem('items', JSON.stringify(ITEMS))
+        })
+        // upgrades
+        this.room.events.on('addUpgrade', function () {
+            localStorage.setItem('upgrades', JSON.stringify(UPGRADES))
+        })
+    }
+
+    update() {
+        // clear local storage if necessary
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.right)) {
+            localStorage.clear()
+        }
+    }
+
+    playerLog() {
+        // console log all saved player info
     }
 }
