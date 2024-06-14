@@ -44,7 +44,8 @@ class Room extends Phaser.Scene {
         this.test_get_tile();
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
-        LEFT.on("down", (key, event) => {
+        //LEFT.on("down", (key, event) => {
+        if (Phaser.Input.Keyboard.JustDown(LEFT)) {
             this.move(LEFT, this.brickLayer, false)
             this.player.anims.play('right');
             this.player.flipX = true;
@@ -59,8 +60,8 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('LEFT')
-        })
-        RIGHT.on("down", (key, event) => {
+        }
+        if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.brickLayer, false)
             this.player.anims.play('right');
             this.player.flipX = false;
@@ -75,8 +76,8 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('RIGHT')
-        })
-        UP.on("down", (key, event) => {
+        }
+        if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.brickLayer, false)
             this.player.anims.play('up');
             // If the player is at the border of the screen, move it, and place them at an offset
@@ -89,8 +90,8 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('UP')
-        })
-        DOWN.on("down", (key, event) => {
+        }
+        if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.brickLayer, false)
             this.player.anims.play('neutral');
             // If the player is at the border of the screen, move it, and place them at an offset
@@ -103,7 +104,7 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('DOWN')
-        })
+        }
     }
 
     update() {
