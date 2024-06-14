@@ -14,7 +14,6 @@ class Room extends Phaser.Scene {
 
         this.turboCooldown = false;
         this.turboTick = 375;
-
     }
 
     create() {
@@ -35,6 +34,7 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY)
+        this.player.anims.play('neutral')
         // Fixes weird collision problem with Mr. Wiz
         this.player.setOrigin(0.25)
         // -------------------------------------------------------------------------------- TESTING

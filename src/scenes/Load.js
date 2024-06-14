@@ -12,7 +12,7 @@ class Load extends Phaser.Scene {
         this.load.image('brick-SheetPNG', './assets/sprites/png/aqua_jade_brick.png')
         this.load.tilemapTiledJSON('test', './assets/tiled/test.tmj')
         // load spritesheet for wiz
-        this.load.spritesheet('wiz', './assets/spritesheets/wiz-Sheet.png', { frameWidth: bigTileSize, frameHeight: bigTileSize })
+        this.load.spritesheet('wiz', './assets/spritesheets/wiz-Neutral.png', { frameWidth: tileSize, frameHeight: tileSize })
     }
 
     create() {
@@ -24,19 +24,19 @@ class Load extends Phaser.Scene {
         // neutral position is to face down, frame 0.
         this.anims.create({
             key: 'neutral',
-            frames: this.anims.generateFrameNames('wiz', { start: 0, end: 0 }),
-            frameRate: 1,
+            frames: this.anims.generateFrameNames('wiz', { start: 0, end: 7 }),
+            frameRate: 5,
             repeat: -1
         })
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNames('wiz', { start: 1, end: 1 }),
+            frames: this.anims.generateFrameNames('wiz', { start: 0, end: 7 }),
             frameRate: 1,
             repeat: -1
         })
         this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNames('wiz', { start: 2, end: 0 }),
+            frames: this.anims.generateFrameNames('wiz', { start: 0, end: 7 }),
             frameRate: 1,
             repeat: -1
         })
