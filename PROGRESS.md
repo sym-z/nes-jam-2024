@@ -5,9 +5,9 @@
 - [x] **Initial Player Movement** 06-08-2024
 - [x] **NES Controls Mapping** 06-09-2024
 - [x] **Basic Grid Movement and Tile Collision** 06-11-2024
-- [x] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 
-- [x] **Room-Based Camera Movement**
-- [x] **Local Storage Setup** 06-11-2024
+- [x] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 6-12-2024
+- [x] **Room-Based Camera Movement** 6-11-2024
+- [x] **Local Storage Setup** 06-11-2024 
 - [ ] **Enemies**
 - [ ] **Player Animations**
 - [ ] **Enemy Spawner Tiles**

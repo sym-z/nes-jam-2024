@@ -104,13 +104,6 @@ class Room extends Phaser.Scene {
             // Uncomment to test camera movement
             //this.move_cam('DOWN')
         })
-        // Sprinting
-        B.on("down", (key, event) => {
-            this.player.movementSpeed = 2;
-        })
-        B.on("up", (key, event) => {
-            this.player.movementSpeed = 1;
-        })
     }
 
     update() {
