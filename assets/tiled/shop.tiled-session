@@ -3,10 +3,24 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "shop.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "shop.tmx": {
+            "scale": 3.1882,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 123.89436045417476,
+                "y": 124.6785019760366
+            }
+        },
+        "shop.tmx#aqua_brick": {
+            "scaleInDock": 1
+        },
+        "shop.tmx#water": {
+            "scaleInDock": 14.535
+        }
     },
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
     "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/sprites/png",
@@ -17,9 +31,11 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
+        "shop.tmx"
     ],
     "project": "shop.tiled-project",
     "recentFiles": [
+        "shop.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
