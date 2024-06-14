@@ -34,7 +34,7 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY)
-        this.player.anims.play('neutral')
+        this.player.anims.play('down')
         // Fixes weird collision problem with Mr. Wiz
         this.player.setOrigin(0.25)
         // -------------------------------------------------------------------------------- TESTING
@@ -44,11 +44,9 @@ class Room extends Phaser.Scene {
         this.test_get_tile();
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
-        //LEFT.on("down", (key, event) => {
-        if (Phaser.Input.Keyboard.JustDown(LEFT)) {
+        LEFT.on("down", (key, event) => {
             this.move(LEFT, this.brickLayer, false)
-            this.player.anims.play('right');
-            this.player.flipX = true;
+            this.player.anims.play('left')
             console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX <= 8) {
@@ -60,11 +58,10 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('LEFT')
-        }
-        if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
+        })
+        RIGHT.on("down", (key, event) => {
             this.move(RIGHT, this.brickLayer, false)
-            this.player.anims.play('right');
-            this.player.flipX = false;
+            this.player.anims.play('right')
             console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize){
@@ -76,10 +73,10 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('RIGHT')
-        }
-        if (Phaser.Input.Keyboard.JustDown(UP)) {
+        })
+        UP.on("down", (key, event) => {
             this.move(UP, this.brickLayer, false)
-            this.player.anims.play('up');
+            this.player.anims.play('up')
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY <= tileSize) {
                 this.move_cam('UP')
@@ -90,10 +87,10 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('UP')
-        }
-        if (Phaser.Input.Keyboard.JustDown(DOWN)) {
+        })
+        DOWN.on("down", (key, event) => {
             this.move(DOWN, this.brickLayer, false)
-            this.player.anims.play('neutral');
+            this.player.anims.play('down')
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
@@ -104,7 +101,7 @@ class Room extends Phaser.Scene {
             }
             // Uncomment to test camera movement
             //this.move_cam('DOWN')
-        }
+        })
     }
 
     update() {
@@ -122,7 +119,6 @@ class Room extends Phaser.Scene {
                         this.turboCoolDown = true;
                         this.move(RIGHT, this.brickLayer, false)
                         this.player.anims.play('right');
-                        this.player.flipX = false;
                         console.log(this.player.x % this.SCREENX)
                         // If the player is at the border of the screen, move it, and place them at an offset
                         if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) 
@@ -146,8 +142,7 @@ class Room extends Phaser.Scene {
                     if (LEFT.isDown) {
                         this.turboCoolDown = true;
                         this.move(LEFT, this.brickLayer, false)
-                        this.player.anims.play('right');
-                        this.player.flipX = true;
+                        this.player.anims.play('left');
                         console.log(this.player.x % this.SCREENX)
                         // If the player is at the border of the screen, move it, and place them at an offset
                         if (this.player.x % this.SCREENX <= tileSize) {
@@ -191,7 +186,7 @@ class Room extends Phaser.Scene {
                     if (DOWN.isDown) {
                         this.turboCoolDown = true;
                         this.move(DOWN, this.brickLayer, false)
-                        this.player.anims.play('neutral');
+                        this.player.anims.play('down');
                         console.log(this.player.y % this.SCREENY)                            // If the player is at the border of the screen, move it, and place them at an offset
                             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                                 this.move_cam('DOWN')
