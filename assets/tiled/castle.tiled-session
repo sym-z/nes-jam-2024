@@ -3,10 +3,31 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "castle.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "": {
+            "scaleInEditor": 16.422
+        },
+        "castle.tmx": {
+            "scale": 2.3411,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 233.223698261501,
+                "y": 303.91696211182773
+            }
+        },
+        "castle.tmx#aqua_brick": {
+            "scaleInDock": 19.0224
+        },
+        "castle.tmx#castle_walls": {
+            "scaleInDock": 21.4952
+        },
+        "castle.tmx#mossy_stone": {
+            "scaleInDock": 7.6793
+        }
     },
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
     "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/sprites/png",
@@ -17,10 +38,12 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
+        "castle.tmx"
     ],
     "project": "castle.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "castle.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
