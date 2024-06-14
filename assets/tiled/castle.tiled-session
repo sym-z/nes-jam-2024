@@ -7,26 +7,41 @@
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInEditor": 16.422
         },
         "castle.tmx": {
-            "scale": 2.3411,
+            "scale": 2.0262,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 233.223698261501,
-                "y": 303.91696211182773
+                "x": 247.26088244003557,
+                "y": 120.17569835159415
             }
         },
         "castle.tmx#aqua_brick": {
-            "scaleInDock": 19.0224
+            "scaleInDock": 9.9269
         },
         "castle.tmx#castle_walls": {
-            "scaleInDock": 21.4952
+            "scaleInDock": 12.7028
         },
         "castle.tmx#mossy_stone": {
             "scaleInDock": 7.6793
+        },
+        "shop.tmx": {
+            "scale": 3.4595833333333332,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.0501023726364,
+                "y": 120.10116825243888
+            }
+        },
+        "shop.tmx#aqua_brick": {
+            "scaleInDock": 1
+        },
+        "shop.tmx#water": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
