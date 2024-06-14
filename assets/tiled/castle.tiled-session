@@ -45,7 +45,7 @@
         }
     },
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
-    "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/sprites/png",
+    "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/spritesheets",
     "map.height": 30,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
