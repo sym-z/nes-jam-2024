@@ -44,4 +44,5 @@ const logSize = "font-size: 1.25em;"
 const logWeight = "font-weight: bold;"
 const logFamily = "font-family: sans-serif;"
 // cursor setup
-let cursors, LEFT, RIGHT, UP, DOWN, A, B, SELECT, START
+let LEFT, RIGHT, UP, DOWN, A, B, SELECT, START
+let cursors, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE

@@ -31,9 +31,6 @@ class Dev extends Phaser.Scene {
         if (localStorage.getItem('riches') != null) {
             RICHES = parseInt(localStorage.getItem('riches'))
         } else { RICHES = 0 }
-        if (localStorage.getItem('items') != null) {
-            ITEMS = JSON.parse(localStorage.getItem('items'))
-        } else { ITEMS = [] }
         if (localStorage.getItem('upgrades') != null) {
             UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
         } else { UPGRADES = [] }
@@ -56,13 +53,6 @@ class Dev extends Phaser.Scene {
             localStorage.setItem('riches', RICHES.toString())
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
         }, this)
-        // items
-        this.itemShop.events.on('addItem', function () {
-            localStorage.setItem('items', JSON.stringify(ITEMS))
-        })
-        this.room.events.on('addItem', function () {
-            localStorage.setItem('items', JSON.stringify(ITEMS))
-        })
         // upgrades
         this.room.events.on('addUpgrade', function () {
             localStorage.setItem('upgrades', JSON.stringify(UPGRADES))
@@ -70,18 +60,33 @@ class Dev extends Phaser.Scene {
     }
 
     update() {
-        // clear local storage
-        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) { localStorage.clear() }
+        this.devDev()
     }
 
     playerLog() {
         // console log all saved player info
-        console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}\nITEMS: ${JSON.stringify(ITEMS)}\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize)
+        console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}s\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize)
     }
 
     devLog() {
         console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
-        // Dev.js: local storage clear
+        // Dev.js: local storage clear, riches up, riches down
         // Room.js: riches up, riches down
+    }
+
+    devDev() {
+        // clear local storage
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) { localStorage.clear() }
+        // edit riches
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            RICHES += 1
+            localStorage.setItem('riches', RICHES.toString())
+            this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
+        }
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            RICHES -= 1
+            localStorage.setItem('riches', RICHES.toString())
+            this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
+        }
     }
 }
