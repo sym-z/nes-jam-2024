@@ -14,11 +14,11 @@
             "scaleInEditor": 39.0201
         },
         "castle.tmx": {
-            "scale": 2.3397,
-            "selectedLayer": 2,
+            "scale": 3.0545,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 275.2489635423345,
-                "y": 130.99970081634396
+                "x": 337.86217056801445,
+                "y": 133.08233753478476
             }
         },
         "castle.tmx#aqua_brick": {

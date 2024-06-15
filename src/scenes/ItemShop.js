@@ -60,6 +60,7 @@ class ItemShop extends Phaser.Scene {
         this.devRoom()
         // moving on
         //this.scene.start('roomScene')
+        this.movement()
     }
 
     // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
@@ -100,55 +101,44 @@ class ItemShop extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(LEFT)) {
             this.move(LEFT, this.wallsLayer, false)
             this.player.anims.play('left')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0) {
-                this.move_cam('LEFT')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(LEFT, this.wallsLayer, true)
+            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            if(this.tile.properties.to_castle)
+                {
+                    this.scene.start("roomScene")
                 }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('LEFT')
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
             this.player.anims.play('right')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
-                this.move_cam('RIGHT')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(RIGHT, this.wallsLayer, true)
-                }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('RIGHT')
+            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            if(this.tile.properties.to_castle)
+                {
+                    this.scene.start("roomScene")
+                } 
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
             this.player.anims.play('up')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0) {
-                this.move_cam('UP')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(UP, this.wallsLayer, true)
+            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            if(this.tile.properties.to_castle)
+                {
+                    this.scene.start("roomScene")
                 }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('UP')
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
             this.player.anims.play('down')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
-                this.move_cam('DOWN')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(DOWN, this.wallsLayer, true)
+            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            if(this.tile.properties.to_castle)
+                {
+                    this.scene.start("roomScene")
                 }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('DOWN')
         }
+ 
     }
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
