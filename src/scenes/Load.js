@@ -15,6 +15,8 @@ class Load extends Phaser.Scene {
         this.load.image('waterPNG', './assets/sprites/png/water.png')
         this.load.image('etherPNG', './assets/spritesheets/ether-Sheet.png')
         this.load.image('spacePNG', './assets/spritesheets/space-Sheet.png')
+        // load bitmap font
+        this.load.bitmapFont('digi', './assets/fonts/digi.png', './assets/fonts/digi.xml')
         // load tilesheets
         this.load.tilemapTiledJSON('castle', './assets/tiled/castle.tmj')
         this.load.tilemapTiledJSON('shop', './assets/tiled/shop.tmj')
