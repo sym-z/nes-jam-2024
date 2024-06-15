@@ -53,8 +53,9 @@ class ItemShop extends Phaser.Scene {
 
     update() {
         // dev tools
-        this.devRoom()
-        // moving on
+        this.devShop()
+        this.consoleShop()
+        // player movement
         this.movement()
     }
 
@@ -215,7 +216,7 @@ class ItemShop extends Phaser.Scene {
     }
 
     // ---------------------------------------------------------------------------------- DEV TOOLS
-    devRoom() {
+    devShop() {
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             RICHES += 1
             this.events.emit('addRiches')
@@ -223,6 +224,11 @@ class ItemShop extends Phaser.Scene {
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.down)) {
             RICHES -= 1
             this.events.emit('addRiches')
+        }
+    }
+    consoleShop() {
+        if (Phaser.Input.Keyboard.JustDown(ONE)) {
+            console.log('one')
         }
     }
 }

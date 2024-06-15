@@ -63,17 +63,14 @@ class Dev extends Phaser.Scene {
         this.devDev()
     }
 
-    playerLog() {
-        // console log all saved player info
-        console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}s\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize)
-    }
-
-    devLog() {
-        console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
+    // ---------------------------------------------------------------------- DEV TOOL TRANSPARENCY
+    // console log all saved player info
+    playerLog() { console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}s\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize) }
+    // console log all dev tools
         // Dev.js: local storage clear, riches up, riches down
         // Room.js: riches up, riches down
-    }
-
+    devLog() { console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage\n1-0+O,P: item shop upgrades`, goodColor + ' ' + logSize) }
+    // dev scene tools
     devDev() {
         // clear local storage
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) { localStorage.clear() }
