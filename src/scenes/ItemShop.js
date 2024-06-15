@@ -3,20 +3,17 @@ class ItemShop extends Phaser.Scene {
         super('itemShopScene')
     }
 
-
     init() {
-
-        // For camera movement function
+        // screen x and y for camera movement
         this.SCREENX = 256
         this.SCREENY = 240
-        
-        // Changed this to 8 to make tile coordinates accurate to Tiled.
+        // initial player coords
         this.PLAYERX = this.SCREENX / 2 
         this.PLAYERY = this.SCREENY / 2
+        this.PLAYERDIRECT = 'down'
     }
-    preload()
-    {
 
+    preload() {
         // load tile animation plugin
         this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
     }
@@ -94,7 +91,10 @@ class ItemShop extends Phaser.Scene {
     movement() {
         if (Phaser.Input.Keyboard.JustDown(LEFT)) {
             this.move(LEFT, this.wallsLayer, false)
-            this.player.anims.play('left')
+            if (this.PLAYERDIRECT != 'left') {
+                this.PLAYERDIRECT = 'left'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
             if (this.tile.properties.to_castle) {
@@ -103,7 +103,10 @@ class ItemShop extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
-            this.player.anims.play('right')
+            if (this.PLAYERDIRECT != 'right') {
+                this.PLAYERDIRECT = 'right'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
             if (this.tile.properties.to_castle) {
@@ -112,7 +115,10 @@ class ItemShop extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
-            this.player.anims.play('up')
+            if (this.PLAYERDIRECT != 'up') {
+                this.PLAYERDIRECT = 'up'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
             if (this.tile.properties.to_castle) {
@@ -121,14 +127,17 @@ class ItemShop extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
-            this.player.anims.play('down')
+            if (this.PLAYERDIRECT != 'down') {
+                this.PLAYERDIRECT = 'down'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
             if (this.tile.properties.to_castle) {
                 this.scene.start("roomScene")
             }
         }
- 
+        
     }
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected

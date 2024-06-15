@@ -10,6 +10,7 @@ class Room extends Phaser.Scene {
         // initial player coords
         this.PLAYERX = this.SCREENX/2 
         this.PLAYERY = this.SCREENY/2
+        this.PLAYERDIRECT = 'down'
         // temp initial enemy coords
         this.ENEMYX = (this.SCREENX/2)+tileSize
         this.ENEMYY = (this.SCREENY/2)+tileSize
@@ -90,7 +91,10 @@ class Room extends Phaser.Scene {
     movement() {
         if (Phaser.Input.Keyboard.JustDown(LEFT)) {
             this.move(LEFT, this.wallsLayer, false)
-            this.player.anims.play('left')
+            if (this.PLAYERDIRECT != 'left') {
+                this.PLAYERDIRECT = 'left'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0) {
                 this.move_cam('LEFT')
@@ -98,12 +102,13 @@ class Room extends Phaser.Scene {
                     this.move(LEFT, this.wallsLayer, true)
                 }
             }
-            // Uncomment to test camera movement
-            //this.move_cam('LEFT')
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
-            this.player.anims.play('right')
+            if (this.PLAYERDIRECT != 'right') {
+                this.PLAYERDIRECT = 'right'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
                 this.move_cam('RIGHT')
@@ -111,12 +116,13 @@ class Room extends Phaser.Scene {
                     this.move(RIGHT, this.wallsLayer, true)
                 }
             }
-            // Uncomment to test camera movement
-            //this.move_cam('RIGHT')
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
-            this.player.anims.play('up')
+            if (this.PLAYERDIRECT != 'up') {
+                this.PLAYERDIRECT = 'up'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0) {
                 this.move_cam('UP')
@@ -124,12 +130,13 @@ class Room extends Phaser.Scene {
                     this.move(UP, this.wallsLayer, true)
                 }
             }
-            // Uncomment to test camera movement
-            //this.move_cam('UP')
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
-            this.player.anims.play('down')
+            if (this.PLAYERDIRECT != 'down') {
+                this.PLAYERDIRECT = 'down'
+                this.player.anims.play(this.PLAYERDIRECT)
+            }
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
@@ -137,8 +144,6 @@ class Room extends Phaser.Scene {
                     this.move(DOWN, this.wallsLayer, true)
                 }
             }
-            // Uncomment to test camera movement
-            //this.move_cam('DOWN')
         }
     }
     // This function takes in the input from the handlers in create and moves the player
