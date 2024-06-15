@@ -9,8 +9,8 @@ class Room extends Phaser.Scene {
         this.PLAYERY = 8 * tileSize
 
         // For camera movement function
-        this.SCREENX = 256;
-        this.SCREENY = 240;
+        this.SCREENX = 256
+        this.SCREENY = 240
     }
 
     create() {
@@ -22,7 +22,7 @@ class Room extends Phaser.Scene {
         // create map
         this.map = this.make.tilemap({ key: 'castle' })
         // tileset variables + array
-        this.tilesetArr = [];
+        this.tilesetArr = []
         this.brickTileset = this.map.addTilesetImage('aqua_brick', 'aqua_brickPNG')
         this.tilesetArr.push(this.brickTileset)
         this.castleTileset = this.map.addTilesetImage('castle_walls', 'castle_wallsPNG')
@@ -48,7 +48,6 @@ class Room extends Phaser.Scene {
         LEFT.on("down", (key, event) => {
             this.move(LEFT, this.wallsLayer, false)
             this.player.anims.play('left')
-            console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0) {
                 this.move_cam('LEFT')
@@ -62,7 +61,6 @@ class Room extends Phaser.Scene {
         RIGHT.on("down", (key, event) => {
             this.move(RIGHT, this.wallsLayer, false)
             this.player.anims.play('right')
-            console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
                 this.move_cam('RIGHT')
@@ -109,32 +107,32 @@ class Room extends Phaser.Scene {
     // with a tilemap layer, and returns a Vector2 of the tile coords
     world_to_tile(worldX, worldY, layer) {
         // Make empty Vector2
-        let retval = new Phaser.Math.Vector2(-1, -1);
+        let retval = new Phaser.Math.Vector2(-1, -1)
 
         // Assign the proper components to the vector
         retval.x = layer.worldToTileX(worldX)
         retval.y = layer.worldToTileY(worldY)
 
-        return retval;
+        return retval
     }
     // This function takes tile coordinates in as an argument, with a 
     // tilemap layer, and returns a Vector2 of the world coords
     tile_to_world(tileX, tileY, layer) {
         // Make empty Vector2
-        let retval = new Phaser.Math.Vector2(-1, -1);
+        let retval = new Phaser.Math.Vector2(-1, -1)
 
         // Assign the proper components to the vector
         retval.x = layer.tileToWorldX(tileX)
         retval.y = layer.tileToWorldY(tileY)
 
-        return retval;
+        return retval
     }
     // Returns a Tile data type at the given coordinates (in tile-based coordinate system)
     get_tile(tileX, tileY, layer) {
         // Instead of returning a null tile, empty tiles return tiles of index -1
         let retval = this.map.getTileAt(tileX, tileY, true, layer)
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
-        return retval;
+        return retval
     }
 
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
@@ -142,7 +140,7 @@ class Room extends Phaser.Scene {
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
     // by sprinting
     move(input, layer, isChangingRooms) {
-        let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
+        let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer)
         switch (input) {
             case LEFT:
                 // See if tile exists and doesn't collide
@@ -150,39 +148,39 @@ class Room extends Phaser.Scene {
                 if (isChangingRooms) destTile = this.get_tile(tileLoc.x - 1, tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
-                    this.player.x = worldDest.x;
-                    this.player.y = worldDest.y;
+                    this.player.x = worldDest.x
+                    this.player.y = worldDest.y
                 }
-                break;
+                break
             case RIGHT:
                 var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, layer)
                 if (isChangingRooms) destTile = this.get_tile(tileLoc.x + 1, tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
-                    this.player.x = worldDest.x;
-                    this.player.y = worldDest.y;
+                    this.player.x = worldDest.x
+                    this.player.y = worldDest.y
                 }
-                break;
+                break
             case UP:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, layer)
                 if (isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
-                    this.player.x = worldDest.x;
-                    this.player.y = worldDest.y;
+                    this.player.x = worldDest.x
+                    this.player.y = worldDest.y
                 }
-                break;
+                break
             case DOWN:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, layer)
                 if (isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y + 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
-                    this.player.x = worldDest.x;
-                    this.player.y = worldDest.y;
+                    this.player.x = worldDest.x
+                    this.player.y = worldDest.y
                 }
-                break;
+                break
             default:
-                break;
+                break
         }
     }
 
@@ -190,26 +188,26 @@ class Room extends Phaser.Scene {
     // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
     move_cam(direction) {
         // Using these variables declutters the switch statement
-        let deltaX = 0;
-        let deltaY = 0;
+        let deltaX = 0
+        let deltaY = 0
         switch (direction) {
             case 'LEFT':
-                deltaX = -this.SCREENX;
-                break;
+                deltaX = -this.SCREENX
+                break
             case 'RIGHT':
-                deltaX = this.SCREENX;
-                break;
+                deltaX = this.SCREENX
+                break
             case 'UP':
-                deltaY = -this.SCREENY;
-                break;
+                deltaY = -this.SCREENY
+                break
             case 'DOWN':
-                deltaY = this.SCREENY;
-                break;
+                deltaY = this.SCREENY
+                break
             default:
-                break;
+                break
         }
         // Move camera based on argument
-        this.cameras.main.scrollX += deltaX;
-        this.cameras.main.scrollY += deltaY;
+        this.cameras.main.scrollX += deltaX
+        this.cameras.main.scrollY += deltaY
     }
 }

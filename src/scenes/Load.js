@@ -8,7 +8,6 @@ class Load extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- LOADING ASSETS
         // load images
-        this.load.image('test-SheetPNG', './assets/sprites/png/test-Sheet.png')
         this.load.image('aqua_brickPNG', './assets/sprites/png/aqua_jade_brick.png')
         this.load.image('castle_wallsPNG', './assets/spritesheets/castle_walls_8x8.png')
         this.load.image('mossy_stonePNG', './assets/spritesheets/moss_block_8x8.png')
