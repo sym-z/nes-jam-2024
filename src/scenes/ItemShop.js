@@ -216,6 +216,7 @@ class ItemShop extends Phaser.Scene {
     }
 
     // ---------------------------------------------------------------------------------- DEV TOOLS
+    // all dev tools for item shop scene
     devShop() {
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             RICHES += 1
@@ -226,10 +227,20 @@ class ItemShop extends Phaser.Scene {
             this.events.emit('addRiches')
         }
     }
+    // console version of item shop, while ui is in progress
     consoleShop() {
-        if (Phaser.Input.Keyboard.JustDown(ONE)) {
-            console.log('one')
-        }
+        if (Phaser.Input.Keyboard.JustDown(ONE)) { }
+        if (Phaser.Input.Keyboard.JustDown(TWO)) { }
+        if (Phaser.Input.Keyboard.JustDown(THREE)) { }
+        if (Phaser.Input.Keyboard.JustDown(FOUR)) { }
+        if (Phaser.Input.Keyboard.JustDown(FIVE)) { }
+        if (Phaser.Input.Keyboard.JustDown(SIX)) { }
+        if (Phaser.Input.Keyboard.JustDown(SEVEN)) { }
+        if (Phaser.Input.Keyboard.JustDown(EIGHT)) { }
+        if (Phaser.Input.Keyboard.JustDown(NINE)) { }
+        if (Phaser.Input.Keyboard.JustDown(TEN)) { }
+        if (Phaser.Input.Keyboard.JustDown(ELEVEN)) { }
+        if (Phaser.Input.Keyboard.JustDown(TWELVE)) { }
     }
 }
 

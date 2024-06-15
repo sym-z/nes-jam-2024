@@ -33,5 +33,6 @@ class Keys extends Phaser.Scene {
         TEN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO)
         ELEVEN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O)
         TWELVE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
+        QUESTION = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FORWARD_SLASH)
     }
 }

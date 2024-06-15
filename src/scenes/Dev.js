@@ -12,28 +12,27 @@ class Dev extends Phaser.Scene {
         // player data config
             // room (updated each time a room is completed) (not at new scene, but before scene start)
             // level (updated to room every time player returns to item shop without being killed)
-            // items (updated upon purchasing/finding (riches))
             // upgrades (player build, updated upon purchase (unlocked on *completion* of landmark levels))
             // riches (updated + upon enemy drop, updated - upon death)
-        // notes on upgrades (arrays in arrays)
+        // note on upgrades (arrays in arrays)
             // UPGRADES = [['name 1', 23], ['name 2', 73]]
-            // magical attacks are at first, attacks with extra damage and that heal you slightly then are upgraded (sickness, paralyze, etc)
-            // attack (points dealt on attack), defense (points dealt to you on attack), hp (amnt points), mana heal amnt (better word pls)
-            // mana (amnt that can be spend on magical attacks), ___ (rate at which player heals), ___ (rate at which mana is restored)
-            // magical attack: sickness (poison damage), paralyze (slows enemy), freeze (stops enemy briefly), charm (enemy attack lowered)
-            // stretch: crit chance, crit damage percent
         // src = https://www.dynetisgames.com/2018/10/28/how-save-load-player-progress-localstorage/
         // src = https://www.geeksforgeeks.org/how-to-store-an-array-in-localstorage/
-        if (localStorage.getItem('level') != null) {
-            // level needs to be stored, room does not. if player closes game, they will spawn at their level, not room
-            LEVEL = parseInt(localStorage.getItem('level'))
-        } else { LEVEL = 0 }
-        if (localStorage.getItem('riches') != null) {
-            RICHES = parseInt(localStorage.getItem('riches'))
-        } else { RICHES = 0 }
-        if (localStorage.getItem('upgrades') != null) {
-            UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
-        } else { UPGRADES = [] }
+        if (localStorage.getItem('level') != null) { LEVEL = parseInt(localStorage.getItem('level'))
+        } else { // level needs to be stored, room does not.
+            LEVEL = 0
+            localStorage.setItem('level', LEVEL.toString())
+        }
+        if (localStorage.getItem('riches') != null) { RICHES = parseInt(localStorage.getItem('riches'))
+        } else {
+            RICHES = 0
+            localStorage.setItem('riches', RICHES.toString())
+        }
+        if (localStorage.getItem('upgrades') != null) { UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
+        } else {
+            UPGRADES = [["max HP", 10], ["max mana", 10], ["attack dmg", 1], ["magic dmg", 3], ["magic heal", 1]]
+            localStorage.setItem('upgrades', JSON.stringify(UPGRADES))
+        }
         this.playerLog()
 
         // -------------------------------------------------------------------------------- DISPLAY
@@ -65,15 +64,21 @@ class Dev extends Phaser.Scene {
 
     // ---------------------------------------------------------------------- DEV TOOL TRANSPARENCY
     // console log all saved player info
-    playerLog() { console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}s\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize) }
+    playerLog() { console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize) }
     // console log all dev tools
         // Dev.js: local storage clear, riches up, riches down
         // Room.js: riches up, riches down
-    devLog() { console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage\n1-0+O,P: item shop upgrades`, goodColor + ' ' + logSize) }
+    devLog() { console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage\n1-0+O,P: item shop upgrades\nSHIFT+?: console log player info`, goodColor + ' ' + logSize) }
     // dev scene tools
     devDev() {
         // clear local storage
-        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) { localStorage.clear() }
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) {
+            localStorage.clear()
+            console.log('%clocal storage cleared by this cat ~(=^･･^)', badColor + " " + logSize)
+            LEVEL = 0; RICHES = 0; UPGRADES = [["max HP", 10], ["max mana", 10], ["attack dmg", 1], ["magic dmg", 3], ["magic heal", 1]]
+            this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
+            this.playerLog()
+        }
         // edit riches
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             RICHES += 1
@@ -85,5 +90,7 @@ class Dev extends Phaser.Scene {
             localStorage.setItem('riches', RICHES.toString())
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
         }
+        // console log player info
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(QUESTION)) { this.playerLog() }
     }
 }

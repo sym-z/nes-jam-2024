@@ -45,4 +45,4 @@ const logWeight = "font-weight: bold;"
 const logFamily = "font-family: sans-serif;"
 // cursor setup
 let LEFT, RIGHT, UP, DOWN, A, B, SELECT, START
-let cursors, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE
+let cursors, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE, QUESTION
