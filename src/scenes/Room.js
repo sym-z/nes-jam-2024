@@ -4,13 +4,15 @@ class Room extends Phaser.Scene {
     }
 
     init() {
-        // For camera movement function
+        // screen x and y for camera movement
         this.SCREENX = 256
         this.SCREENY = 240
-        
-        // Changed this to 8 to make tile coordinates accurate to Tiled.
-        this.PLAYERX = this.SCREENX / 2 
-        this.PLAYERY = this.SCREENY / 2
+        // initial player coords
+        this.PLAYERX = this.SCREENX/2 
+        this.PLAYERY = this.SCREENY/2
+        // temp initial enemy coords
+        this.ENEMYX = (this.SCREENX/2)+tileSize
+        this.ENEMYY = (this.SCREENY/2)+tileSize
     }
 
     create() {
@@ -45,6 +47,8 @@ class Room extends Phaser.Scene {
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
+        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY).setOrigin(0)
+        this.enemy.anims.play('yellow')
     }
 
     update() {
@@ -54,17 +58,15 @@ class Room extends Phaser.Scene {
         this.devRoom()
     }
 
-    // ----------------------------------------------------------------------------------- MOVEMENT
+    // -------------------------------------------------------------------------------GRID MOVEMENT
     // This function takes world coordinates in as an argument, 
     // with a tilemap layer, and returns a Vector2 of the tile coords
     world_to_tile(worldX, worldY, layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1, -1)
-
         // Assign the proper components to the vector
         retval.x = layer.worldToTileX(worldX)
         retval.y = layer.worldToTileY(worldY)
-
         return retval
     }
     // This function takes tile coordinates in as an argument, with a 
@@ -72,11 +74,9 @@ class Room extends Phaser.Scene {
     tile_to_world(tileX, tileY, layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1, -1)
-
         // Assign the proper components to the vector
         retval.x = layer.tileToWorldX(tileX)
         retval.y = layer.tileToWorldY(tileY)
-
         return retval
     }
     // Returns a Tile data type at the given coordinates (in tile-based coordinate system)
@@ -141,8 +141,6 @@ class Room extends Phaser.Scene {
             //this.move_cam('DOWN')
         }
     }
-
-    // ------------------------------------------------------------------------ GRID MOVEMENT CODE
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
     // by sprinting
