@@ -49,14 +49,14 @@ class Load extends Phaser.Scene {
         this.anims.create({ key: 'blue', frames: this.anims.generateFrameNames('temp', { start: 8, end: 9 }), frameRate: 3, repeat: -1 })
         this.anims.create({ key: 'pink', frames: this.anims.generateFrameNames('temp', { start: 10, end: 11 }), frameRate: 3, repeat: -1 })
         // attack animations
-        this.anims.create({ key: 'attackR', frames: this.anims.generateFrameNames('attackR', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackL', frames: this.anims.generateFrameNames('attackL', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackU', frames: this.anims.generateFrameNames('attackU', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackD', frames: this.anims.generateFrameNames('attackD', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackRC', frames: this.anims.generateFrameNames('attackRC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackLC', frames: this.anims.generateFrameNames('attackLC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackUC', frames: this.anims.generateFrameNames('attackUC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
-        this.anims.create({ key: 'attackDC', frames: this.anims.generateFrameNames('attackDC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackR', frames: this.anims.generateFrameNames('attackR', { start: 0, end: 7 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackL', frames: this.anims.generateFrameNames('attackL', { start: 0, end: 7 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackU', frames: this.anims.generateFrameNames('attackU', { start: 0, end: 7 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackD', frames: this.anims.generateFrameNames('attackD', { start: 0, end: 7 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackRC', frames: this.anims.generateFrameNames('attackRC', { start: 0, end: 9 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackLC', frames: this.anims.generateFrameNames('attackLC', { start: 0, end: 9 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackUC', frames: this.anims.generateFrameNames('attackUC', { start: 0, end: 9 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'attackDC', frames: this.anims.generateFrameNames('attackDC', { start: 0, end: 9 }), frameRate: 20, repeat: 0 })
 
         // move through
         this.scene.start('titleScene')

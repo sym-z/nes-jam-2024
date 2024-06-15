@@ -11,6 +11,7 @@ class Room extends Phaser.Scene {
         this.PLAYERX = this.SCREENX/2 
         this.PLAYERY = this.SCREENY/2
         this.PLAYERDIRECT = 'down'
+        this.OCCUPIEDs = false
         // temp initial enemy coords
         this.ENEMYX = (this.SCREENX/2)+tileSize
         this.ENEMYY = (this.SCREENY/2)+tileSize
@@ -53,10 +54,28 @@ class Room extends Phaser.Scene {
     }
 
     update() {
-        // player movements
-        this.movement()
+        // player movement, attack, magical attack
+        if (this.OCCUPIED == false) { this.movement() }
+        this.attack()
         // dev tools
         this.devRoom()
+    }
+
+    // ----------------------------------------------------------------------------- COMBAT HELPERS
+    // attack
+    attack() {
+        if (Phaser.Input.Keyboard.JustDown(A)) {
+            // prevent player from moving
+            this.OCCUPIED = true
+            var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attackR').setOrigin(0).play('attackR').once('animationcomplete', () => {
+                anim.destroy()
+                this.OCCUPIED = false
+            })            
+        }
+    }
+    // magical attack
+    magic() {
+
     }
 
     // -------------------------------------------------------------------------------GRID MOVEMENT
