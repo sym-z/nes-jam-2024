@@ -43,70 +43,16 @@ class Room extends Phaser.Scene {
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
-
-        // ------------------------------------------------------------------------- EVENT HANDLERS
-        LEFT.on("down", (key, event) => {
-            console.log('room')
-            this.move(LEFT, this.wallsLayer, false)
-            this.player.anims.play('left')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0) {
-                this.move_cam('LEFT')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(LEFT, this.wallsLayer, true)
-                }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('LEFT')
-        })
-        RIGHT.on("down", (key, event) => {
-            this.move(RIGHT, this.wallsLayer, false)
-            this.player.anims.play('right')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
-                this.move_cam('RIGHT')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(RIGHT, this.wallsLayer, true)
-                }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('RIGHT')
-        })
-        UP.on("down", (key, event) => {
-            this.move(UP, this.wallsLayer, false)
-            this.player.anims.play('up')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0) {
-                this.move_cam('UP')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(UP, this.wallsLayer, true)
-                }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('UP')
-        })
-        DOWN.on("down", (key, event) => {
-            this.move(DOWN, this.wallsLayer, false)
-            this.player.anims.play('down')
-            // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
-                this.move_cam('DOWN')
-                for (let i = 0; i < this.player.transitionOffset; i++) {
-                    this.move(DOWN, this.wallsLayer, true)
-                }
-            }
-            // Uncomment to test camera movement
-            //this.move_cam('DOWN')
-        })
     }
 
     update() {
-
+        // player movements
+        this.movement()
         // dev tools
         this.devRoom()
     }
 
-    // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
+    // ----------------------------------------------------------------------------------- MOVEMENT
     // This function takes world coordinates in as an argument, 
     // with a tilemap layer, and returns a Vector2 of the tile coords
     world_to_tile(worldX, worldY, layer) {
@@ -137,6 +83,61 @@ class Room extends Phaser.Scene {
         let retval = this.map.getTileAt(tileX, tileY, true, layer)
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval
+    }
+    // Allows for player grid movement, and camera movement at exit
+    movement() {
+        if (Phaser.Input.Keyboard.JustDown(LEFT)) {
+            this.move(LEFT, this.wallsLayer, false)
+            this.player.anims.play('left')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0) {
+                this.move_cam('LEFT')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(LEFT, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('LEFT')
+        }
+        if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
+            this.move(RIGHT, this.wallsLayer, false)
+            this.player.anims.play('right')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
+                this.move_cam('RIGHT')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(RIGHT, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('RIGHT')
+        }
+        if (Phaser.Input.Keyboard.JustDown(UP)) {
+            this.move(UP, this.wallsLayer, false)
+            this.player.anims.play('up')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0) {
+                this.move_cam('UP')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(UP, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('UP')
+        }
+        if (Phaser.Input.Keyboard.JustDown(DOWN)) {
+            this.move(DOWN, this.wallsLayer, false)
+            this.player.anims.play('down')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
+                this.move_cam('DOWN')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(DOWN, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('DOWN')
+        }
     }
 
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE

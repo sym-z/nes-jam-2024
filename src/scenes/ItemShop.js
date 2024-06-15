@@ -49,49 +49,6 @@ class ItemShop extends Phaser.Scene {
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
-
-        // ------------------------------------------------------------------------- EVENT HANDLERS
-        LEFT.on("down", (key, event) => {
-            this.move(LEFT, this.wallsLayer, false)
-            this.player.anims.play('left')
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
-        })
-        RIGHT.on("down", (key, event) => {
-            this.move(RIGHT, this.wallsLayer, false)
-            this.player.anims.play('right')
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
-        })
-        UP.on("down", (key, event) => {
-            this.move(UP, this.wallsLayer, false)
-            this.player.anims.play('up')
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
-        })
-        DOWN.on("down", (key, event) => {
-            console.log("itemshop")
-            this.move(DOWN, this.wallsLayer, false)
-            this.player.anims.play('down')
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
-        })
     }
 
     update() {
