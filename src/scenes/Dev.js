@@ -10,8 +10,8 @@ class Dev extends Phaser.Scene {
 
         // ----------------------------------------------------------------------------- DATA SETUP
         // player data config
-            // floor (updated each time a floor is completed) (not at new scene, but before scene start)
-            // level (updated to floor every time player returns to item shop without being killed)
+            // room (updated each time a room is completed) (not at new scene, but before scene start)
+            // level (updated to room every time player returns to item shop without being killed)
             // items (updated upon purchasing/finding (riches))
             // upgrades (player build, updated upon purchase (unlocked on *completion* of landmark levels))
             // riches (updated + upon enemy drop, updated - upon death)
@@ -25,7 +25,7 @@ class Dev extends Phaser.Scene {
         // src = https://www.dynetisgames.com/2018/10/28/how-save-load-player-progress-localstorage/
         // src = https://www.geeksforgeeks.org/how-to-store-an-array-in-localstorage/
         if (localStorage.getItem('level') != null) {
-            // level needs to be stored, floor does not. if player closes game, they will spawn at their level, not floor
+            // level needs to be stored, room does not. if player closes game, they will spawn at their level, not room
             LEVEL = parseInt(localStorage.getItem('level'))
         } else { LEVEL = 0 }
         if (localStorage.getItem('riches') != null) {
@@ -81,5 +81,7 @@ class Dev extends Phaser.Scene {
 
     devLog() {
         console.log(`%cDEV TOOLS:\nSHIFT+UP: \nSHIFT+DOWN: \nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
+        // Dev.js: local storage clear
+        // Room.js: riches up, riches down
     }
 }

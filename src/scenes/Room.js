@@ -100,6 +100,9 @@ class Room extends Phaser.Scene {
     }
 
     update() {
+
+        // dev tools
+        this.devRoom()
     }
 
     // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
@@ -209,5 +212,17 @@ class Room extends Phaser.Scene {
         // Move camera based on argument
         this.cameras.main.scrollX += deltaX
         this.cameras.main.scrollY += deltaY
+    }
+
+    // ---------------------------------------------------------------------------------- DEV TOOLS
+    devRoom() {
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            RICHES += 1
+            this.events.emit('addRiches')
+        }
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            RICHES -= 1
+            this.events.emit('addRiches')
+        }
     }
 }

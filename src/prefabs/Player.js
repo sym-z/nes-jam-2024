@@ -21,7 +21,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         // This is the amount of additional hops that take place to offset the player
             // from the door when they enter the room
-        this.transitionOffset = 5
+        this.transitionOffset = 3
 
     }
 }

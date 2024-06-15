@@ -28,7 +28,7 @@ let config = {
 
 // game variables
 const game = new Phaser.Game(config)
-let FLOOR, LEVEL, ITEMS, UPGRADES, RICHES
+let ROOM, LEVEL, ITEMS, UPGRADES, RICHES
 // convenience variables
 const centerX = game.config.width/2
 const centerY = game.config.height/2
