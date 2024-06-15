@@ -65,23 +65,30 @@ class Room extends Phaser.Scene {
     // ----------------------------------------------------------------------------- COMBAT HELPERS
     // attack
     attack() {
-        if (Phaser.Input.Keyboard.JustDown(A)) {
+        if (Phaser.Input.Keyboard.JustDown(A) && this.OCCUPIED == false) {
             // prevent player from moving
             this.OCCUPIED = true
-            var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
-                anim.destroy()
-                this.time.delayedCall(250, () => { this.OCCUPIED = false })
-            })
+            if (Math.floor(Math.random() * 100) < UPGRADES[5][1]) {
+                var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'crit').setOrigin(0).play(this.PLAYERDIRECT+'Crit').once('animationcomplete', () => {
+                    anim.destroy()
+                    this.time.delayedCall(50, () => { this.OCCUPIED = false })
+                })
+            } else {
+                var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
+                    anim.destroy()
+                    this.time.delayedCall(50, () => { this.OCCUPIED = false })
+                })
+            }
         }
     }
     // magical attack
     magic() {
-        if (Phaser.Input.Keyboard.JustDown(B)) {
+        if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false) {
             // prevent player from moving
             this.OCCUPIED = true
             var anim = this.add.sprite(this.player.x-tileSize-1, this.player.y-tileSize-1, 'magic').setOrigin(0).play(this.PLAYERDIRECT+'Magic').once('animationcomplete', () => {
                 anim.destroy()
-                this.time.delayedCall(250, () => { this.OCCUPIED = false })
+                this.time.delayedCall(50, () => { this.OCCUPIED = false })
             })
         }
     }
