@@ -13,7 +13,9 @@
 - [ ] **Enemy Spawner Tiles**
 - [ ] **Wave Based Difficulty**
 - [ ] **Polish Level Design**
-- [ ] **Item Shop**
+- [x] **Item Shop Setup** 06-14-2023
+- [x] **Movement Fix** 06-14-2023
+- [ ] **Font**
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**

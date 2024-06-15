@@ -80,7 +80,7 @@ class Dev extends Phaser.Scene {
     }
 
     devLog() {
-        console.log(`%cDEV TOOLS:\nSHIFT+UP: \nSHIFT+DOWN: \nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
+        console.log(`%cDEV TOOLS:\nSHIFT+UP: + riches\nSHIFT+DOWN: - riches\nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
         // Dev.js: local storage clear
         // Room.js: riches up, riches down
     }
