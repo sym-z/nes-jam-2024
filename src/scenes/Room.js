@@ -216,6 +216,7 @@ class Room extends Phaser.Scene {
     }
 
     // ---------------------------------------------------------------------------------- DEV TOOLS
+    // all dev controls taken care of in room
     devRoom() {
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             RICHES += 1
