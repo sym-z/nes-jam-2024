@@ -3,6 +3,12 @@ class Dev extends Phaser.Scene {
         super({ key: 'devScene', active: true })
     }
 
+    init() {
+        this.DEFAULTLEVEL = 0
+        this.DEFAULTRICHES = 0
+        this.DEFAULTUPGRADES = [["max HP", 10], ["max mana", 10], ["attack dmg", 1], ["magic dmg", 3], ["magic heal", 1], ["crit chance", 4], ["crit dmg", 5]]
+    }
+
     create() {
         // running checks
         console.log('%cDEV SCENE :^)', testColor)
@@ -20,17 +26,17 @@ class Dev extends Phaser.Scene {
         // src = https://www.geeksforgeeks.org/how-to-store-an-array-in-localstorage/
         if (localStorage.getItem('level') != null) { LEVEL = parseInt(localStorage.getItem('level'))
         } else { // level needs to be stored, room does not.
-            LEVEL = 0
+            LEVEL = this.DEFAULTLEVEL
             localStorage.setItem('level', LEVEL.toString())
         }
         if (localStorage.getItem('riches') != null) { RICHES = parseInt(localStorage.getItem('riches'))
         } else {
-            RICHES = 0
+            RICHES = this.DEFAULTRICHES
             localStorage.setItem('riches', RICHES.toString())
         }
         if (localStorage.getItem('upgrades') != null) { UPGRADES = JSON.parse(localStorage.getItem('upgrades'))
         } else {
-            UPGRADES = [["max HP", 10], ["max mana", 10], ["attack dmg", 1], ["magic dmg", 3], ["magic heal", 1]]
+            UPGRADES = this.DEFAULTUPGRADES
             localStorage.setItem('upgrades', JSON.stringify(UPGRADES))
         }
         this.playerLog()
@@ -75,7 +81,7 @@ class Dev extends Phaser.Scene {
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) {
             localStorage.clear()
             console.log('%clocal storage cleared by this cat ~(=^･･^)', badColor + " " + logSize)
-            LEVEL = 0; RICHES = 0; UPGRADES = [["max HP", 10], ["max mana", 10], ["attack dmg", 1], ["magic dmg", 3], ["magic heal", 1]]
+            LEVEL = this.DEFAULTLEVEL; RICHES = this.DEFAULTLRICHES; UPGRADES = this.DEFAULTUPGRADES
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
             this.playerLog()
         }

@@ -24,6 +24,7 @@ class Load extends Phaser.Scene {
         // load attack spritesheets
         this.load.spritesheet('attack', './assets/spritesheets/attack-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
         this.load.spritesheet('crit', './assets/spritesheets/crit-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('magic', './assets/spritesheets/magic-Sheet.png', { frameWidth: (tileSize*3)+2, frameHeight: (tileSize*3)+2 })
     }
 
     create() {
@@ -51,6 +52,10 @@ class Load extends Phaser.Scene {
         this.anims.create({ key: 'downCrit', frames: this.anims.generateFrameNames('crit', { start: 10, end: 19 }), frameRate: 20, repeat: 0 })
         this.anims.create({ key: 'leftCrit', frames: this.anims.generateFrameNames('crit', { start: 20, end: 29 }), frameRate: 20, repeat: 0 })
         this.anims.create({ key: 'upCrit', frames: this.anims.generateFrameNames('crit', { start: 30, end: 39 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'rightMagic', frames: this.anims.generateFrameNames('magic', { start: 0, end: 13 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'downMagic', frames: this.anims.generateFrameNames('magic', { start: 14, end: 27 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'leftMagic', frames: this.anims.generateFrameNames('magic', { start: 28, end: 41 }), frameRate: 20, repeat: 0 })
+        this.anims.create({ key: 'upMagic', frames: this.anims.generateFrameNames('magic', { start: 42, end: 55 }), frameRate: 20, repeat: 0 })
 
         // move through
         this.scene.start('titleScene')

@@ -57,6 +57,7 @@ class Room extends Phaser.Scene {
         // player movement, attack, magical attack
         if (this.OCCUPIED == false) { this.movement() }
         this.attack()
+        this.magic()
         // dev tools
         this.devRoom()
     }
@@ -70,12 +71,19 @@ class Room extends Phaser.Scene {
             var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
                 anim.destroy()
                 this.time.delayedCall(250, () => { this.OCCUPIED = false })
-            })            
+            })
         }
     }
     // magical attack
     magic() {
-
+        if (Phaser.Input.Keyboard.JustDown(B)) {
+            // prevent player from moving
+            this.OCCUPIED = true
+            var anim = this.add.sprite(this.player.x-tileSize-1, this.player.y-tileSize-1, 'magic').setOrigin(0).play(this.PLAYERDIRECT+'Magic').once('animationcomplete', () => {
+                anim.destroy()
+                this.time.delayedCall(250, () => { this.OCCUPIED = false })
+            })
+        }
     }
 
     // -------------------------------------------------------------------------------GRID MOVEMENT
