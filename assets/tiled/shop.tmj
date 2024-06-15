@@ -77,8 +77,8 @@
          "height":30,
          "id":2,
          "name":"Walls",
-         "offsetx":0.81933633756654,
-         "offsety":-0.546224225044384,
+         "offsetx":0.819336,
+         "offsety":-0.546224,
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -166,6 +166,11 @@
                          "name":"collides",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"interactable",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -175,6 +180,11 @@
                          "name":"collides",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"interactable",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -182,6 +192,11 @@
                  "properties":[
                         {
                          "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"interactable",
                          "type":"bool",
                          "value":true
                         }]
