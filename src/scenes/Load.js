@@ -13,8 +13,11 @@ class Load extends Phaser.Scene {
         this.load.image('mossy_stonePNG', './assets/spritesheets/moss_block_8x8.png')
         this.load.image('rugPNG', './assets/spritesheets/rug.png')
         this.load.image('waterPNG', './assets/sprites/png/water.png')
+        this.load.image('etherPNG', './assets/spritesheets/ether-Sheet.png')
+        this.load.image('spacePNG', './assets/spritesheets/space-Sheet.png')
         // load tilesheets
         this.load.tilemapTiledJSON('castle', './assets/tiled/castle.tmj')
+        this.load.tilemapTiledJSON('shop', './assets/tiled/shop.tmj')
         // load spritesheets
         this.load.spritesheet('wiz', './assets/spritesheets/wiz-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
         this.load.spritesheet('temp', './assets/spritesheets/temp-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })

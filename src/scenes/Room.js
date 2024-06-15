@@ -46,6 +46,7 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
+            console.log('room')
             this.move(LEFT, this.wallsLayer, false)
             this.player.anims.play('left')
             // If the player is at the border of the screen, move it, and place them at an offset
