@@ -44,6 +44,9 @@ class ItemShop extends Phaser.Scene {
         // wall layer
         this.wallsLayer = this.map.createLayer('Walls', this.tilesetArr, 0, 0)
         this.wallsLayer.setCollisionByProperty({ collides: true })
+        // foreground layer
+        this.foregroundLayer = this.map.createLayer('Foreground', this.tilesetArr, 0, 0)
+        this.foregroundLayer.setCollisionByProperty({ collides: true })
 
         this.animatedTiles.init(this.map)
         // ------------------------------------------------------------------------- STARTING SETUP
@@ -93,6 +96,60 @@ class ItemShop extends Phaser.Scene {
     }
 
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
+    movement() {
+        if (Phaser.Input.Keyboard.JustDown(LEFT)) {
+            this.move(LEFT, this.wallsLayer, false)
+            this.player.anims.play('left')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0) {
+                this.move_cam('LEFT')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(LEFT, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('LEFT')
+        }
+        if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
+            this.move(RIGHT, this.wallsLayer, false)
+            this.player.anims.play('right')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
+                this.move_cam('RIGHT')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(RIGHT, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('RIGHT')
+        }
+        if (Phaser.Input.Keyboard.JustDown(UP)) {
+            this.move(UP, this.wallsLayer, false)
+            this.player.anims.play('up')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0) {
+                this.move_cam('UP')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(UP, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('UP')
+        }
+        if (Phaser.Input.Keyboard.JustDown(DOWN)) {
+            this.move(DOWN, this.wallsLayer, false)
+            this.player.anims.play('down')
+            // If the player is at the border of the screen, move it, and place them at an offset
+            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
+                this.move_cam('DOWN')
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(DOWN, this.wallsLayer, true)
+                }
+            }
+            // Uncomment to test camera movement
+            //this.move_cam('DOWN')
+        }
+    }
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
     // by sprinting

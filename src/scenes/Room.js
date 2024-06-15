@@ -4,13 +4,13 @@ class Room extends Phaser.Scene {
     }
 
     init() {
-        // Changed this to 8 to make tile coordinates accurate to Tiled.
-        this.PLAYERX = 8 * tileSize
-        this.PLAYERY = 8 * tileSize
-
         // For camera movement function
         this.SCREENX = 256
         this.SCREENY = 240
+        
+        // Changed this to 8 to make tile coordinates accurate to Tiled.
+        this.PLAYERX = this.SCREENX / 2 
+        this.PLAYERY = this.SCREENY / 2
     }
 
     create() {
@@ -39,7 +39,9 @@ class Room extends Phaser.Scene {
         // brick layer
         this.wallsLayer = this.map.createLayer('Walls', this.tilesetArr, 0, 0)
         this.wallsLayer.setCollisionByProperty({ collides: true })
-
+        // foreground layer
+        this.foregroundLayer = this.map.createLayer('Foreground', this.tilesetArr, 0, 0)
+        this.foregroundLayer.setCollisionByProperty({ collides: true })
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')

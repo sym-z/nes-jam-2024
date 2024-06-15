@@ -15,10 +15,10 @@
         },
         "castle.tmx": {
             "scale": 2.3397,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 217.12185322904645,
-                "y": 97.23468820788989
+                "x": 275.2489635423345,
+                "y": 130.99970081634396
             }
         },
         "castle.tmx#aqua_brick": {
@@ -39,10 +39,10 @@
         },
         "shop.tmx": {
             "scale": 3.6615,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 118.5306568346306,
-                "y": 123.58323091629113
+                "y": 122.21767035368019
             }
         },
         "shop.tmx#aqua_brick": {
