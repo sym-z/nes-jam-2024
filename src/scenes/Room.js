@@ -11,7 +11,7 @@ class Room extends Phaser.Scene {
         this.PLAYERX = this.SCREENX/2 
         this.PLAYERY = this.SCREENY/2
         this.PLAYERDIRECT = 'down'
-        this.OCCUPIEDs = false
+        this.OCCUPIED = false
         // temp initial enemy coords
         this.ENEMYX = (this.SCREENX/2)+tileSize
         this.ENEMYY = (this.SCREENY/2)+tileSize
@@ -67,9 +67,9 @@ class Room extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(A)) {
             // prevent player from moving
             this.OCCUPIED = true
-            var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attackR').setOrigin(0).play('attackR').once('animationcomplete', () => {
+            var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
                 anim.destroy()
-                this.OCCUPIED = false
+                this.time.delayedCall(250, () => { this.OCCUPIED = false })
             })            
         }
     }
