@@ -21,6 +21,15 @@ class Load extends Phaser.Scene {
         // load spritesheets
         this.load.spritesheet('wiz', './assets/spritesheets/wiz-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
         this.load.spritesheet('temp', './assets/spritesheets/temp-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
+        // load attack spritesheets
+        this.load.spritesheet('attackR', './assets/spritesheets/attackR-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackL', './assets/spritesheets/attackL-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackU', './assets/spritesheets/attackU-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackD', './assets/spritesheets/attackD-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackRC', './assets/spritesheets/attackRC-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackLC', './assets/spritesheets/attackLC-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackUC', './assets/spritesheets/attackUC-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
+        this.load.spritesheet('attackDC', './assets/spritesheets/attackDC-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
     }
 
     create() {
@@ -39,6 +48,15 @@ class Load extends Phaser.Scene {
         this.anims.create({ key: 'teal', frames: this.anims.generateFrameNames('temp', { start: 6, end: 7 }), frameRate: 3, repeat: -1 })
         this.anims.create({ key: 'blue', frames: this.anims.generateFrameNames('temp', { start: 8, end: 9 }), frameRate: 3, repeat: -1 })
         this.anims.create({ key: 'pink', frames: this.anims.generateFrameNames('temp', { start: 10, end: 11 }), frameRate: 3, repeat: -1 })
+        // attack animations
+        this.anims.create({ key: 'attackR', frames: this.anims.generateFrameNames('attackR', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackL', frames: this.anims.generateFrameNames('attackL', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackU', frames: this.anims.generateFrameNames('attackU', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackD', frames: this.anims.generateFrameNames('attackD', { start: 0, end: 7 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackRC', frames: this.anims.generateFrameNames('attackRC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackLC', frames: this.anims.generateFrameNames('attackLC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackUC', frames: this.anims.generateFrameNames('attackUC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
+        this.anims.create({ key: 'attackDC', frames: this.anims.generateFrameNames('attackDC', { start: 0, end: 9 }), frameRate: 10, repeat: -1 })
 
         // move through
         this.scene.start('titleScene')
