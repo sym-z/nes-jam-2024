@@ -55,11 +55,9 @@ class ItemShop extends Phaser.Scene {
     }
 
     update() {
-
         // dev tools
         this.devRoom()
         // moving on
-        //this.scene.start('roomScene')
         this.movement()
     }
 
@@ -69,11 +67,9 @@ class ItemShop extends Phaser.Scene {
     world_to_tile(worldX, worldY, layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1, -1)
-
         // Assign the proper components to the vector
         retval.x = layer.worldToTileX(worldX)
         retval.y = layer.worldToTileY(worldY)
-
         return retval
     }
     // This function takes tile coordinates in as an argument, with a 
@@ -81,11 +77,9 @@ class ItemShop extends Phaser.Scene {
     tile_to_world(tileX, tileY, layer) {
         // Make empty Vector2
         let retval = new Phaser.Math.Vector2(-1, -1)
-
         // Assign the proper components to the vector
         retval.x = layer.tileToWorldX(tileX)
         retval.y = layer.tileToWorldY(tileY)
-
         return retval
     }
     // Returns a Tile data type at the given coordinates (in tile-based coordinate system)
@@ -103,28 +97,25 @@ class ItemShop extends Phaser.Scene {
             this.player.anims.play('left')
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
+            if (this.tile.properties.to_castle) {
+                this.scene.start("roomScene")
+            }
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
             this.player.anims.play('right')
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                } 
+            if (this.tile.properties.to_castle) {
+                this.scene.start("roomScene")
+            } 
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
             this.player.anims.play('up')
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
+            if (this.tile.properties.to_castle) {
                     this.scene.start("roomScene")
                 }
         }
@@ -133,10 +124,9 @@ class ItemShop extends Phaser.Scene {
             this.player.anims.play('down')
             this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
             this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
-            if(this.tile.properties.to_castle)
-                {
-                    this.scene.start("roomScene")
-                }
+            if (this.tile.properties.to_castle) {
+                this.scene.start("roomScene")
+            }
         }
  
     }
@@ -145,9 +135,9 @@ class ItemShop extends Phaser.Scene {
     // by sprinting
     move(input, layer, isChangingRooms) {
         let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer)
+        // See if tile exists and doesn't collide
         switch (input) {
             case LEFT:
-                // See if tile exists and doesn't collide
                 var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, layer)
                 if (isChangingRooms) destTile = this.get_tile(tileLoc.x - 1, tileLoc.y, layer)
                 if (!destTile.properties.collides) {
