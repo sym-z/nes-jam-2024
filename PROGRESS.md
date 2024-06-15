@@ -65,29 +65,3 @@
 | magical attack | 0 | magical attack = attack +3 | | 3 |
 | magical attack | inf | magical attack +1 | | 3 |
 | magical heal | 0 | +1 HP | | 3 |
-
-## ITEMS
-
-| NAME | COST | EFFECT | PRIORITY |
-| :--- | :--: |:----- | -------: |
-|  |  | HP +5 | 1 |
-|  |  | HP +10 | 1 |
-|  |  | HP +15 | 1 |
-|  |  | HP +25 | 1 |
-|  |  | temp HP maximum +25 for 1 minute |  |
-|  |  | temp HP maximum +35 for 1 minute |  |
-|  |  | temp HP maximum +45 for 1 minute |  |
-|  |  | temp HP maximum +60 for 1 minute |  |
-|  |  | attack(and crit) +5 for 30 seconds |  |
-|  |  | attack(and crit) +10 for 30 seconds |  |
-|  |  | attack(and crit) +15 for 30 seconds |  |
-|  |  | attack(and crit) +25 for 30 seconds |  |
-|  |  | mana +5 | 2 |
-|  |  | mana +10 | 2 |
-|  |  | mana +15 | 2 |
-|  |  | mana +25 | 2 |
-|  |  | attack(and crit) +5 for 30 seconds |  |
-|  |  | attack(and crit) +10 for 30 seconds |  |
-|  |  | attack(and crit) +15 for 30 seconds |  |
-|  |  | attack(and crit) +25 for 30 seconds |  |
-|  |  | extra life, automatically respawn at front of room on defeat |  |
