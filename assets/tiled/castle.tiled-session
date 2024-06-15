@@ -17,8 +17,8 @@
             "scale": 2.3397,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 255.8020259007565,
-                "y": 239.56062743086716
+                "x": 217.12185322904645,
+                "y": 97.23468820788989
             }
         },
         "castle.tmx#aqua_brick": {
@@ -28,7 +28,8 @@
             "scaleInDock": 12.7028
         },
         "castle.tmx#mossy_stone": {
-            "scaleInDock": 7.6793
+            "scaleInDock": 7.6793,
+            "scaleInEditor": 1
         },
         "castle.tmx#rug": {
             "scaleInDock": 7.9655
@@ -37,20 +38,27 @@
             "scaleInDock": 30.6831
         },
         "shop.tmx": {
-            "scale": 3.4595833333333332,
+            "scale": 3.6615,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 142.79176201372997,
-                "y": 119.81211610261352
+                "x": 118.5306568346306,
+                "y": 123.58323091629113
             }
         },
         "shop.tmx#aqua_brick": {
+            "scaleInDock": 6.5089
+        },
+        "shop.tmx#ether": {
+            "scaleInDock": 21.6881
+        },
+        "shop.tmx#space": {
             "scaleInDock": 1
         },
         "shop.tmx#water": {
             "scaleInDock": 1
         }
     },
+    "frame.defaultDuration": 200,
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
     "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/spritesheets",
     "map.height": 30,
