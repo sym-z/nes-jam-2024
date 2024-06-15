@@ -10,14 +10,15 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInEditor": 16.422
+            "scaleInDock": 1,
+            "scaleInEditor": 39.0201
         },
         "castle.tmx": {
-            "scale": 2.0262,
+            "scale": 2.3397,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 247.26088244003557,
-                "y": 120.17569835159415
+                "x": 255.8020259007565,
+                "y": 239.56062743086716
             }
         },
         "castle.tmx#aqua_brick": {
@@ -29,12 +30,18 @@
         "castle.tmx#mossy_stone": {
             "scaleInDock": 7.6793
         },
+        "castle.tmx#rug": {
+            "scaleInDock": 7.9655
+        },
+        "castle.tmx#water": {
+            "scaleInDock": 30.6831
+        },
         "shop.tmx": {
             "scale": 3.4595833333333332,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 128.0501023726364,
-                "y": 120.10116825243888
+                "x": 142.79176201372997,
+                "y": 119.81211610261352
             }
         },
         "shop.tmx#aqua_brick": {
@@ -53,11 +60,13 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
-        "castle.tmx"
+        "castle.tmx",
+        "shop.tmx"
     ],
     "project": "castle.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "shop.tmx",
         "castle.tmx"
     ],
     "tileset.embedInMap": true,

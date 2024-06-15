@@ -22,15 +22,34 @@ class Room extends Phaser.Scene {
 
         // ----------------------------------------------------------------------------- TILE SETUP
         this.cameras.main.setBackgroundColor('#FF0000') // background will display red in case of error
-        this.map = this.make.tilemap({ key: 'test' })
-        this.testTileset = this.map.addTilesetImage('test-Sheet', 'test-SheetPNG')
-        this.brickTileset = this.map.addTilesetImage('aqua_jade_brick', 'brick-SheetPNG')
+
+        // MAKE MAP
+        this.map = this.make.tilemap({ key: 'castle' })
+        //this.testTileset = this.map.addTilesetImage('test-Sheet', 'test-SheetPNG')
+
+        // STORE ALL TILESETS IN AN ARRAY
+        //LOAD IN TILESETS
+
+        this.tilesetArr = [];
+        this.brickTileset = this.map.addTilesetImage('aqua_brick', 'aqua_brickPNG')
+        this.tilesetArr.push(this.brickTileset)
+        this.castleTileset = this.map.addTilesetImage('castle_walls', 'castle_wallsPNG')
+        this.tilesetArr.push(this.castleTileset)
+        this.stoneTileset = this.map.addTilesetImage('mossy_stone', 'mossy_stonePNG')
+        this.tilesetArr.push(this.stoneTileset)
+        this.rugTileset = this.map.addTilesetImage('rug', 'rugPNG')
+        this.tilesetArr.push(this.rugTileset)
+        this.waterTileset = this.map.addTilesetImage('water', 'waterPNG')
+        this.tilesetArr.push(this.waterTileset)
+
+
+        // MAKE LAYERS
         // background layer
-        this.backgroundLayer = this.map.createLayer('background', this.testTileset, 0, 0)
+        this.backgroundLayer = this.map.createLayer('Background', this.tilesetArr, 0, 0)
         this.backgroundLayer.setCollisionByProperty({ collides: true })
         // brick layer
-        this.brickLayer = this.map.createLayer('brick', this.brickTileset, 0, 0)
-        this.brickLayer.setCollisionByProperty({ collides: true })
+        this.wallsLayer = this.map.createLayer('Walls', this.tilesetArr, 0, 0)
+        this.wallsLayer.setCollisionByProperty({ collides: true })
 
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY)
@@ -45,59 +64,55 @@ class Room extends Phaser.Scene {
 
         // ------------------------------------------------------------------------- EVENT HANDLERS
         LEFT.on("down", (key, event) => {
-            this.move(LEFT, this.brickLayer, false)
+            this.move(LEFT, this.wallsLayer, false)
             this.player.anims.play('left')
             console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX <= 8) {
+            if (this.player.x % this.SCREENX == 0) {
                 this.move_cam('LEFT')
-                for (let i = 0; i < this.player.transitionOffset; i++)
-                    {
-                        this.move(LEFT, this.brickLayer, true)
-                    }
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(LEFT, this.wallsLayer, true)
+                }
             }
             // Uncomment to test camera movement
             //this.move_cam('LEFT')
         })
         RIGHT.on("down", (key, event) => {
-            this.move(RIGHT, this.brickLayer, false)
+            this.move(RIGHT, this.wallsLayer, false)
             this.player.anims.play('right')
             console.log(this.player.x % this.SCREENX)
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize){
+            if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
                 this.move_cam('RIGHT')
-                for (let i = 0; i < this.player.transitionOffset; i++)
-                    {
-                        this.move(RIGHT, this.brickLayer, true)
-                    }
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(RIGHT, this.wallsLayer, true)
+                }
             }
             // Uncomment to test camera movement
             //this.move_cam('RIGHT')
         })
         UP.on("down", (key, event) => {
-            this.move(UP, this.brickLayer, false)
+            this.move(UP, this.wallsLayer, false)
             this.player.anims.play('up')
             // If the player is at the border of the screen, move it, and place them at an offset
-            if (this.player.y % this.SCREENY <= tileSize) {
+            if (this.player.y % this.SCREENY == 0) {
                 this.move_cam('UP')
-                for (let i = 0; i < this.player.transitionOffset; i++)
-                    {
-                        this.move(UP, this.brickLayer, true)
-                    }
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(UP, this.wallsLayer, true)
+                }
             }
             // Uncomment to test camera movement
             //this.move_cam('UP')
         })
         DOWN.on("down", (key, event) => {
-            this.move(DOWN, this.brickLayer, false)
+            this.move(DOWN, this.wallsLayer, false)
             this.player.anims.play('down')
             // If the player is at the border of the screen, move it, and place them at an offset
             if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
                 this.move_cam('DOWN')
-                for (let i = 0; i < this.player.transitionOffset; i++)
-                    {
-                        this.move(DOWN, this.brickLayer, true)
-                    }
+                for (let i = 0; i < this.player.transitionOffset; i++) {
+                    this.move(DOWN, this.wallsLayer, true)
+                }
             }
             // Uncomment to test camera movement
             //this.move_cam('DOWN')
@@ -108,104 +123,13 @@ class Room extends Phaser.Scene {
         // This tests the NES controller implementation
         this.test_keys()
         this.test_levels()
-        if(RIGHT.isDown)
-        {
-            if (!this.turboCooldown) 
-            {
-                this.time.delayedCall(this.turboTick, () => 
-                {
-                    if (RIGHT.isDown) 
-                    {
-                        this.turboCoolDown = true;
-                        this.move(RIGHT, this.brickLayer, false)
-                        this.player.anims.play('right');
-                        console.log(this.player.x % this.SCREENX)
-                        // If the player is at the border of the screen, move it, and place them at an offset
-                        if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) 
-                        {
-                            this.move_cam('RIGHT')
-                            for (let i = 0; i < this.player.transitionOffset; i++) 
-                            {
-                                this.move(RIGHT, this.brickLayer, true)
-                            }
-                        }
-                    }
-                
-                })
-                this.turboCooldown = false; 
-            }
-        }
-        if(LEFT.isDown)
-        {
-            if (!this.turboCooldown) {
-                this.time.delayedCall(this.turboTick, () => {
-                    if (LEFT.isDown) {
-                        this.turboCoolDown = true;
-                        this.move(LEFT, this.brickLayer, false)
-                        this.player.anims.play('left');
-                        console.log(this.player.x % this.SCREENX)
-                        // If the player is at the border of the screen, move it, and place them at an offset
-                        if (this.player.x % this.SCREENX <= tileSize) {
-                            this.move_cam('LEFT')
-                            for (let i = 0; i < this.player.transitionOffset; i++) {
-                                this.move(LEFT, this.brickLayer, true)
-                            }
-                        }
-                    }
-                })
-            }
-            this.turboCooldown = false;
-        }
-        if (UP.isDown) {
-            if (!this.turboCooldown) {
-
-                this.time.delayedCall(this.turboTick, () => {
-                    if (UP.isDown) {
-                        this.turboCoolDown = true;
-                        this.move(UP, this.brickLayer, false)
-                        this.player.anims.play('up');
-                        console.log(this.player.y % this.SCREENY)
-                        // If the player is at the border of the screen, move it, and place them at an offset
-                        if (this.player.y % this.SCREENY <= tileSize) {
-                            this.move_cam('UP')
-                            for (let i = 0; i < this.player.transitionOffset; i++) {
-                                this.move(UP, this.brickLayer, true)
-                            }
-                        }
-                    }
-                })
-                this.turboCooldown = false;
-            }
-        }
-        
-        if(DOWN.isDown){
-            if (!this.turboCooldown) 
-                {
-                
-                this.time.delayedCall(this.turboTick, () => {
-                    if (DOWN.isDown) {
-                        this.turboCoolDown = true;
-                        this.move(DOWN, this.brickLayer, false)
-                        this.player.anims.play('down');
-                        console.log(this.player.y % this.SCREENY)                            // If the player is at the border of the screen, move it, and place them at an offset
-                            if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
-                                this.move_cam('DOWN')
-                                for (let i = 0; i < this.player.transitionOffset; i++) {
-                                    this.move(DOWN, this.brickLayer, true)
-                                }
-                            }
-                        }
-                })
-            }
-            this.turboCooldown = false;
-        }
-    }
-        //this.test_scan(this.brickLayer)
+        //this.turbo();
+        //this.test_scan(this.wallsLayer)
         //this.process_movement()
         //console.log(this.get_tile_coords(this.player.x, this.player.y, this.backgroundLayer))
         // when player exits, update FLOOR variable
-    
 
+    }
 
     // --------------------------------------------------------------------------- TESTER FUNCTIONS
     // Function to show control output.    
@@ -322,14 +246,14 @@ class Room extends Phaser.Scene {
     // ------------------------------------------------------------------------ GRID MOVEMENT CODE
     // This function takes in the input from the handlers in create and moves the player
     // isChangingRooms is used to make sure that the offset when entering a room isn't affected
-        // by sprinting
+    // by sprinting
     move(input, layer, isChangingRooms) {
         let tileLoc = this.world_to_tile(this.player.x, this.player.y, layer);
         switch (input) {
             case LEFT:
                 // See if tile exists and doesn't collide
                 var destTile = this.get_tile(tileLoc.x - 1 * this.player.movementSpeed, tileLoc.y, layer)
-                if(isChangingRooms) destTile = this.get_tile(tileLoc.x - 1 , tileLoc.y, layer)
+                if (isChangingRooms) destTile = this.get_tile(tileLoc.x - 1, tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -338,7 +262,7 @@ class Room extends Phaser.Scene {
                 break;
             case RIGHT:
                 var destTile = this.get_tile(tileLoc.x + 1 * this.player.movementSpeed, tileLoc.y, layer)
-                if(isChangingRooms) destTile = this.get_tile(tileLoc.x + 1 , tileLoc.y, layer)
+                if (isChangingRooms) destTile = this.get_tile(tileLoc.x + 1, tileLoc.y, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -347,7 +271,7 @@ class Room extends Phaser.Scene {
                 break;
             case UP:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y - 1 * this.player.movementSpeed, layer)
-                if(isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
+                if (isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y - 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -356,7 +280,7 @@ class Room extends Phaser.Scene {
                 break;
             case DOWN:
                 var destTile = this.get_tile(tileLoc.x, tileLoc.y + 1 * this.player.movementSpeed, layer)
-                if(isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y + 1, layer)
+                if (isChangingRooms) destTile = this.get_tile(tileLoc.x, tileLoc.y + 1, layer)
                 if (!destTile.properties.collides) {
                     let worldDest = this.tile_to_world(destTile.x, destTile.y, layer)
                     this.player.x = worldDest.x;
@@ -393,4 +317,91 @@ class Room extends Phaser.Scene {
         this.cameras.main.scrollX += deltaX;
         this.cameras.main.scrollY += deltaY;
     }
+    // Turbo Movement Code
+    turbo() {
+        if (RIGHT.isDown) {
+            if (!this.turboCooldown) {
+                this.time.delayedCall(this.turboTick, () => {
+                    if (RIGHT.isDown) {
+                        this.turboCoolDown = true;
+                        this.move(RIGHT, this.wallsLayer, false)
+                        this.player.anims.play('right');
+                        console.log(this.player.x % this.SCREENX)
+                        // If the player is at the border of the screen, move it, and place them at an offset
+                        if (this.player.x % this.SCREENX == 0 || (this.SCREENX - (this.player.x % this.SCREENX)) <= tileSize) {
+                            this.move_cam('RIGHT')
+                            for (let i = 0; i < this.player.transitionOffset; i++) {
+                                this.move(RIGHT, this.wallsLayer, true)
+                            }
+                        }
+                    }
+
+                })
+                this.turboCooldown = false;
+            }
+        }
+        if (LEFT.isDown) {
+            if (!this.turboCooldown) {
+                this.time.delayedCall(this.turboTick, () => {
+                    if (LEFT.isDown) {
+                        this.turboCoolDown = true;
+                        this.move(LEFT, this.wallsLayer, false)
+                        this.player.anims.play('left');
+                        console.log(this.player.x % this.SCREENX)
+                        // If the player is at the border of the screen, move it, and place them at an offset
+                        if (this.player.x % this.SCREENX <= tileSize) {
+                            this.move_cam('LEFT')
+                            for (let i = 0; i < this.player.transitionOffset; i++) {
+                                this.move(LEFT, this.wallsLayer, true)
+                            }
+                        }
+                    }
+                })
+            }
+            this.turboCooldown = false;
+        }
+        if (UP.isDown) {
+            if (!this.turboCooldown) {
+
+                this.time.delayedCall(this.turboTick, () => {
+                    if (UP.isDown) {
+                        this.turboCoolDown = true;
+                        this.move(UP, this.wallsLayer, false)
+                        this.player.anims.play('up');
+                        console.log(this.player.y % this.SCREENY)
+                        // If the player is at the border of the screen, move it, and place them at an offset
+                        if (this.player.y % this.SCREENY <= tileSize) {
+                            this.move_cam('UP')
+                            for (let i = 0; i < this.player.transitionOffset; i++) {
+                                this.move(UP, this.wallsLayer, true)
+                            }
+                        }
+                    }
+                })
+                this.turboCooldown = false;
+            }
+        }
+
+        if (DOWN.isDown) {
+            if (!this.turboCooldown) {
+
+                this.time.delayedCall(this.turboTick, () => {
+                    if (DOWN.isDown) {
+                        this.turboCoolDown = true;
+                        this.move(DOWN, this.wallsLayer, false)
+                        this.player.anims.play('down');
+                        console.log(this.player.y % this.SCREENY)                            // If the player is at the border of the screen, move it, and place them at an offset
+                        if (this.player.y % this.SCREENY == 0 || (this.SCREENY - (this.player.y % this.SCREENY)) <= tileSize) {
+                            this.move_cam('DOWN')
+                            for (let i = 0; i < this.player.transitionOffset; i++) {
+                                this.move(DOWN, this.wallsLayer, true)
+                            }
+                        }
+                    }
+                })
+            }
+            this.turboCooldown = false;
+        }
+    }
+
 }

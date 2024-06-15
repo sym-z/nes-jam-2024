@@ -9,8 +9,16 @@ class Load extends Phaser.Scene {
         // ------------------------------------------------------------------------- LOADING ASSETS
         // load tiles
         this.load.image('test-SheetPNG', './assets/sprites/png/test-Sheet.png')
-        this.load.image('brick-SheetPNG', './assets/sprites/png/aqua_jade_brick.png')
-        this.load.tilemapTiledJSON('test', './assets/tiled/test.tmj')
+        //this.load.image('brick-SheetPNG', './assets/sprites/png/aqua_jade_brick.png')
+        this.load.image('aqua_brickPNG', './assets/sprites/png/aqua_jade_brick.png')
+        this.load.image('castle_wallsPNG', './assets/spritesheets/castle_walls_8x8.png')
+        this.load.image('mossy_stonePNG', './assets/spritesheets/moss_block_8x8.png')
+        this.load.image('rugPNG', './assets/spritesheets/rug.png')
+        this.load.image('waterPNG', './assets/sprites/png/water.png')
+
+
+        //this.load.tilemapTiledJSON('test', './assets/tiled/test.tmj')
+        this.load.tilemapTiledJSON('castle', './assets/tiled/castle.tmj')
         // load spritesheet for wiz
         this.load.spritesheet('wiz', './assets/spritesheets/wiz-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
     }
