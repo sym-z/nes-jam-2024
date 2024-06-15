@@ -6,6 +6,7 @@ class Dev extends Phaser.Scene {
     create() {
         // running checks
         console.log('%cDEV SCENE :^)', testColor)
+        this.devLog()
 
         // ----------------------------------------------------------------------------- DATA SETUP
         // player data config
@@ -69,14 +70,16 @@ class Dev extends Phaser.Scene {
     }
 
     update() {
-        // clear local storage if necessary
-        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.right)) {
-            localStorage.clear()
-        }
+        // clear local storage
+        if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.space)) { localStorage.clear() }
     }
 
     playerLog() {
         // console log all saved player info
         console.log(`%cLEVEL: ${LEVEL}\nRICHES: ${RICHES}\nITEMS: ${JSON.stringify(ITEMS)}\nUPGRADES: ${JSON.stringify(UPGRADES)}`, goodColor + ' ' + logSize)
+    }
+
+    devLog() {
+        console.log(`%cDEV TOOLS:\nSHIFT+UP: \nSHIFT+DOWN: \nSHIFT+LEFT: \nSHIFT+RIGHT: \nSHIFT+SPACE: clear local storage`, goodColor + ' ' + logSize)
     }
 }

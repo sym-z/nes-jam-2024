@@ -9,7 +9,7 @@
 - [x] **Room-Based Camera Movement** 6-11-2024
 - [x] **Local Storage Setup** 06-11-2024 
 - [ ] **Enemies**
-- [ ] **Player Animations**
+- [x] **Player Animations** 06-12-2024
 - [ ] **Enemy Spawner Tiles**
 - [ ] **Wave Based Difficulty**
 - [ ] **Polish Level Design**
