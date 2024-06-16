@@ -12,6 +12,14 @@ class Room extends Phaser.Scene {
         this.PLAYERY = this.SCREENY/2
         this.PLAYERDIRECT = 'down'
         this.OCCUPIED = false
+        // grab player shorthands from UPGRADES array
+        this.HP = UPGRADES[0][1]
+        this.MANA = UPGRADES[2][1]
+        this.ATKDMG = UPGRADES[4][1]
+        this.CRITP = UPGRADES[5][1]
+        this.CRITDMG = UPGRADES[4][1]+UPGRADES[6][1]
+        this.MGCHEAL = UPGRADES[7][1]
+        this.MGCDMG = UPGRADES[4][1]+UPGRADES[8][1]
         // temp initial enemy coords
         this.ENEMYX = 300  
         this.ENEMYY = 8
@@ -122,14 +130,14 @@ class Room extends Phaser.Scene {
             // prevent player from moving
             this.OCCUPIED = true
             // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-            if (Math.floor(Math.random() * 100) < UPGRADES[5][1]) {
-                this.grab_facing_tiles()
+            if (Math.floor(Math.random() * 100) < this.CRITP) {
+                this.grab_facing_tiles(this.CRITDMG)
                 var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'crit').setOrigin(0).play(this.PLAYERDIRECT+'Crit').once('animationcomplete', () => {
                     anim.destroy()
                     this.time.delayedCall(50, () => { this.OCCUPIED = false })
                 })
             } else {
-                this.grab_facing_tiles()
+                this.grab_facing_tiles(this.ATKDMG)
                 var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
                     anim.destroy()
                     this.time.delayedCall(50, () => { this.OCCUPIED = false })
@@ -142,7 +150,7 @@ class Room extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false) {
             // prevent player from moving
             this.OCCUPIED = true
-            this.grab_facing_tiles()
+            this.grab_facing_tiles(this.MGCDMG)
             var anim = this.add.sprite(this.player.x-tileSize-1, this.player.y-tileSize-1, 'magic').setOrigin(0).play(this.PLAYERDIRECT+'Magic').once('animationcomplete', () => {
                 anim.destroy()
                 this.time.delayedCall(50, () => { this.OCCUPIED = false })
@@ -285,7 +293,7 @@ class Room extends Phaser.Scene {
         }
     }
     // Grabs tiles that are part of the player's attack's hitbox
-    grab_facing_tiles() {
+    grab_facing_tiles(damage) {
         // GOING TO BE GRABBING 5 TILES
         // List of tiles hit
         this.hitTiles = []
@@ -423,7 +431,7 @@ class Room extends Phaser.Scene {
                 let eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                 if(tile.x == eTileX && tile.y == eTileY) {
                     // play enemy hurt anims
-                    enemy.HP -= 1
+                    enemy.HP -= damage
                     if (enemy.HP <= 0) {
                         enemy.destroy()
                     }

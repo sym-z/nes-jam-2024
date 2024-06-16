@@ -85,7 +85,6 @@ class ItemShop extends Phaser.Scene {
     update() {
         // dev tools
         this.devShop()
-        this.consoleShop()
         // player movement
         if (this.SHOPPING == false) { this.movement() }
         this.purchase()
@@ -335,21 +334,6 @@ class ItemShop extends Phaser.Scene {
             RICHES -= 1
             this.events.emit('addRiches')
         }
-    }
-    // console version of item shop, while ui is in progress
-    consoleShop() {
-        if (Phaser.Input.Keyboard.JustDown(ONE)) { }
-        if (Phaser.Input.Keyboard.JustDown(TWO)) { }
-        if (Phaser.Input.Keyboard.JustDown(THREE)) { }
-        if (Phaser.Input.Keyboard.JustDown(FOUR)) { }
-        if (Phaser.Input.Keyboard.JustDown(FIVE)) { }
-        if (Phaser.Input.Keyboard.JustDown(SIX)) { }
-        if (Phaser.Input.Keyboard.JustDown(SEVEN)) { }
-        if (Phaser.Input.Keyboard.JustDown(EIGHT)) { }
-        if (Phaser.Input.Keyboard.JustDown(NINE)) { }
-        if (Phaser.Input.Keyboard.JustDown(TEN)) { }
-        if (Phaser.Input.Keyboard.JustDown(ELEVEN)) { }
-        if (Phaser.Input.Keyboard.JustDown(TWELVE)) { }
     }
 }
 
