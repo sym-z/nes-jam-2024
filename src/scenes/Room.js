@@ -681,6 +681,7 @@ class Room extends Phaser.Scene {
             else if (this.player.room == this.ROOMS.DUNGEON) {
                 this.enemyList = this.enemyArr3
             }
+            // If any of the enemies are touching the player, apply damage and then have a cooldown
             for (let enemy of this.enemyList) {
                 this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                 this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
