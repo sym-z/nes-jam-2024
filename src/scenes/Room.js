@@ -17,6 +17,9 @@ class Room extends Phaser.Scene {
         //this.ENEMYY = (this.SCREENY/2)+tileSize
         this.ENEMYX = 300  
         this.ENEMYY = 8
+        
+        // Enemy will detect you if you are 8 tiles away
+        this.enemyRange = 8;
     }
 
     create() {
@@ -41,6 +44,8 @@ class Room extends Phaser.Scene {
         this.tilesetArr.push(this.waterTileset)
         this.navTileset = this.map.addTilesetImage('nav_layer', 'navPNG')
         this.tilesetArr.push(this.navTileset)
+        this.spawnTileset = this.map.addTilesetImage('spawn_layer', 'spawnPNG')
+        this.tilesetArr.push(this.spawnTileset)
         // background layer
         this.backgroundLayer = this.map.createLayer('Background', this.tilesetArr, 0, 0)
         this.backgroundLayer.setCollisionByProperty({ collides: true })
@@ -54,6 +59,11 @@ class Room extends Phaser.Scene {
         this.navLayer = this.map.createLayer('Nav', this.tilesetArr, 0, 0)
         this.navLayer.setCollisionByProperty({ collides: true })
         this.navLayer.visible = false;
+        // enemy spawning layer
+        this.spawnLayer = this.map.createLayer('Spawn', this.tilesetArr, 0, 0)
+        this.spawnLayer.setCollisionByProperty({ collides: true })
+        this.spawnLayer.visible = false;
+        //console.log(this.spawnLayer)
         // ------------------------------------------------------------------------- PATHFINDING SETUP
         // Create room names
         this.ROOMS = 
@@ -90,11 +100,12 @@ class Room extends Phaser.Scene {
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
         this.player.set_room(this.ROOMS.COURTYARD)
-        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
-        this.enemy.anims.play('yellow')
-        // Load enemies into array so that their pathfinding can be generalized
-        this.enemyArr = []
-        this.enemyArr.push(this.enemy)
+        // Holds the enemies in each room
+        this.enemyArr1 = []
+        this.enemyArr2 = []
+        this.enemyArr3 = []
+        
+        this.spawn_enemies()
         
     }
 
@@ -278,15 +289,54 @@ class Room extends Phaser.Scene {
     }
     recalculate_paths()
     {
-        for (let enemy of this.enemyArr)
+        console.log(this.tweens.tweens)
+        if (!this.tweens.processing)
         {
-            if (enemy.room != this.player.room) continue;
-            this.tweens.killAll()
-            this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
-            this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
-            this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
-            this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
-            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+            switch (this.player.room) {
+                case this.ROOMS.COURTYARD:
+                    for (let enemy of this.enemyArr1) {
+                        if(!enemy.isMoving)
+                        {
+                            // Calculate distance from player to enemy, if theyre out of range, dont bother
+                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
+                            if (enemy.room != this.player.room) continue;
+                            this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
+                            this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
+                            this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
+                            this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
+                            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                        }
+                    }
+                    break;
+                case this.ROOMS.CASTLE:
+                    for (let enemy of this.enemyArr2) {
+                        if(!enemy.isMoving)
+                        {
+                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
+                        if (enemy.room != this.player.room) continue;
+                        this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
+                        this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
+                        this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
+                        this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
+                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                        }
+                    }
+                    break;
+                case this.ROOMS.DUNGEON:
+                    for (let enemy of this.enemyArr3) {
+                        if(!enemy.isMoving)
+                        {
+                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
+                        if (enemy.room != this.player.room) continue;
+                        this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
+                        this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
+                        this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
+                        this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
+                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                        }
+                    }
+                    break;
+            }
         }
     }
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
@@ -325,6 +375,96 @@ class Room extends Phaser.Scene {
         console.log(this.player.room)
     }
 
+    // ---------------------------------------------------------------------------------- ENEMY SPAWNING
+    spawn_enemies()
+    {
+        // Gather possible spawn points for each room
+        let room1_spawns = []
+        let room2_spawns = []
+        let room3_spawns = []
+        this.spawnLayer.forEachTile((tile) => 
+        {
+            console.log(tile)
+            if(tile && tile.index != -1)
+                {
+                    if(tile.properties.room == 1)
+                        {
+                            room1_spawns.push(tile)                   
+                        }
+                    else if(tile.properties.room == 2)
+                        {
+                            room2_spawns.push(tile)                   
+                        }
+                    else if(tile.properties.room == 3)
+                        {
+                            room3_spawns.push(tile)                   
+                        }
+                    else
+                    {
+                        console.warn("Grabbed bad tile in spawn enemies function...")
+                    }
+                }
+        })
+        // Figure out number of enemies to spawn in each room
+        // TODO: ADJUST SCALE OF ENEMY COUNT
+        let room1_count = (ROOM + 0) + 3
+        let room2_count = (ROOM + 1) + 3
+        let room3_count = (ROOM + 2) + 3
+        // Pull that number of random indices from the arrays and store them in arrays
+        
+        let room1_points = []
+        for(let i = 0; i < room1_count; i+=1)
+            {
+                let index = Math.floor(Math.random() * room1_spawns.length-1)
+                room1_points.push(room1_spawns[index])
+            }
+        let room2_points = []
+        for(let i = 0; i < room2_count; i+=1)
+            {
+                let index = Math.floor(Math.random() * room2_spawns.length-1)
+                room2_points.push(room2_spawns[index])
+            }
+        let room3_points = []
+        for(let i = 0; i < room3_count; i+=1)
+            {
+                let index = Math.floor(Math.random() * room3_spawns.length-1)
+                room3_points.push(room3_spawns[index])
+            }
+
+        console.log("ROOM 1 SPAWNS: ", room1_points)
+        console.log("ROOM 2 SPAWNS: ", room2_points)
+        console.log("ROOM 3 SPAWNS: ", room3_points)
+        // Spawn an enemy at each of the tile's locations
+        for(let tile of room1_points)
+            {
+                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+                console.log(worldCoord)
+                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.COURTYARD).setOrigin(0)
+                enemy.anims.play('yellow')
+                // Load enemies into array so that their pathfinding can be generalized
+                this.enemyArr1.push(enemy)
+
+            }
+        for(let tile of room2_points)
+            {
+                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
+                enemy.anims.play('yellow')
+                // Load enemies into array so that their pathfinding can be generalized
+                this.enemyArr2.push(enemy)
+
+            }
+        for(let tile of room3_points)
+            {
+                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.DUNGEON).setOrigin(0)
+                enemy.anims.play('yellow')
+                // Load enemies into array so that their pathfinding can be generalized
+                this.enemyArr3.push(enemy)
+                console.log(enemy.x,enemy.y)
+            }
+
+    } 
     // ---------------------------------------------------------------------------------- DEV TOOLS
     // all dev controls taken care of in room
     devRoom() {

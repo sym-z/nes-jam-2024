@@ -14,11 +14,11 @@
             "scaleInEditor": 5.74
         },
         "castle.tmx": {
-            "scale": 3.0545,
-            "selectedLayer": 1,
+            "scale": 1.7755,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 255.8520216074644,
-                "y": 239.81011622196758
+                "x": 256.26584060827935,
+                "y": 243.03013235708252
             }
         },
         "castle.tmx#aqua_brick": {
@@ -31,8 +31,14 @@
             "scaleInDock": 7.6793,
             "scaleInEditor": 1
         },
+        "castle.tmx#nav_layer": {
+            "scaleInDock": 9.9146
+        },
         "castle.tmx#rug": {
             "scaleInDock": 7.9655
+        },
+        "castle.tmx#spawn_layer": {
+            "scaleInDock": 13.1563
         },
         "castle.tmx#water": {
             "scaleInDock": 30.6831
@@ -41,8 +47,8 @@
             "scale": 4.7554,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 130.79867098456492,
-                "y": 109.45451486730876
+                "x": 130.58838373217816,
+                "y": 109.244227614922
             }
         },
         "shop.tmx#aqua_brick": {
@@ -72,7 +78,7 @@
         "shop.tmx"
     ],
     "project": "castle.tiled-project",
-    "property.type": "bool",
+    "property.type": "int",
     "recentFiles": [
         "castle.tmx",
         "shop.tmx"

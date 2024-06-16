@@ -1,5 +1,5 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y,finder,map, room) {
+    constructor(scene, x, y, finder, map, room) {
         super(scene, x, y, 'temp')
 
         // body
@@ -7,7 +7,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         // physics
-        this.body.setSize(this.width/2)
+        this.body.setSize(this.width / 2)
         this.body.onCollide = true
         this.body.onOverlap = true
         this.body.setMaxVelocity(2000)
@@ -24,28 +24,33 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // Where the enemy is in the Castle
         this.room = room
         // How fast the tweens transition
-        this.speed = 150
+        // HIGHER NUMBER = SLOWER ENEMY
+        this.speed = 300
     }
     // Calculates path and moves to destination
-    find_path(fromX,fromY,toX,toY)
-    {
+    find_path(fromX, fromY, toX, toY) {
         console.log('going from (' + fromX + ',' + fromY + ') to (' + toX + ',' + toY + ')');
-        this.finder.findPath(fromX,fromY,toX,toY,(path) => 
-        {
-            if(path == null)
-                {
-                    console.warn("No path found...")
-                }
-            else{
+        this.finder.findPath(fromX, fromY, toX, toY, (path) => {
+            if (path == null) {
+                console.warn("No path found...")
+            }
+            else {
                 console.log(path)
                 this.move(path)
             }
         })
         this.finder.calculate();
     }
-    move(path)
-    {
-        // Make a list of tweens in world coords that the scene can animate the enemy moving
+    move(path) {
+        // Reference to the current object
+        const enemy = this;
+        // Ensure only one chain is running at a time
+        if (this.isMoving) {
+            return;
+        }
+        this.isMoving = true;
+
+        // Create the list of tween configurations in world coordinates
         var tweens = [];
         for (var i = 0; i < path.length - 1; i++) {
             // Push all locations of the path into an array, except for our current location
@@ -57,12 +62,39 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 y: ey * this.map.tileHeight,
                 duration: this.speed
             });
-            
         }
-        // Run the animation
-        this.parent.tweens.chain({
-            targets: this,
-            tweens: tweens
-        });
+
+        // Start the first tween
+        if (tweens.length > 0) {
+            playTweens(tweens);
+        }
+       
+        // Helper function to create and play tweens in sequence
+        function playTweens(tweenConfigs, index = 0) {
+            if (index >= tweenConfigs.length) {
+                // All tweens have completed
+                console.log('All tweens completed!');
+                enemy.isMoving = false; // Reset the moving flag
+                return;
+            }
+
+            // Get the current tween config
+            const tweenConfig = tweenConfigs[index];
+
+            // Add the onComplete callback to start the next tween in the sequence
+            tweenConfig.onComplete = function () {
+                playTweens(tweenConfigs, index + 1);
+            };
+
+            // Start the tween
+            enemy.parent.tweens.add({
+                targets: enemy,
+                x: tweenConfig.x,
+                y: tweenConfig.y,
+                duration: tweenConfig.duration,
+                onComplete: tweenConfig.onComplete,
+                onCompleteScope: enemy
+            });
+        }
     }
 }
