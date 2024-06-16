@@ -55,6 +55,7 @@ class Room extends Phaser.Scene {
         this.navLayer.setCollisionByProperty({ collides: true })
         this.navLayer.visible = false;
         // ------------------------------------------------------------------------- PATHFINDING SETUP
+        // Create room names
         this.ROOMS = 
         {
             ITEMSHOP: 0,
@@ -62,7 +63,9 @@ class Room extends Phaser.Scene {
             CASTLE: 2,
             DUNGEON: 3
         }
+        // Create Array to hold tiles
         this.grid = []
+        // Load in tiles from navLayer
         for (let y = 0; y < this.map.height; y+=1)
             {
                 this.grid[y] = [];
@@ -75,10 +78,13 @@ class Room extends Phaser.Scene {
                     if(tile) this.grid[y][x] = tile.index
                 }
             }
-        console.log(this.grid)
+        // Tell easy star what tiles can be walked on
         this.walkables = [62];
+        // Create easystar obj
         this.finder = new EasyStar.js()
+        // Set its grid
         this.finder.setGrid(this.grid)
+        // Set walkable tiles
         this.finder.setAcceptableTiles(this.walkables)
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
@@ -86,6 +92,7 @@ class Room extends Phaser.Scene {
         this.player.set_room(this.ROOMS.COURTYARD)
         this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
         this.enemy.anims.play('yellow')
+        // Load enemies into array so that their pathfinding can be generalized
         this.enemyArr = []
         this.enemyArr.push(this.enemy)
         
