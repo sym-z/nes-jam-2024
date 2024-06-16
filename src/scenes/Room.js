@@ -30,6 +30,10 @@ class Room extends Phaser.Scene {
         this.hitCooldown = 500
     }
 
+    preload() {
+        // load tile animation plugin
+        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+    }
     create() {
         // running checks
         console.log('%cROOM SCENE :^)', testColor)
@@ -54,6 +58,8 @@ class Room extends Phaser.Scene {
         this.tilesetArr.push(this.navTileset)
         this.spawnTileset = this.map.addTilesetImage('spawn_layer', 'spawnPNG')
         this.tilesetArr.push(this.spawnTileset)
+        this.doorsTileset = this.map.addTilesetImage('doors', 'doorsPNG')
+        this.tilesetArr.push(this.doorsTileset)
         // background layer
         this.backgroundLayer = this.map.createLayer('Background', this.tilesetArr, 0, 0)
         this.backgroundLayer.setCollisionByProperty({ collides: true })
@@ -71,7 +77,20 @@ class Room extends Phaser.Scene {
         this.spawnLayer = this.map.createLayer('Spawn', this.tilesetArr, 0, 0)
         this.spawnLayer.setCollisionByProperty({ collides: true })
         this.spawnLayer.visible = false
+        // animation setup
+        this.animatedTiles.init(this.map)
         //console.log(this.spawnLayer)
+        // door setup
+        this.doorTiles = []
+        this.wallsLayer.forEachTile((tile) => {
+            //console.log(tile)
+            if (tile && tile.index != -1) {
+                console.log(tile.properties.isDoor)
+                if (tile.properties.collides && tile.properties.isDoor) {
+                    this.doorTiles.push(tile)
+                }
+            }
+        })
         // ------------------------------------------------------------------------- PATHFINDING SETUP
         // Create room names
         this.ROOMS =
@@ -110,6 +129,9 @@ class Room extends Phaser.Scene {
         this.enemyArr2 = []
         this.enemyArr3 = []
         this.spawn_enemies()
+        this.room1_enemy_count = this.enemyArr1.length
+        this.room2_enemy_count = this.enemyArr2.length
+        this.room3_enemy_count = this.enemyArr3.length
 
     }
 
@@ -122,6 +144,7 @@ class Room extends Phaser.Scene {
         this.devRoom()
         this.enemy_ai()
         this.enemy_attack()
+
     }
 
     // ----------------------------------------------------------------------------- COMBAT HELPERS
@@ -201,6 +224,8 @@ class Room extends Phaser.Scene {
                 for (let i = 0; i < this.player.transitionOffset; i++) {
                     this.move(LEFT, this.wallsLayer, true)
                 }
+                // If they moved BACK into the courtyard, dont lock the doors
+                if(this.room1_enemy_count != 0) this.lock_rooms()
             }
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
@@ -215,6 +240,8 @@ class Room extends Phaser.Scene {
                 for (let i = 0; i < this.player.transitionOffset; i++) {
                     this.move(RIGHT, this.wallsLayer, true)
                 }
+                // If they moved BACK into the CASTLE
+                if(this.room2_enemy_count != 0) this.lock_rooms()
             }
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
@@ -229,6 +256,8 @@ class Room extends Phaser.Scene {
                 for (let i = 0; i < this.player.transitionOffset; i++) {
                     this.move(UP, this.wallsLayer, true)
                 }
+                // If they moved BACK into the CASTLE
+                if(this.room2_enemy_count != 0) this.lock_rooms()
             }
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
@@ -243,6 +272,8 @@ class Room extends Phaser.Scene {
                 for (let i = 0; i < this.player.transitionOffset; i++) {
                     this.move(DOWN, this.wallsLayer, true)
                 }
+                // If they moved BACK into the DUNGEON
+                if(this.room3_enemy_count != 0) this.lock_rooms()
             }
         }
     }
@@ -438,6 +469,28 @@ class Room extends Phaser.Scene {
                         this.events.emit('addRiches')
                         enemy.alive = false
                         enemy.destroy()
+                        this.update_count()
+                        switch(this.player.room)
+                        {
+                            case this.ROOMS.COURTYARD:
+                                if(this.room1_enemy_count == 0)
+                                    {
+                                        this.unlock_rooms()
+                                    }
+                                break
+                            case this.ROOMS.CASTLE:
+                                if(this.room2_enemy_count == 0)
+                                    {
+                                        this.unlock_rooms()
+                                    }
+                                break
+                            case this.ROOMS.DUNGEON:
+                                if(this.room3_enemy_count == 0)
+                                    {
+                                        this.unlock_rooms()
+                                    }
+                                break
+                        }
                     }
                 }
             }
@@ -532,10 +585,10 @@ class Room extends Phaser.Scene {
             default:
                 break
         }
+        //console.log(this.player.room)
         // Move camera based on argument
         this.cameras.main.scrollX += deltaX
         this.cameras.main.scrollY += deltaY
-        //console.log(this.player.room)
     }
 
     // ---------------------------------------------------------------------------------- ENEMY SPAWNING
@@ -700,6 +753,76 @@ class Room extends Phaser.Scene {
             }
         }
     
+    }
+
+    // ---------------------------------------------------------------------- ROOM LOCKING CODE
+    lock_rooms()
+    {
+        // For each tile in Door array, turn its collision on, and make it visible
+        for(let door of this.doorTiles)
+            {
+                door.visible = true
+                //this.wallsLayer.setCollision(door.index,true)
+                door.properties.collides = true
+            }
+    }
+    unlock_rooms()
+    {
+        console.log("UNLOCKING DOORS", this.doorTiles)
+        // For each tile in Door array, turn its collision off, and make it invisible
+        for(let door of this.doorTiles)
+            {
+                door.visible = false
+                //this.wallsLayer.setCollision(door.index,false)
+                door.properties.collides = false;
+            }
+
+    }
+    update_count()
+    {
+        let new_count = 0;
+        switch(this.player.room)
+        {
+            case this.ROOMS.COURTYARD:
+                for(let enemy of this.enemyArr1)
+                    {
+                        if(enemy.alive)
+                            {
+                                new_count += 1
+                            }
+                    }
+                this.room1_enemy_count = new_count
+                console.log("ROOM POPULATION IS NOW", this.room1_enemy_count)
+                break
+            case this.ROOMS.CASTLE:
+                for(let enemy of this.enemyArr2)
+                    {
+                        if(enemy.alive)
+                            {
+                                new_count += 1
+                            }
+                    }
+                this.room2_enemy_count = new_count
+                console.log("ROOM POPULATION IS NOW", this.room2_enemy_count)
+                break
+            case this.ROOMS.DUNGEON:
+                for(let enemy of this.enemyArr3)
+                    {
+                        if(enemy.alive)
+                            {
+                                new_count += 1
+                            }
+                    }
+                this.room3_enemy_count = new_count
+                console.log("ROOM POPULATION IS NOW", this.room3_enemy_count)
+                if(this.room3_enemy_count == 0)
+                    {
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start("itemShopScene")
+                        })
+                    }
+                break
+        }
     }
     // ---------------------------------------------------------------------------------- DEV TOOLS
     // all dev controls taken care of in room
