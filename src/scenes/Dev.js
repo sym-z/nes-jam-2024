@@ -58,6 +58,10 @@ class Dev extends Phaser.Scene {
             localStorage.setItem('riches', RICHES.toString())
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
         }, this)
+        this.itemShop.events.on('takeRiches', function () {
+            localStorage.setItem('riches', RICHES.toString())
+            this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
+        }, this)
         // upgrades
         this.room.events.on('addUpgrade', function () {
             localStorage.setItem('upgrades', JSON.stringify(UPGRADES))

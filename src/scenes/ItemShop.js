@@ -76,7 +76,8 @@ class ItemShop extends Phaser.Scene {
         , 8).setOrigin(0).setDepth(1000).setAlpha(0)
         this.cursor = this.add.bitmapText(this.CURSORX, this.CURSORY, 'digi', '>', 8).setOrigin(0).setDepth(1000).setAlpha(0)
         this.detailText = this.add.bitmapText(this.DETX+tileSize, this.DETY+tileSize, 'digi', `${UPGRADES[this.selectLoc][1]}<${UPGRADES[this.selectLoc][2]}\ngold:${RICHES}`, 8).setOrigin(0).setDepth(1000).setAlpha(0)
-        this.priceText = this.add.bitmapText(this.DETX+this.DETW-(tileSize*3), this.DETY+tileSize, 'digi', `${(UPGRADES[this.selectLoc][2])/5}$`, 8).setOrigin(0).setDepth(1000).setAlpha(0)
+        this.price = (UPGRADES[this.selectLoc][2])/5
+        this.priceText = this.add.bitmapText(this.DETX+this.DETW-(tileSize*3), this.DETY+tileSize, 'digi', `${this.price}$`, 8).setOrigin(0).setDepth(1000).setAlpha(0)
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
@@ -96,23 +97,27 @@ class ItemShop extends Phaser.Scene {
         this.tileLoc = this.world_to_tile(this.player.x, this.player.y-1, this.wallsLayer)
         this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.wallsLayer);
         if (this.tile.properties.interactable) {
-            if (Phaser.Input.Keyboard.JustDown(A)) {
+            if (this.SHOPPING == false && Phaser.Input.Keyboard.JustDown(A)) {
                 this.uiAlpha(1)
                 this.SHOPPING = true
             }
-            if (Phaser.Input.Keyboard.JustDown(B)) {
+            if (this.SHOPPING == true && Phaser.Input.Keyboard.JustDown(B)) {
                 this.uiAlpha(0)
                 this.SHOPPING = false
             }
             if (Phaser.Input.Keyboard.JustDown(UP) && this.cursorLoc > 0 && this.SHOPPING == true) {
                 this.cursorLoc--
                 this.cursor.setY(this.cursor.y-tileSize)
-                this.setText()
+                this.selection()
             }
             if (Phaser.Input.Keyboard.JustDown(DOWN) && this.cursorLoc < 6 && this.SHOPPING == true) {
                 this.cursorLoc++
                 this.cursor.setY(this.cursor.y+tileSize)
-                this.setText()
+                this.selection()
+            }
+            if (this.SHOPPING == true) {
+                this.completion()
+                this.selection()
             }
         }
     }
@@ -131,41 +136,56 @@ class ItemShop extends Phaser.Scene {
         this.priceText.setAlpha(num)
     }
     // set detail text
-    setText() {
-        switch (this.cursorLoc) {
-            case 0:
-                this.selectLoc = 0
-                var price = (UPGRADES[this.selectLoc][2])/5
-                break
-            case 1:
-                this.selectLoc = 2
-                var price = (UPGRADES[this.selectLoc][2])/5
-                break
-            case 2:
-                this.selectLoc = 4
-                var price = (UPGRADES[this.selectLoc][2])
-                break
-            case 3:
-                this.selectLoc = 5
-                var price = (UPGRADES[this.selectLoc][2])-1
-                break
-            case 4:
-                this.selectLoc = 6
-                var price = (UPGRADES[this.selectLoc][2])-3
-                break
-            case 5:
-                this.selectLoc = 7
-                var price = (UPGRADES[this.selectLoc][2])
-                break
-            case 6:
-                this.selectLoc = 8
-                var price = (UPGRADES[this.selectLoc][2])-2
-                break
-            default:
-                break
+    selection() {
+        if (this.cursorLoc == 0) {
+            // max hp
+            this.selectLoc = 0
+            this.price = (UPGRADES[this.selectLoc][2])/5
+        } else if (this.cursorLoc == 1) {
+            // max mana
+            this.selectLoc = 2
+            this.price = (UPGRADES[this.selectLoc][2])/5
+        } else if (this.cursorLoc == 2) {
+            // attack dmg
+            this.selectLoc = 4
+            this.price = (UPGRADES[this.selectLoc][2])
+        } else if (this.cursorLoc == 3) {
+            // crit chance
+            this.selectLoc = 5
+            this.price = (UPGRADES[this.selectLoc][2])-1
+        } else if (this.cursorLoc == 4) {
+            // crit dmg
+            this.selectLoc = 6
+            this.price = (UPGRADES[this.selectLoc][2])-3
+        } else if (this.cursorLoc == 5) {
+            // magic heal
+            this.selectLoc = 7
+            this.price = (UPGRADES[this.selectLoc][2])
+        } else if (this.cursorLoc == 6) {
+            // magic dmg
+            this.selectLoc = 8
+            this.price = (UPGRADES[this.selectLoc][2])-2
         }
         this.detailText.setText(`${UPGRADES[this.selectLoc][1]}<${UPGRADES[this.selectLoc][2]}\ngold:${RICHES}`)
-        this.priceText.setText(`${price}$`)
+        this.priceText.setText(`${this.price}$`)
+    }
+    // actually making the purchases
+    completion() {
+        if (RICHES >= this.price && Phaser.Input.Keyboard.JustDown(A)) {
+            if (this.selectLoc == 0 || this.selectLoc == 2) {
+                UPGRADES[this.selectLoc][1] += 5
+                UPGRADES[this.selectLoc][2] += 5
+            } else if (this.selectLoc == 4 || this.selectLoc == 6 || this.selectLoc == 8) {
+                UPGRADES[this.selectLoc][1] += 2
+                UPGRADES[this.selectLoc][2] += 2
+            } else if (this.selectLoc == 5 || this.selectLoc == 7) {
+                UPGRADES[this.selectLoc][1] += 3
+                UPGRADES[this.selectLoc][2] += 3
+            }
+            RICHES -= this.price
+            this.events.emit('takeRiches')
+            this.events.emit('addUpgrades')
+        }
     }
 
     // ------------------------------------------------------------------------------ GRID MOVEMENT
