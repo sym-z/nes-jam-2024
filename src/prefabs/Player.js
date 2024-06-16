@@ -18,6 +18,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // This will be a multiplied into the move function,
             // The player moves (movementSpeed * 1 Tile) every input press.
         this.movementSpeed = 1
+        // Where the player is in the castle
         this.room = 0;
 
         // This is the amount of additional hops that take place to offset the player

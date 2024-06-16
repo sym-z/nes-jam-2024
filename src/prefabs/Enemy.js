@@ -15,12 +15,18 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.body.setDrag(.03)
 
         // for pathfinding
+        // Easystar reference
         this.finder = finder
+        // Our Map
         this.map = map
+        // RoomScene
         this.parent = scene
+        // Where the enemy is in the Castle
         this.room = room
+        // How fast the tweens transition
         this.speed = 150
     }
+    // Calculates path and moves to destination
     find_path(fromX,fromY,toX,toY)
     {
         console.log('going from (' + fromX + ',' + fromY + ') to (' + toX + ',' + toY + ')');
