@@ -47,6 +47,8 @@ class ItemShop extends Phaser.Scene {
         this.tilesetArr.push(this.spaceTileset)
         this.waterTileset = this.map.addTilesetImage('water', 'waterPNG')
         this.tilesetArr.push(this.waterTileset)
+        this.keeperTileset = this.map.addTilesetImage('keeper', 'keeperPNG')
+        this.tilesetArr.push(this.keeperTileset)
         // background layer
         this.backgroundLayer = this.map.createLayer('Background', this.tilesetArr, 0, 0)
         this.backgroundLayer.setCollisionByProperty({ collides: true })

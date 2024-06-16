@@ -14,11 +14,11 @@
             "scaleInEditor": 12.07
         },
         "castle.tmx": {
-            "scale": 4.2826,
+            "scale": 2.4379,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 369.4017652827721,
-                "y": 312.7772848269742
+                "x": 256.36818573362325,
+                "y": 177.4067845276673
             }
         },
         "castle.tmx#aqua_brick": {
@@ -47,8 +47,8 @@
             "scale": 4.7554,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 130.58838373217816,
-                "y": 109.244227614922
+                "x": 163.39319510451276,
+                "y": 119.3380157294865
             }
         },
         "shop.tmx#aqua_brick": {
@@ -64,7 +64,7 @@
             "scaleInDock": 1
         }
     },
-    "frame.defaultDuration": 200,
+    "frame.defaultDuration": 700,
     "last.exportedFilePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/tiled",
     "last.imagePath": "/home/sym-z/code/game_dev/nes-jam-2024/assets/spritesheets",
     "map.height": 30,
@@ -78,7 +78,7 @@
         "shop.tmx"
     ],
     "project": "castle.tiled-project",
-    "property.type": "int",
+    "property.type": "bool",
     "recentFiles": [
         "shop.tmx",
         "castle.tmx"
