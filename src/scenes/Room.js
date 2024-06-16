@@ -436,6 +436,7 @@ class Room extends Phaser.Scene {
                     if (enemy.HP <= 0) {
                         RICHES += enemy.maxHP
                         this.events.emit('addRiches')
+                        enemy.alive = false
                         enemy.destroy()
                     }
                 }
@@ -681,17 +682,20 @@ class Room extends Phaser.Scene {
             }
             // If any of the enemies are touching the player, apply damage and then have a cooldown
             for (let enemy of this.enemyList) {
-                this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
-                this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
-                if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
-                    console.log("Enemy Tile Loc: ", this.eTileX, this.eTileY)
-                    console.log("Player Tile Loc: ", this.tileLocX, this.tileLocY)
-                    console.log("Enemy ", enemy, " is currently hitting the player")
-                    // TODO: TICK DAMAGE
-                    this.can_hit = false
-                    this.time.delayedCall(this.hitCooldown, () => {
-                        this.can_hit = true
-                    })
+                if(enemy.alive)
+                {
+                    this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
+                    this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
+                    if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
+                        console.log("Enemy Tile Loc: ", this.eTileX, this.eTileY)
+                        console.log("Player Tile Loc: ", this.tileLocX, this.tileLocY)
+                        console.log("Enemy ", enemy, " is currently hitting the player")
+                        // TODO: TICK DAMAGE
+                        this.can_hit = false
+                        this.time.delayedCall(this.hitCooldown, () => {
+                            this.can_hit = true
+                        })
+                    }
                 }
             }
         }

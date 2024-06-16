@@ -32,19 +32,23 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.speed = 300
         
         this.isMoving = false
+        this.alive = true;
     }
 
     // Calculates path and moves to destination
     find_path(fromX, fromY, toX, toY) {
-        if(fromX == toX && fromY == toY) return
-        this.finder.findPath(fromX, fromY, toX, toY, (path) => {
-            if (path == null) {
-                console.warn("No path found...")
-            } else {
-                this.move(path)
-            }
-        })
-        this.finder.calculate()
+        if(this.alive)
+        {
+            if (fromX == toX && fromY == toY) return
+            this.finder.findPath(fromX, fromY, toX, toY, (path) => {
+                if (path == null) {
+                    console.warn("No path found...")
+                } else {
+                    this.move(path)
+                }
+            })
+            this.finder.calculate()
+        }
     }
 
     move(path) {
