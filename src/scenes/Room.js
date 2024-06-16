@@ -26,8 +26,8 @@ class Room extends Phaser.Scene {
         // Enemy will detect you if you are 8 tiles away
         this.enemyRange = 8
         // This is so the player cannot be hit too many times per second
-        this.can_hit = true;
-        this.hitCooldown = 500;
+        this.can_hit = true
+        this.hitCooldown = 500
     }
 
     create() {
@@ -434,6 +434,8 @@ class Room extends Phaser.Scene {
                     // play enemy hurt anims
                     enemy.HP -= damage
                     if (enemy.HP <= 0) {
+                        RICHES += enemy.maxHP
+                        this.events.emit('addRiches')
                         enemy.destroy()
                     }
                 }
@@ -660,10 +662,8 @@ class Room extends Phaser.Scene {
                 break
         }
     }
-    enemy_attack()
-    {
-        if(this.can_hit)
-        {
+    enemy_attack() {
+        if(this.can_hit) {
             // List of tiles hit
             this.hitTiles = []
             // List of enemies in the room
@@ -674,11 +674,9 @@ class Room extends Phaser.Scene {
             // Figure out the enemies in the room
             if (this.player.room == this.ROOMS.COURTYARD) {
                 this.enemyList = this.enemyArr1
-            }
-            else if (this.player.room == this.ROOMS.CASTLE) {
+            } else if (this.player.room == this.ROOMS.CASTLE) {
                 this.enemyList = this.enemyArr2
-            }
-            else if (this.player.room == this.ROOMS.DUNGEON) {
+            } else if (this.player.room == this.ROOMS.DUNGEON) {
                 this.enemyList = this.enemyArr3
             }
             // If any of the enemies are touching the player, apply damage and then have a cooldown
@@ -690,9 +688,9 @@ class Room extends Phaser.Scene {
                     console.log("Player Tile Loc: ", this.tileLocX, this.tileLocY)
                     console.log("Enemy ", enemy, " is currently hitting the player")
                     // TODO: TICK DAMAGE
-                    this.can_hit = false;
+                    this.can_hit = false
                     this.time.delayedCall(this.hitCooldown, () => {
-                        this.can_hit = true;
+                        this.can_hit = true
                     })
                 }
             }

@@ -15,6 +15,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.body.setDrag(.03)
 
         // combat
+        this.maxHP = (LEVEL*2)+2
         this.HP = (LEVEL*2)+2
 
         // for pathfinding
