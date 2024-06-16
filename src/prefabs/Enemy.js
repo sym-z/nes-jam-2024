@@ -77,7 +77,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             //console.log(tweenConfigs.length)
             if (index >= tweenConfigs.length) {
                 // All tweens have completed
-                console.log('All tweens completed!');
                 enemy.isMoving = false; // Reset the moving flag
                 return;
             }

@@ -17,9 +17,8 @@ class Room extends Phaser.Scene {
         //this.ENEMYY = (this.SCREENY/2)+tileSize
         this.ENEMYX = 300  
         this.ENEMYY = 8
-        
         // Enemy will detect you if you are 8 tiles away
-        this.enemyRange = 8;
+        this.enemyRange = 8
     }
 
     create() {
@@ -58,11 +57,11 @@ class Room extends Phaser.Scene {
         // enemy navigation layer
         this.navLayer = this.map.createLayer('Nav', this.tilesetArr, 0, 0)
         this.navLayer.setCollisionByProperty({ collides: true })
-        this.navLayer.visible = false;
+        this.navLayer.visible = false
         // enemy spawning layer
         this.spawnLayer = this.map.createLayer('Spawn', this.tilesetArr, 0, 0)
         this.spawnLayer.setCollisionByProperty({ collides: true })
-        this.spawnLayer.visible = false;
+        this.spawnLayer.visible = false
         //console.log(this.spawnLayer)
         // ------------------------------------------------------------------------- PATHFINDING SETUP
         // Create room names
@@ -78,7 +77,7 @@ class Room extends Phaser.Scene {
         // Load in tiles from navLayer
         for (let y = 0; y < this.map.height; y+=1)
             {
-                this.grid[y] = [];
+                this.grid[y] = []
             }
         for (let y = 0; y < this.map.height; y+=1)
             {
@@ -89,7 +88,7 @@ class Room extends Phaser.Scene {
                 }
             }
         // Tell easy star what tiles can be walked on
-        this.walkables = [62];
+        this.walkables = [62]
         // Create easystar obj
         this.finder = new EasyStar.js()
         // Set its grid
@@ -121,7 +120,7 @@ class Room extends Phaser.Scene {
         this.magic()
         // dev tools
         this.devRoom()
-        this.enemy_ai();
+        this.enemy_ai()
     }
 
     // ----------------------------------------------------------------------------- COMBAT HELPERS
@@ -130,6 +129,7 @@ class Room extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(A) && this.OCCUPIED == false) {
             // prevent player from moving
             this.OCCUPIED = true
+            // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
             if (Math.floor(Math.random() * 100) < UPGRADES[5][1]) {
                 var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'crit').setOrigin(0).play(this.PLAYERDIRECT+'Crit').once('animationcomplete', () => {
                     anim.destroy()
@@ -198,7 +198,6 @@ class Room extends Phaser.Scene {
                     this.move(LEFT, this.wallsLayer, true)
                 }
             }
-            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
@@ -213,7 +212,6 @@ class Room extends Phaser.Scene {
                     this.move(RIGHT, this.wallsLayer, true)
                 }
             }
-            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
@@ -228,7 +226,6 @@ class Room extends Phaser.Scene {
                     this.move(UP, this.wallsLayer, true)
                 }
             }
-            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
@@ -243,7 +240,6 @@ class Room extends Phaser.Scene {
                     this.move(DOWN, this.wallsLayer, true)
                 }
             }
-            //this.recalculate_paths();
         }
     }
     // This function takes in the input from the handlers in create and moves the player
@@ -294,8 +290,7 @@ class Room extends Phaser.Scene {
         }
     }
     // Grabs tiles that are part of the player's attack's hitbox
-    grab_facing_tiles(facing)
-    {
+    grab_facing_tiles(facing) {
         // GOING TO BE GRABBING 5 TILES
         // List of tiles hit
         this.hitTiles = []
@@ -305,135 +300,126 @@ class Room extends Phaser.Scene {
         this.tileLocX = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer).x
         this.tileLocY = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer).y
         // Figure out the enemies in the room
-        if(this.player.room == this.ROOMS.COURTYARD) 
-            {
-                this.enemyList = this.enemyArr1;
-            }
-        else if(this.player.room == this.ROOMS.CASTLE)
-            {
-
-                this.enemyList = this.enemyArr2;
-            }
-        else if(this.player.room == this.ROOMS.DUNGEON)
-            {
-                this.enemyList = this.enemyArr3;
-
-            }
+        if(this.player.room == this.ROOMS.COURTYARD) {
+            this.enemyList = this.enemyArr1
+        }
+        else if(this.player.room == this.ROOMS.CASTLE) {
+            this.enemyList = this.enemyArr2
+        }
+        else if(this.player.room == this.ROOMS.DUNGEON) {
+            this.enemyList = this.enemyArr3
+        }
         // Based on where we are looking, grab the proper tiles
-        switch(facing)
-        {
+        switch(facing) {
             case "UP":
                 // Grab tiles
-               // Left Tile 
-               let tile1 = new Math.Vector2()
-               tile1.x = this.tileLocX - 1;
-               tile1.y = this.tileLocY;
-               this.hitTiles.push(tile1)
-               // Top Left Tile 
-               let tile2 = new Math.Vector2()
-               tile2.x = this.tileLocX - 1;
-               tile2.y = this.tileLocY - 1;
-               this.hitTiles.push(tile2)
-               // Top Middle Tile 
-               let tile3 = new Math.Vector2()
-               tile3.x = this.tileLocX;
-               tile3.y = this.tileLocY - 1;
-               this.hitTiles.push(tile3)
-               // Top Right Tile 
-               let tile4 = new Math.Vector2()
-               tile4.x = this.tileLocX + 1;
-               tile4.y = this.tileLocY - 1;
-               this.hitTiles.push(tile4)
-               // Right Tile 
-               let tile5 = new Math.Vector2()
-               tile5.x = this.tileLocX + 1;
-               tile5.y = this.tileLocY;
-               this.hitTiles.push(tile5)
-                break;
+                // Left Tile 
+                let tile1 = new Math.Vector2()
+                tile1.x = this.tileLocX - 1
+                tile1.y = this.tileLocY
+                this.hitTiles.push(tile1)
+                // Top Left Tile 
+                let tile2 = new Math.Vector2()
+                tile2.x = this.tileLocX - 1
+                tile2.y = this.tileLocY - 1
+                this.hitTiles.push(tile2)
+                // Top Middle Tile 
+                let tile3 = new Math.Vector2()
+                tile3.x = this.tileLocX
+                tile3.y = this.tileLocY - 1
+                this.hitTiles.push(tile3)
+                // Top Right Tile 
+                let tile4 = new Math.Vector2()
+                tile4.x = this.tileLocX + 1
+                tile4.y = this.tileLocY - 1
+                this.hitTiles.push(tile4)
+                // Right Tile 
+                let tile5 = new Math.Vector2()
+                tile5.x = this.tileLocX + 1
+                tile5.y = this.tileLocY
+                this.hitTiles.push(tile5)
+                break
             case "DOWN": //TODO: FINISH UP HERE
-                                // Grab tiles
-               // Left Tile 
-               let tile6 = new Math.Vector2()
-               tile6.x = this.tileLocX - 1;
-               tile6.y = this.tileLocY;
-               this.hitTiles.push(tile6)
-               // Bottom Left Tile 
-               let tile7 = new Math.Vector2()
-               tile7.x = this.tileLocX - 1;
-               tile7.y = this.tileLocY + 1;
-               this.hitTiles.push(tile7)
-               // Bottom Middle Tile 
-               let tile8 = new Math.Vector2()
-               tile8.x = this.tileLocX;
-               tile8.y = this.tileLocY + 1;
-               this.hitTiles.push(tile8)
-               // Bottom Right Tile 
-               let tile9 = new Math.Vector2()
-               tile9.x = this.tileLocX + 1;
-               tile9.y = this.tileLocY + 1;
-               this.hitTiles.push(tile9)
-               // Right Tile 
-               let tile10 = new Math.Vector2()
-               tile10.x = this.tileLocX + 1;
-               tile10.y = this.tileLocY;
-               this.hitTiles.push(tile10)
-                break;
+                // Left Tile 
+                let tile6 = new Math.Vector2()
+                tile6.x = this.tileLocX - 1
+                tile6.y = this.tileLocY
+                this.hitTiles.push(tile6)
+                // Bottom Left Tile 
+                let tile7 = new Math.Vector2()
+                tile7.x = this.tileLocX - 1
+                tile7.y = this.tileLocY + 1
+                this.hitTiles.push(tile7)
+                // Bottom Middle Tile 
+                let tile8 = new Math.Vector2()
+                tile8.x = this.tileLocX
+                tile8.y = this.tileLocY + 1
+                this.hitTiles.push(tile8)
+                // Bottom Right Tile 
+                let tile9 = new Math.Vector2()
+                tile9.x = this.tileLocX + 1
+                tile9.y = this.tileLocY + 1
+                this.hitTiles.push(tile9)
+                // Right Tile 
+                let tile10 = new Math.Vector2()
+                tile10.x = this.tileLocX + 1
+                tile10.y = this.tileLocY
+                this.hitTiles.push(tile10)
+                break
             case "LEFT":
-                                // Grab tiles
-               // Left Tile 
-               let tile11 = new Math.Vector2()
-               tile11.x = this.tileLocX - 1;
-               tile11.y = this.tileLocY;
-               this.hitTiles.push(tile11)
-               // Top Left Tile 
-               let tile12 = new Math.Vector2()
-               tile12.x = this.tileLocX - 1;
-               tile12.y = this.tileLocY - 1;
-               this.hitTiles.push(tile12)
-               // Top Middle Tile 
-               let tile13 = new Math.Vector2()
-               tile13.x = this.tileLocX;
-               tile13.y = this.tileLocY - 1;
-               this.hitTiles.push(tile13)
-               // Top Right Tile 
-               let tile14 = new Math.Vector2()
-               tile14.x = this.tileLocX + 1;
-               tile14.y = this.tileLocY + 1;
-               this.hitTiles.push(tile14)
-               // Right Tile 
-               let tile15 = new Math.Vector2()
-               tile15.x = this.tileLocX - 1;
-               tile15.y = this.tileLocY;
-               this.hitTiles.push(tile15)
-                break;
+                // Left Tile 
+                let tile11 = new Math.Vector2()
+                tile11.x = this.tileLocX - 1
+                tile11.y = this.tileLocY
+                this.hitTiles.push(tile11)
+                // Top Left Tile 
+                let tile12 = new Math.Vector2()
+                tile12.x = this.tileLocX - 1
+                tile12.y = this.tileLocY - 1
+                this.hitTiles.push(tile12)
+                // Top Middle Tile 
+                let tile13 = new Math.Vector2()
+                tile13.x = this.tileLocX
+                tile13.y = this.tileLocY - 1
+                this.hitTiles.push(tile13)
+                // Top Right Tile 
+                let tile14 = new Math.Vector2()
+                tile14.x = this.tileLocX + 1
+                tile14.y = this.tileLocY + 1
+                this.hitTiles.push(tile14)
+                // Right Tile 
+                let tile15 = new Math.Vector2()
+                tile15.x = this.tileLocX - 1
+                tile15.y = this.tileLocY
+                this.hitTiles.push(tile15)
+                break
             case "RIGHT":
-                                // Grab tiles
-               // Left Tile 
-               let tile16 = new Math.Vector2()
-               tile16.x = this.tileLocX - 1;
-               tile16.y = this.tileLocY;
-               this.hitTiles.push(tile16)
-               // Top Left Tile 
-               let tile17 = new Math.Vector2()
-               tile17.x = this.tileLocX - 1;
-               tile17.y = this.tileLocY - 1;
-               this.hitTiles.push(tile17)
-               // Top Middle Tile 
-               let tile18 = new Math.Vector2()
-               tile18.x = this.tileLocX;
-               tile18.y = this.tileLocY - 1;
-               this.hitTiles.push(tile18)
-               // Top Right Tile 
-               let tile19 = new Math.Vector2()
-               tile19.x = this.tileLocX + 1;
-               tile19.y = this.tileLocY + 1;
-               this.hitTiles.push(tile19)
-               // Right Tile 
-               let tile20 = new Math.Vector2()
-               tile20.x = this.tileLocX - 1;
-               tile20.y = this.tileLocY;
-               this.hitTiles.push(tile20)
-                break;
+                // Left Tile 
+                let tile16 = new Math.Vector2()
+                tile16.x = this.tileLocX - 1
+                tile16.y = this.tileLocY
+                this.hitTiles.push(tile16)
+                // Top Left Tile 
+                let tile17 = new Math.Vector2()
+                tile17.x = this.tileLocX - 1
+                tile17.y = this.tileLocY - 1
+                this.hitTiles.push(tile17)
+                // Top Middle Tile 
+                let tile18 = new Math.Vector2()
+                tile18.x = this.tileLocX
+                tile18.y = this.tileLocY - 1
+                this.hitTiles.push(tile18)
+                // Top Right Tile 
+                let tile19 = new Math.Vector2()
+                tile19.x = this.tileLocX + 1
+                tile19.y = this.tileLocY + 1
+                this.hitTiles.push(tile19)
+                // Right Tile 
+                let tile20 = new Math.Vector2()
+                tile20.x = this.tileLocX - 1
+                tile20.y = this.tileLocY
+                this.hitTiles.push(tile20)
+                break
         }
         for(let tile of this.hitTiles)
             {
@@ -449,66 +435,61 @@ class Room extends Phaser.Scene {
             }
 
     }
-    recalculate_paths(enemy=null)
-    {
+    recalculate_paths(enemy=null) {
+        this.wiggleX = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
+        this.wiggleY = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
         //console.log(this.tweens.tweens)
-        if (enemy == null)
-        {
+        if (enemy == null) {
             switch (this.player.room) {
                 case this.ROOMS.COURTYARD:
                     for (let enemy of this.enemyArr1) {
-                        if(!enemy.isMoving)
-                        {
+                        if(!enemy.isMoving) {
                             // Calculate distance from player to enemy, if theyre out of range, dont bother
-                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
-                            if (enemy.room != this.player.room) continue;
+                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                            if (enemy.room != this.player.room) continue
                             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
                             this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
                             this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
-                            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX+this.wiggleX, this.playerLocY+this.wiggleY)
                         }
                     }
-                    break;
+                    break
                 case this.ROOMS.CASTLE:
                     for (let enemy of this.enemyArr2) {
-                        if(!enemy.isMoving)
-                        {
-                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
-                        if (enemy.room != this.player.room) continue;
+                        if(!enemy.isMoving) {
+                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                        if (enemy.room != this.player.room) continue
                         this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                         this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
                         this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
                         this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
-                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX+this.wiggleX, this.playerLocY+this.wiggleY)
                         }
                     }
-                    break;
+                    break
                 case this.ROOMS.DUNGEON:
                     for (let enemy of this.enemyArr3) {
-                        if(!enemy.isMoving)
-                        {
-                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue;
-                        if (enemy.room != this.player.room) continue;
+                        if(!enemy.isMoving) {
+                        if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                        if (enemy.room != this.player.room) continue
                         this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                         this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
                         this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
                         this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
-                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+                        enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX+this.wiggleX, this.playerLocY+this.wiggleY)
                         }
                     }
-                    break;
+                    break
             }
-        }
-        else
-        {
-            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) return;
-            if (enemy.room != this.player.room) return;
+        } else {
+            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) return
+            if (enemy.room != this.player.room) return
             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
             this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
             this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
-            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX+this.wiggleX, this.playerLocY+this.wiggleY)
         }
     }
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
@@ -548,34 +529,24 @@ class Room extends Phaser.Scene {
     }
 
     // ---------------------------------------------------------------------------------- ENEMY SPAWNING
-    spawn_enemies()
-    {
+    spawn_enemies() {
         // Gather possible spawn points for each room
         let room1_spawns = []
         let room2_spawns = []
         let room3_spawns = []
-        this.spawnLayer.forEachTile((tile) => 
-        {
+        this.spawnLayer.forEachTile((tile) => {
             //console.log(tile)
-            if(tile && tile.index != -1)
-                {
-                    if(tile.properties.room == 1)
-                        {
-                            room1_spawns.push(tile)                   
-                        }
-                    else if(tile.properties.room == 2)
-                        {
-                            room2_spawns.push(tile)                   
-                        }
-                    else if(tile.properties.room == 3)
-                        {
-                            room3_spawns.push(tile)                   
-                        }
-                    else
-                    {
-                        console.warn("Grabbed bad tile in spawn enemies function...")
-                    }
+            if(tile && tile.index != -1) {
+                if(tile.properties.room == 1) {
+                    room1_spawns.push(tile)                   
+                } else if(tile.properties.room == 2) {
+                    room2_spawns.push(tile)                   
+                } else if(tile.properties.room == 3) {
+                    room3_spawns.push(tile)                   
+                } else {
+                    console.warn("Grabbed bad tile in spawn enemies function...")
                 }
+            }
         })
         // Figure out number of enemies to spawn in each room
         // TODO: ADJUST SCALE OF ENEMY COUNT
@@ -585,62 +556,52 @@ class Room extends Phaser.Scene {
         // Pull that number of random indices from the arrays and store them in arrays
         
         let room1_points = []
-        for(let i = 0; i < room1_count; i+=1)
-            {
-                let index = Math.floor(Math.random() * room1_spawns.length-1)
-                room1_points.push(room1_spawns[index])
-            }
+        for(let i = 0; i < room1_count; i+=1) {
+            let index = Math.floor(Math.random() * room1_spawns.length-1)
+            room1_points.push(room1_spawns[index])
+        }
         let room2_points = []
-        for(let i = 0; i < room2_count; i+=1)
-            {
-                let index = Math.floor(Math.random() * room2_spawns.length-1)
-                room2_points.push(room2_spawns[index])
-            }
+        for(let i = 0; i < room2_count; i+=1) {
+            let index = Math.floor(Math.random() * room2_spawns.length-1)
+            room2_points.push(room2_spawns[index])
+        }
         let room3_points = []
-        for(let i = 0; i < room3_count; i+=1)
-            {
-                let index = Math.floor(Math.random() * room3_spawns.length-1)
-                room3_points.push(room3_spawns[index])
-            }
+        for(let i = 0; i < room3_count; i+=1) {
+            let index = Math.floor(Math.random() * room3_spawns.length-1)
+            room3_points.push(room3_spawns[index])
+        }
 
         //console.log("ROOM 1 SPAWNS: ", room1_points)
         //console.log("ROOM 2 SPAWNS: ", room2_points)
         //console.log("ROOM 3 SPAWNS: ", room3_points)
         // Spawn an enemy at each of the tile's locations
-        for(let tile of room1_points)
-            {
-                if(!tile) continue;
-                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
-                //console.log(worldCoord)
-                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.COURTYARD).setOrigin(0)
-                enemy.anims.play('yellow')
-                // Load enemies into array so that their pathfinding can be generalized
-                this.enemyArr1.push(enemy)
-
-            }
-        for(let tile of room2_points)
-            {
-                if(!tile) continue;
-                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
-                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
-                enemy.anims.play('yellow')
-                // Load enemies into array so that their pathfinding can be generalized
-                this.enemyArr2.push(enemy)
-
-            }
-        for(let tile of room3_points)
-            {
-                if(!tile) continue;
-                let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
-                var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.DUNGEON).setOrigin(0)
-                enemy.anims.play('yellow')
-                // Load enemies into array so that their pathfinding can be generalized
-                this.enemyArr3.push(enemy)
-            }
-
+        for(let tile of room1_points) {
+            if(!tile) continue
+            let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+            //console.log(worldCoord)
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.COURTYARD).setOrigin(0)
+            enemy.anims.play('yellow')
+            // Load enemies into array so that their pathfinding can be generalized
+            this.enemyArr1.push(enemy)
+        }
+        for(let tile of room2_points) {
+            if(!tile) continue
+            let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
+            enemy.anims.play('yellow')
+            // Load enemies into array so that their pathfinding can be generalized
+            this.enemyArr2.push(enemy)
+        }
+        for(let tile of room3_points) {
+            if(!tile) continue
+            let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.DUNGEON).setOrigin(0)
+            enemy.anims.play('yellow')
+            // Load enemies into array so that their pathfinding can be generalized
+            this.enemyArr3.push(enemy)
+        }
     } 
-    enemy_ai()
-    {
+    enemy_ai() {
         switch (this.player.room) {
             case 1:
                 for (let enemy of this.enemyArr1) {
@@ -650,49 +611,46 @@ class Room extends Phaser.Scene {
                         this.recalculate_paths(enemy)
                     }
                 }
-                break;
+                break
             case 2:
                 for (let enemy of this.enemyArr2) {
                     if (!enemy.isMoving) {
                         this.recalculate_paths(enemy)
                     }
                 }
-                break;
+                break
             case 3:
                 for (let enemy of this.enemyArr3) {
                     if (!enemy.isMoving) {
                         this.recalculate_paths(enemy)
                     }
                 }
-                break;
+                break
         }
     }
-   enemy_flip()
-    {
+   enemy_flip() {
         switch (this.player.room) {
             case 1:
-
                 for (let enemy of this.enemyArr1) {
                     if (enemy.isMoving) {
-                        enemy.isMoving = false;
+                        enemy.isMoving = false
                     }
-                
                 }
-                break;
+                break
             case 2:
                 for (let enemy of this.enemyArr2) {
                     if (enemy.isMoving) {
-                        enemy.isMoving = false;
+                        enemy.isMoving = false
                     }
                 }
-                break;
+                break
             case 3:
                 for (let enemy of this.enemyArr3) {
                     if (enemy.isMoving) {
-                        enemy.isMoving = false;
+                        enemy.isMoving = false
                     }
                 }
-                break;
+                break
         }
     }
     // ---------------------------------------------------------------------------------- DEV TOOLS
