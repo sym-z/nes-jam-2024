@@ -104,7 +104,12 @@ class Room extends Phaser.Scene {
         this.enemyArr1 = []
         this.enemyArr2 = []
         this.enemyArr3 = []
-        
+       /* this.time.addEvent({
+            delay:3000,
+            callback: this.enemy_flip,
+            callbackScope:this,
+            loop:true
+        })*/
         this.spawn_enemies()
         
     }
@@ -116,6 +121,7 @@ class Room extends Phaser.Scene {
         this.magic()
         // dev tools
         this.devRoom()
+        this.enemy_ai();
     }
 
     // ----------------------------------------------------------------------------- COMBAT HELPERS
@@ -192,7 +198,7 @@ class Room extends Phaser.Scene {
                     this.move(LEFT, this.wallsLayer, true)
                 }
             }
-            this.recalculate_paths();
+            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
@@ -207,7 +213,7 @@ class Room extends Phaser.Scene {
                     this.move(RIGHT, this.wallsLayer, true)
                 }
             }
-            this.recalculate_paths();
+            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
@@ -222,7 +228,7 @@ class Room extends Phaser.Scene {
                     this.move(UP, this.wallsLayer, true)
                 }
             }
-            this.recalculate_paths();
+            //this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
@@ -237,7 +243,7 @@ class Room extends Phaser.Scene {
                     this.move(DOWN, this.wallsLayer, true)
                 }
             }
-            this.recalculate_paths();
+            //this.recalculate_paths();
         }
     }
     // This function takes in the input from the handlers in create and moves the player
@@ -287,10 +293,10 @@ class Room extends Phaser.Scene {
                 break
         }
     }
-    recalculate_paths()
+    recalculate_paths(enemy=null)
     {
-        console.log(this.tweens.tweens)
-        if (!this.tweens.processing)
+        //console.log(this.tweens.tweens)
+        if (enemy == null)
         {
             switch (this.player.room) {
                 case this.ROOMS.COURTYARD:
@@ -338,6 +344,16 @@ class Room extends Phaser.Scene {
                     break;
             }
         }
+        else
+        {
+            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) return;
+            if (enemy.room != this.player.room) return;
+            this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
+            this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
+            this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
+            this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
+            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+        }
     }
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
     // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
@@ -372,7 +388,7 @@ class Room extends Phaser.Scene {
         // Move camera based on argument
         this.cameras.main.scrollX += deltaX
         this.cameras.main.scrollY += deltaY
-        console.log(this.player.room)
+        //console.log(this.player.room)
     }
 
     // ---------------------------------------------------------------------------------- ENEMY SPAWNING
@@ -384,7 +400,7 @@ class Room extends Phaser.Scene {
         let room3_spawns = []
         this.spawnLayer.forEachTile((tile) => 
         {
-            console.log(tile)
+            //console.log(tile)
             if(tile && tile.index != -1)
                 {
                     if(tile.properties.room == 1)
@@ -431,14 +447,15 @@ class Room extends Phaser.Scene {
                 room3_points.push(room3_spawns[index])
             }
 
-        console.log("ROOM 1 SPAWNS: ", room1_points)
-        console.log("ROOM 2 SPAWNS: ", room2_points)
-        console.log("ROOM 3 SPAWNS: ", room3_points)
+        //console.log("ROOM 1 SPAWNS: ", room1_points)
+        //console.log("ROOM 2 SPAWNS: ", room2_points)
+        //console.log("ROOM 3 SPAWNS: ", room3_points)
         // Spawn an enemy at each of the tile's locations
         for(let tile of room1_points)
             {
+                if(!tile) continue;
                 let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
-                console.log(worldCoord)
+                //console.log(worldCoord)
                 var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.COURTYARD).setOrigin(0)
                 enemy.anims.play('yellow')
                 // Load enemies into array so that their pathfinding can be generalized
@@ -447,6 +464,7 @@ class Room extends Phaser.Scene {
             }
         for(let tile of room2_points)
             {
+                if(!tile) continue;
                 let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
                 var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
                 enemy.anims.play('yellow')
@@ -456,15 +474,71 @@ class Room extends Phaser.Scene {
             }
         for(let tile of room3_points)
             {
+                if(!tile) continue;
                 let worldCoord = this.tile_to_world(tile.x,tile.y,this.spawnLayer)
                 var enemy = new Enemy(this, worldCoord.x, worldCoord.y,this.finder,this.map,this.ROOMS.DUNGEON).setOrigin(0)
                 enemy.anims.play('yellow')
                 // Load enemies into array so that their pathfinding can be generalized
                 this.enemyArr3.push(enemy)
-                console.log(enemy.x,enemy.y)
             }
 
     } 
+    enemy_ai()
+    {
+        switch (this.player.room) {
+            case 1:
+                for (let enemy of this.enemyArr1) {
+                //console.log(enemy.isMoving)
+                    //console.log(enemy.isMoving)
+                    if (!enemy.isMoving) {
+                        this.recalculate_paths(enemy)
+                    }
+                }
+                break;
+            case 2:
+                for (let enemy of this.enemyArr2) {
+                    if (!enemy.isMoving) {
+                        this.recalculate_paths(enemy)
+                    }
+                }
+                break;
+            case 3:
+                for (let enemy of this.enemyArr3) {
+                    if (!enemy.isMoving) {
+                        this.recalculate_paths(enemy)
+                    }
+                }
+                break;
+        }
+    }
+   enemy_flip()
+    {
+        switch (this.player.room) {
+            case 1:
+
+                for (let enemy of this.enemyArr1) {
+                    if (enemy.isMoving) {
+                        enemy.isMoving = false;
+                    }
+                
+                }
+                break;
+            case 2:
+                for (let enemy of this.enemyArr2) {
+                    if (enemy.isMoving) {
+                        enemy.isMoving = false;
+                    }
+                }
+                break;
+            case 3:
+                for (let enemy of this.enemyArr3) {
+                    if (enemy.isMoving) {
+                        enemy.isMoving = false;
+                    }
+                }
+                break;
+        }
+    }
     // ---------------------------------------------------------------------------------- DEV TOOLS
     // all dev controls taken care of in room
     devRoom() {

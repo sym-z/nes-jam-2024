@@ -17,6 +17,7 @@
 - [x] **Movement Fix** 06-14-2023
 - [ ] **Font**
 - [x] **A Star Pathfinding**
+- [ ] **Enemies collide with eachother**
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**

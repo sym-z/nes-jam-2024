@@ -26,16 +26,18 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // How fast the tweens transition
         // HIGHER NUMBER = SLOWER ENEMY
         this.speed = 300
+        
+        this.isMoving = false;
     }
     // Calculates path and moves to destination
     find_path(fromX, fromY, toX, toY) {
-        console.log('going from (' + fromX + ',' + fromY + ') to (' + toX + ',' + toY + ')');
+        if(fromX == toX && fromY == toY) return
+        //console.log('going from (' + fromX + ',' + fromY + ') to (' + toX + ',' + toY + ')');
         this.finder.findPath(fromX, fromY, toX, toY, (path) => {
             if (path == null) {
                 console.warn("No path found...")
             }
             else {
-                console.log(path)
                 this.move(path)
             }
         })
@@ -45,10 +47,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // Reference to the current object
         const enemy = this;
         // Ensure only one chain is running at a time
-        if (this.isMoving) {
+        if (enemy.isMoving) {
             return;
         }
-        this.isMoving = true;
+        enemy.isMoving = true;
 
         // Create the list of tween configurations in world coordinates
         var tweens = [];
@@ -58,9 +60,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             var ex = path[i + 1].x;
             var ey = path[i + 1].y;
             tweens.push({
-                x: ex * this.map.tileWidth,
-                y: ey * this.map.tileHeight,
-                duration: this.speed
+                x: ex * enemy.map.tileWidth,
+                y: ey * enemy.map.tileHeight,
+                duration: enemy.speed
             });
         }
 
@@ -71,6 +73,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
        
         // Helper function to create and play tweens in sequence
         function playTweens(tweenConfigs, index = 0) {
+            //console.log(index)
+            //console.log(tweenConfigs.length)
             if (index >= tweenConfigs.length) {
                 // All tweens have completed
                 console.log('All tweens completed!');
