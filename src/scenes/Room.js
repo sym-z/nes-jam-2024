@@ -13,8 +13,10 @@ class Room extends Phaser.Scene {
         this.PLAYERDIRECT = 'down'
         this.OCCUPIED = false
         // temp initial enemy coords
-        this.ENEMYX = (this.SCREENX/2)+tileSize
-        this.ENEMYY = (this.SCREENY/2)+tileSize
+        //this.ENEMYX = (this.SCREENX/2)+tileSize
+        //this.ENEMYY = (this.SCREENY/2)+tileSize
+        this.ENEMYX = 8  
+        this.ENEMYY = 8
     }
 
     create() {
@@ -37,6 +39,8 @@ class Room extends Phaser.Scene {
         this.tilesetArr.push(this.rugTileset)
         this.waterTileset = this.map.addTilesetImage('water', 'waterPNG')
         this.tilesetArr.push(this.waterTileset)
+        this.navTileset = this.map.addTilesetImage('nav_layer', 'navPNG')
+        this.tilesetArr.push(this.navTileset)
         // background layer
         this.backgroundLayer = this.map.createLayer('Background', this.tilesetArr, 0, 0)
         this.backgroundLayer.setCollisionByProperty({ collides: true })
@@ -46,11 +50,37 @@ class Room extends Phaser.Scene {
         // foreground layer
         this.foregroundLayer = this.map.createLayer('Foreground', this.tilesetArr, 0, 0)
         this.foregroundLayer.setCollisionByProperty({ collides: true })
+        // enemy navigation layer
+        this.navLayer = this.map.createLayer('Nav', this.tilesetArr, 0, 0)
+        this.navLayer.setCollisionByProperty({ collides: true })
+        this.navLayer.visible = false;
+        // ------------------------------------------------------------------------- PATHFINDING SETUP
+        this.grid = []
+        for (let y = 0; y < this.map.height; y+=1)
+            {
+                this.grid[y] = [];
+            }
+        for (let y = 0; y < this.map.height; y+=1)
+            {
+             for (let x = 0; x < this.map.width; x+=1)   
+                {
+                    let tile = this.navLayer.getTileAt(x,y)
+                    if(tile) this.grid[y][x] = tile.index
+                }
+            }
+        console.log(this.grid)
+        this.walkables = [62];
+        this.finder = new EasyStar.js()
+        this.finder.setGrid(this.grid)
+        this.finder.setAcceptableTiles(this.walkables)
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
-        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY).setOrigin(0)
+        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY,this.finder,this.map).setOrigin(0)
         this.enemy.anims.play('yellow')
+        this.enemyArr = []
+        this.enemyArr.push(this.enemy)
+        
     }
 
     update() {
@@ -136,6 +166,7 @@ class Room extends Phaser.Scene {
                     this.move(LEFT, this.wallsLayer, true)
                 }
             }
+            this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(RIGHT)) {
             this.move(RIGHT, this.wallsLayer, false)
@@ -150,6 +181,7 @@ class Room extends Phaser.Scene {
                     this.move(RIGHT, this.wallsLayer, true)
                 }
             }
+            this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(UP)) {
             this.move(UP, this.wallsLayer, false)
@@ -164,6 +196,7 @@ class Room extends Phaser.Scene {
                     this.move(UP, this.wallsLayer, true)
                 }
             }
+            this.recalculate_paths();
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
@@ -178,6 +211,7 @@ class Room extends Phaser.Scene {
                     this.move(DOWN, this.wallsLayer, true)
                 }
             }
+            this.recalculate_paths();
         }
     }
     // This function takes in the input from the handlers in create and moves the player
@@ -227,7 +261,18 @@ class Room extends Phaser.Scene {
                 break
         }
     }
-
+    recalculate_paths()
+    {
+        for (let enemy of this.enemyArr)
+        {
+            this.tweens.killAll()
+            this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
+            this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
+            this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
+            this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
+            enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX, this.playerLocY)
+        }
+    }
     // ---------------------------------------------------------------------- CAMERA MOVEMENT CODE
     // Moves camera based on direction given as a parameter, (LEFT,RIGHT,UP,DOWN)
     move_cam(direction) {
