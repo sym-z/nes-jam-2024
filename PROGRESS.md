@@ -16,7 +16,7 @@
 - [x] **Item Shop Setup** 06-14-2023
 - [x] **Movement Fix** 06-14-2023
 - [ ] **Font**
-- [ ] **A Star Pathfinding**
+- [x] **A Star Pathfinding**
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**
