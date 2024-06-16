@@ -13,8 +13,6 @@ class Room extends Phaser.Scene {
         this.PLAYERDIRECT = 'down'
         this.OCCUPIED = false
         // temp initial enemy coords
-        //this.ENEMYX = (this.SCREENX/2)+tileSize
-        //this.ENEMYY = (this.SCREENY/2)+tileSize
         this.ENEMYX = 300  
         this.ENEMYY = 8
         // Enemy will detect you if you are 8 tiles away
@@ -103,12 +101,6 @@ class Room extends Phaser.Scene {
         this.enemyArr1 = []
         this.enemyArr2 = []
         this.enemyArr3 = []
-       /* this.time.addEvent({
-            delay:3000,
-            callback: this.enemy_flip,
-            callbackScope:this,
-            loop:true
-        })*/
         this.spawn_enemies()
         
     }
@@ -131,11 +123,13 @@ class Room extends Phaser.Scene {
             this.OCCUPIED = true
             // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
             if (Math.floor(Math.random() * 100) < UPGRADES[5][1]) {
+                this.grab_facing_tiles()
                 var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'crit').setOrigin(0).play(this.PLAYERDIRECT+'Crit').once('animationcomplete', () => {
                     anim.destroy()
                     this.time.delayedCall(50, () => { this.OCCUPIED = false })
                 })
             } else {
+                this.grab_facing_tiles()
                 var anim = this.add.sprite(this.player.x-tileSize, this.player.y-tileSize, 'attack').setOrigin(0).play(this.PLAYERDIRECT+'Attack').once('animationcomplete', () => {
                     anim.destroy()
                     this.time.delayedCall(50, () => { this.OCCUPIED = false })
@@ -148,6 +142,7 @@ class Room extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false) {
             // prevent player from moving
             this.OCCUPIED = true
+            this.grab_facing_tiles()
             var anim = this.add.sprite(this.player.x-tileSize-1, this.player.y-tileSize-1, 'magic').setOrigin(0).play(this.PLAYERDIRECT+'Magic').once('animationcomplete', () => {
                 anim.destroy()
                 this.time.delayedCall(50, () => { this.OCCUPIED = false })
@@ -290,7 +285,7 @@ class Room extends Phaser.Scene {
         }
     }
     // Grabs tiles that are part of the player's attack's hitbox
-    grab_facing_tiles(facing) {
+    grab_facing_tiles() {
         // GOING TO BE GRABBING 5 TILES
         // List of tiles hit
         this.hitTiles = []
@@ -310,132 +305,134 @@ class Room extends Phaser.Scene {
             this.enemyList = this.enemyArr3
         }
         // Based on where we are looking, grab the proper tiles
-        switch(facing) {
-            case "UP":
+        switch(this.PLAYERDIRECT) {
+            case 'up':
                 // Grab tiles
                 // Left Tile 
-                let tile1 = new Math.Vector2()
+                let tile1 = new Phaser.Math.Vector2()
                 tile1.x = this.tileLocX - 1
                 tile1.y = this.tileLocY
                 this.hitTiles.push(tile1)
                 // Top Left Tile 
-                let tile2 = new Math.Vector2()
+                let tile2 = new Phaser.Math.Vector2()
                 tile2.x = this.tileLocX - 1
                 tile2.y = this.tileLocY - 1
                 this.hitTiles.push(tile2)
                 // Top Middle Tile 
-                let tile3 = new Math.Vector2()
+                let tile3 = new Phaser.Math.Vector2()
                 tile3.x = this.tileLocX
                 tile3.y = this.tileLocY - 1
                 this.hitTiles.push(tile3)
                 // Top Right Tile 
-                let tile4 = new Math.Vector2()
+                let tile4 = new Phaser.Math.Vector2()
                 tile4.x = this.tileLocX + 1
                 tile4.y = this.tileLocY - 1
                 this.hitTiles.push(tile4)
                 // Right Tile 
-                let tile5 = new Math.Vector2()
+                let tile5 = new Phaser.Math.Vector2()
                 tile5.x = this.tileLocX + 1
                 tile5.y = this.tileLocY
                 this.hitTiles.push(tile5)
                 break
-            case "DOWN": //TODO: FINISH UP HERE
+            case 'down': //TODO: FINISH UP HERE
                 // Left Tile 
-                let tile6 = new Math.Vector2()
+                let tile6 = new Phaser.Math.Vector2()
                 tile6.x = this.tileLocX - 1
                 tile6.y = this.tileLocY
                 this.hitTiles.push(tile6)
                 // Bottom Left Tile 
-                let tile7 = new Math.Vector2()
+                let tile7 = new Phaser.Math.Vector2()
                 tile7.x = this.tileLocX - 1
                 tile7.y = this.tileLocY + 1
                 this.hitTiles.push(tile7)
                 // Bottom Middle Tile 
-                let tile8 = new Math.Vector2()
+                let tile8 = new Phaser.Math.Vector2()
                 tile8.x = this.tileLocX
                 tile8.y = this.tileLocY + 1
                 this.hitTiles.push(tile8)
                 // Bottom Right Tile 
-                let tile9 = new Math.Vector2()
+                let tile9 = new Phaser.Math.Vector2()
                 tile9.x = this.tileLocX + 1
                 tile9.y = this.tileLocY + 1
                 this.hitTiles.push(tile9)
                 // Right Tile 
-                let tile10 = new Math.Vector2()
+                let tile10 = new Phaser.Math.Vector2()
                 tile10.x = this.tileLocX + 1
                 tile10.y = this.tileLocY
                 this.hitTiles.push(tile10)
                 break
-            case "LEFT":
+            case 'left':
                 // Left Tile 
-                let tile11 = new Math.Vector2()
+                let tile11 = new Phaser.Math.Vector2()
                 tile11.x = this.tileLocX - 1
                 tile11.y = this.tileLocY
                 this.hitTiles.push(tile11)
                 // Top Left Tile 
-                let tile12 = new Math.Vector2()
+                let tile12 = new Phaser.Math.Vector2()
                 tile12.x = this.tileLocX - 1
                 tile12.y = this.tileLocY - 1
                 this.hitTiles.push(tile12)
                 // Top Middle Tile 
-                let tile13 = new Math.Vector2()
+                let tile13 = new Phaser.Math.Vector2()
                 tile13.x = this.tileLocX
                 tile13.y = this.tileLocY - 1
                 this.hitTiles.push(tile13)
                 // Top Right Tile 
-                let tile14 = new Math.Vector2()
+                let tile14 = new Phaser.Math.Vector2()
                 tile14.x = this.tileLocX + 1
                 tile14.y = this.tileLocY + 1
                 this.hitTiles.push(tile14)
                 // Right Tile 
-                let tile15 = new Math.Vector2()
+                let tile15 = new Phaser.Math.Vector2()
                 tile15.x = this.tileLocX - 1
                 tile15.y = this.tileLocY
                 this.hitTiles.push(tile15)
                 break
-            case "RIGHT":
+            case 'right':
                 // Left Tile 
-                let tile16 = new Math.Vector2()
+                let tile16 = new Phaser.Math.Vector2()
                 tile16.x = this.tileLocX - 1
                 tile16.y = this.tileLocY
                 this.hitTiles.push(tile16)
                 // Top Left Tile 
-                let tile17 = new Math.Vector2()
+                let tile17 = new Phaser.Math.Vector2()
                 tile17.x = this.tileLocX - 1
                 tile17.y = this.tileLocY - 1
                 this.hitTiles.push(tile17)
                 // Top Middle Tile 
-                let tile18 = new Math.Vector2()
+                let tile18 = new Phaser.Math.Vector2()
                 tile18.x = this.tileLocX
                 tile18.y = this.tileLocY - 1
                 this.hitTiles.push(tile18)
                 // Top Right Tile 
-                let tile19 = new Math.Vector2()
+                let tile19 = new Phaser.Math.Vector2()
                 tile19.x = this.tileLocX + 1
                 tile19.y = this.tileLocY + 1
                 this.hitTiles.push(tile19)
                 // Right Tile 
-                let tile20 = new Math.Vector2()
+                let tile20 = new Phaser.Math.Vector2()
                 tile20.x = this.tileLocX - 1
                 tile20.y = this.tileLocY
                 this.hitTiles.push(tile20)
                 break
         }
-        for(let tile of this.hitTiles)
-            {
-                for(let enemy of this.enemyList)
-                    {
-                        let eTileX = this.world_to_tile(this.enemy.x,this.enemy.y,this.backgroundLayer).x
-                        let eTiley = this.world_to_tile(this.enemy.x,this.enemy.y,this.backgroundLayer).y
-                        if(tile.x == eTileX && tile.y == eTileY)
-                            {
-                                console.log("HIT ENEMY: ", enemy)
-                            }
+        for (let tile of this.hitTiles) {
+            console.log('something is happening')
+            for (let enemy of this.enemyList) {
+                let eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
+                let eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
+                if(tile.x == eTileX && tile.y == eTileY) {
+                    // play enemy hurt anims
+                    enemy.HP -= 1
+                    if (enemy.HP <= 0) {
+                        enemy.destroy()
                     }
+                }
             }
-
+        }
     }
     recalculate_paths(enemy=null) {
+        // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
         this.wiggleX = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
         this.wiggleY = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
         //console.log(this.tweens.tweens)
