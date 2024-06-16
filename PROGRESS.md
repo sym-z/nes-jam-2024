@@ -8,16 +8,19 @@
 - [x] **Holding a Directional Input Uses "Turbo" After a Few Seconds** 6-12-2024
 - [x] **Room-Based Camera Movement** 6-11-2024
 - [x] **Local Storage Setup** 06-11-2024 
-- [ ] **Enemies**
+- [ ] **Enemies** 06-15-2024
 - [x] **Player Animations** 06-12-2024
-- [ ] **Enemy Spawner Tiles**
+- [ ] **Enemy Spawner Tiles** 06-16-2024
 - [ ] **Wave Based Difficulty**
-- [ ] **Polish Level Design**
+- [ ] **Polish Level Design** 06-15-2024
 - [x] **Item Shop Setup** 06-14-2023
 - [x] **Movement Fix** 06-14-2023
-- [ ] **Font**
-- [x] **A Star Pathfinding**
-- [ ] **Enemies collide with eachother**
+- [x] **Font** 06-15-2024
+- [x] **A Star Pathfinding** 06-16-2024
+- [ ] **Tile Grabbing Function for Attacking Enemies** [JACK]
+- [ ] **Enemies collide with eachother** [JACK]
+- [ ] **Enemies can attack the player** [JACK]
+- [ ] **Player can attack enemies** [JACK]
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**
