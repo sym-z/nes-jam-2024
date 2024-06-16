@@ -1,5 +1,5 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y,finder,map) {
+    constructor(scene, x, y,finder,map, room) {
         super(scene, x, y, 'temp')
 
         // body
@@ -18,6 +18,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.finder = finder
         this.map = map
         this.parent = scene
+        this.room = room
         this.speed = 150
     }
     find_path(fromX,fromY,toX,toY)

@@ -15,7 +15,7 @@ class Room extends Phaser.Scene {
         // temp initial enemy coords
         //this.ENEMYX = (this.SCREENX/2)+tileSize
         //this.ENEMYY = (this.SCREENY/2)+tileSize
-        this.ENEMYX = 8  
+        this.ENEMYX = 300  
         this.ENEMYY = 8
     }
 
@@ -55,6 +55,13 @@ class Room extends Phaser.Scene {
         this.navLayer.setCollisionByProperty({ collides: true })
         this.navLayer.visible = false;
         // ------------------------------------------------------------------------- PATHFINDING SETUP
+        this.ROOMS = 
+        {
+            ITEMSHOP: 0,
+            COURTYARD: 1,
+            CASTLE: 2,
+            DUNGEON: 3
+        }
         this.grid = []
         for (let y = 0; y < this.map.height; y+=1)
             {
@@ -76,7 +83,8 @@ class Room extends Phaser.Scene {
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
-        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY,this.finder,this.map).setOrigin(0)
+        this.player.set_room(this.ROOMS.COURTYARD)
+        this.enemy = new Enemy(this, this.ENEMYX, this.ENEMYY,this.finder,this.map,this.ROOMS.CASTLE).setOrigin(0)
         this.enemy.anims.play('yellow')
         this.enemyArr = []
         this.enemyArr.push(this.enemy)
@@ -265,6 +273,7 @@ class Room extends Phaser.Scene {
     {
         for (let enemy of this.enemyArr)
         {
+            if (enemy.room != this.player.room) continue;
             this.tweens.killAll()
             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
@@ -280,17 +289,25 @@ class Room extends Phaser.Scene {
         let deltaX = 0
         let deltaY = 0
         switch (direction) {
+            // Moving from CASTLE to COURTYARD
             case 'LEFT':
                 deltaX = -this.SCREENX
+                this.player.room = this.ROOMS.COURTYARD
                 break
+            // Moving from COURTYARD to CASTLE 
             case 'RIGHT':
                 deltaX = this.SCREENX
+                this.player.room = this.ROOMS.CASTLE
                 break
+            // Moving from DUNGEON to CASTLE 
             case 'UP':
                 deltaY = -this.SCREENY
+                this.player.room = this.ROOMS.CASTLE
                 break
+            // Moving from CASTLE to DUNGEON 
             case 'DOWN':
                 deltaY = this.SCREENY
+                this.player.room = this.ROOMS.DUNGEON
                 break
             default:
                 break
@@ -298,6 +315,7 @@ class Room extends Phaser.Scene {
         // Move camera based on argument
         this.cameras.main.scrollX += deltaX
         this.cameras.main.scrollY += deltaY
+        console.log(this.player.room)
     }
 
     // ---------------------------------------------------------------------------------- DEV TOOLS

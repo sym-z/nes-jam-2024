@@ -18,9 +18,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // This will be a multiplied into the move function,
             // The player moves (movementSpeed * 1 Tile) every input press.
         this.movementSpeed = 1
+        this.room = 0;
 
         // This is the amount of additional hops that take place to offset the player
             // from the door when they enter the room
         this.transitionOffset = 3
+    }
+    set_room(room)
+    {
+        this.room = room;
     }
 }
