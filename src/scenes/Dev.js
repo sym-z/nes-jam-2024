@@ -88,6 +88,9 @@ class Dev extends Phaser.Scene {
             LEVEL = this.DEFAULTLEVEL; RICHES = this.DEFAULTLRICHES; UPGRADES = this.DEFAULTUPGRADES
             this.devUI.setText('level: ' + LEVEL + ' riches: ' + RICHES)
             this.playerLog()
+            this.scene.stop('itemShopScene')
+            this.scene.stop('roomScene')
+            this.scene.start('reloadScene')
         }
         // edit riches
         if (cursors.shift.isDown && Phaser.Input.Keyboard.JustDown(cursors.up)) {
