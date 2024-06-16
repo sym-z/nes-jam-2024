@@ -1,5 +1,5 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, finder, map, room) {
+    constructor(scene, x, y, finder, map, room, color) {
         super(scene, x, y, 'temp')
 
         // body
@@ -17,6 +17,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         // combat
         this.maxHP = (LEVEL*2)+2
         this.HP = (LEVEL*2)+2
+        this.color = color
 
         // for pathfinding
         // Easystar reference

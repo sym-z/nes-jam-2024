@@ -27,6 +27,8 @@ class Load extends Phaser.Scene {
         // load spritesheets
         this.load.spritesheet('wiz', './assets/spritesheets/wiz-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
         this.load.spritesheet('temp', './assets/spritesheets/temp-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
+        this.load.spritesheet('wizHurt', './assets/spritesheets/hurt-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
+        this.load.spritesheet('tempHurt', './assets/spritesheets/damaged-Sheet.png', { frameWidth: tileSize, frameHeight: tileSize })
         // load attack spritesheets
         this.load.spritesheet('attack', './assets/spritesheets/attack-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
         this.load.spritesheet('crit', './assets/spritesheets/crit-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
@@ -62,6 +64,17 @@ class Load extends Phaser.Scene {
         this.anims.create({ key: 'downMagic', frames: this.anims.generateFrameNames('magic', { start: 14, end: 27 }), frameRate: 20, repeat: 0 })
         this.anims.create({ key: 'leftMagic', frames: this.anims.generateFrameNames('magic', { start: 28, end: 41 }), frameRate: 20, repeat: 0 })
         this.anims.create({ key: 'upMagic', frames: this.anims.generateFrameNames('magic', { start: 42, end: 55 }), frameRate: 20, repeat: 0 })
+        // hurt animations
+        this.anims.create({ key: 'downHurt', frames: this.anims.generateFrameNames('wizHurt', { start: 0, end: 3 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'leftHurt', frames: this.anims.generateFrameNames('wizHurt', { start: 4, end: 7 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'rightHurt', frames: this.anims.generateFrameNames('wizHurt', { start: 8, end: 11 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'upHurt', frames: this.anims.generateFrameNames('wizHurt', { start: 12, end: 15 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'greenHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 0, end: 5 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'purpleHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 6, end: 11 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'yellowHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 12, end: 17 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'tealHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 18, end: 23 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'blueHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 24, end: 29 }), frameRate: 8, repeat: 0 })
+        this.anims.create({ key: 'pinkHurt', frames: this.anims.generateFrameNames('tempHurt', { start: 30, end: 35 }), frameRate: 8, repeat: 0 })
 
         // move through
         this.scene.start('titleScene')

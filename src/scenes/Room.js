@@ -13,6 +13,7 @@ class Room extends Phaser.Scene {
         this.PLAYERDIRECT = 'down'
         this.OCCUPIED = false
         // grab player shorthands from UPGRADES array
+        console.log(UPGRADES[0][1])
         this.HP = UPGRADES[0][1]
         this.MANA = UPGRADES[2][1]
         this.ATKDMG = UPGRADES[4][1]
@@ -28,12 +29,26 @@ class Room extends Phaser.Scene {
         // This is so the player cannot be hit too many times per second
         this.can_hit = true
         this.hitCooldown = 500
+        if (LEVEL <= 5) {
+            this.COLOR = 'green'
+        } else if (LEVEL <= 5) {
+            this.COLOR = 'purple'
+        } else if (LEVEL <= 12) {
+            this.COLOR = 'yellow'
+        } else if (LEVEL <= 20) {
+            this.COLOR = 'teal'
+        } else if (LEVEL <= 35) {
+            this.COLOR = 'blue'
+        } else {
+            this.COLOR = 'pink'
+        }
     }
 
     preload() {
         // load tile animation plugin
         this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
     }
+
     create() {
         // running checks
         console.log('%cROOM SCENE :^)', testColor)
@@ -93,8 +108,7 @@ class Room extends Phaser.Scene {
         })
         // ------------------------------------------------------------------------- PATHFINDING SETUP
         // Create room names
-        this.ROOMS =
-        {
+        this.ROOMS = {
             ITEMSHOP: 0,
             COURTYARD: 1,
             CASTLE: 2,
@@ -132,7 +146,7 @@ class Room extends Phaser.Scene {
         this.room1_enemy_count = this.enemyArr1.length
         this.room2_enemy_count = this.enemyArr2.length
         this.room3_enemy_count = this.enemyArr3.length
-
+        this.riches = 0
     }
 
     update() {
@@ -461,17 +475,22 @@ class Room extends Phaser.Scene {
             for (let enemy of this.enemyList) {
                 let eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                 let eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
-                if (tile.x == eTileX && tile.y == eTileY) {
+                if ((tile.x == eTileX && tile.y == eTileY)) {
                     // play enemy hurt anims
+                    try {
+                        enemy.anims.play(enemy.color + 'Hurt').once('animationcomplete', () => {
+                            enemy.anims.play(enemy.color)
+                        })
+                    } catch { }
                     enemy.HP -= damage
                     if (enemy.HP <= 0) {
                         RICHES += enemy.maxHP
+                        this.riches += enemy.maxHP
                         this.events.emit('addRiches')
                         enemy.alive = false
                         enemy.destroy()
                         this.update_count()
-                        switch(this.player.room)
-                        {
+                        switch(this.player.room) {
                             case this.ROOMS.COURTYARD:
                                 if(this.room1_enemy_count == 0)
                                     {
@@ -642,24 +661,24 @@ class Room extends Phaser.Scene {
             if (!tile) continue
             let worldCoord = this.tile_to_world(tile.x, tile.y, this.spawnLayer)
             //console.log(worldCoord)
-            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.COURTYARD).setOrigin(0)
-            enemy.anims.play('yellow')
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.COURTYARD, this.COLOR).setOrigin(0)
+            enemy.anims.play(enemy.color)
             // Load enemies into array so that their pathfinding can be generalized
             this.enemyArr1.push(enemy)
         }
         for (let tile of room2_points) {
             if (!tile) continue
             let worldCoord = this.tile_to_world(tile.x, tile.y, this.spawnLayer)
-            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.CASTLE).setOrigin(0)
-            enemy.anims.play('yellow')
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.CASTLE, this.COLOR).setOrigin(0)
+            enemy.anims.play(enemy.color)
             // Load enemies into array so that their pathfinding can be generalized
             this.enemyArr2.push(enemy)
         }
         for (let tile of room3_points) {
             if (!tile) continue
             let worldCoord = this.tile_to_world(tile.x, tile.y, this.spawnLayer)
-            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.DUNGEON).setOrigin(0)
-            enemy.anims.play('yellow')
+            var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.DUNGEON, this.COLOR).setOrigin(0)
+            enemy.anims.play(enemy.color)
             // Load enemies into array so that their pathfinding can be generalized
             this.enemyArr3.push(enemy)
         }
@@ -735,14 +754,16 @@ class Room extends Phaser.Scene {
             }
             // If any of the enemies are touching the player, apply damage and then have a cooldown
             for (let enemy of this.enemyList) {
-                if(enemy.alive)
-                {
+                if(enemy.alive) {
                     this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                     this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                     if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
                         console.log("Enemy Tile Loc: ", this.eTileX, this.eTileY)
                         console.log("Player Tile Loc: ", this.tileLocX, this.tileLocY)
                         console.log("Enemy ", enemy, " is currently hitting the player")
+                        this.player.anims.play(this.PLAYERDIRECT + 'Hurt').once('animationcomplete', () => {
+                            this.player.anims.play(this.PLAYERDIRECT)
+                        })
                         // TODO: TICK DAMAGE
                         this.can_hit = false
                         this.time.delayedCall(this.hitCooldown, () => {
