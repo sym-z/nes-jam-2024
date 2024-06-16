@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "shop.tmx",
+    "activeFile": "castle.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -11,14 +11,14 @@
     "fileStates": {
         "": {
             "scaleInDock": 1,
-            "scaleInEditor": 5.74
+            "scaleInEditor": 12.07
         },
         "castle.tmx": {
-            "scale": 1.7755,
+            "scale": 4.2826,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 256.26584060827935,
-                "y": 243.03013235708252
+                "x": 369.4017652827721,
+                "y": 312.7772848269742
             }
         },
         "castle.tmx#aqua_brick": {
@@ -80,8 +80,8 @@
     "project": "castle.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "castle.tmx",
-        "shop.tmx"
+        "shop.tmx",
+        "castle.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {

@@ -20,7 +20,7 @@
 - [ ] **Tile Grabbing Function for Attacking Enemies** [JACK]
 - [ ] **Enemies collide with eachother** [JACK]
 - [ ] **Enemies can attack the player** [JACK]
-- [ ] **Player can attack enemies** [JACK]
+- [x] **Player can attack enemies** 
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**
