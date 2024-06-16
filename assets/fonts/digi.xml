@@ -71,6 +71,7 @@
     <char id="122" x="280" y="8" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--z-->
     <char id="32" x="288" y="8" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--space-->
     <char id="62" x="296" y="8" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!-->-->
+    <char id="60" x="304" y="8" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--arrow-->
     <char id="33" x="288" y="0" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--!-->
     <char id="63" x="296" y="0" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--?-->
     <char id="58" x="304" y="0" width="8" height="8" xoffset="0" yoffset="0" xadvance="8" page="0" chnl="15" /> <!--:-->

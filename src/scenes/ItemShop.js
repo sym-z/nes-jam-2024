@@ -70,11 +70,13 @@ class ItemShop extends Phaser.Scene {
         this.graphics.strokeRectShape(this.shopBackground)
         this.graphics.fillRectShape(this.shopBackground)
         this.cursorLoc = 0
+        this.selectLoc = 0
         this.shopText = this.add.bitmapText(this.UIX+tileSize, this.UIY+tileSize, 'digi',
-        'UPGRADES\n\nA: purchase\nB: exit\n\n  max HP\n  max mana\n  atk dmg\n  crit %\n  crit dmg\n  mgc heal\n  mgc dmg'
+        'UPGRADES\n\npurchase: A\nexit: B\n\n  max HP\n  max mana\n  atk dmg\n  crit %\n  crit dmg\n  mgc heal\n  mgc dmg'
         , 8).setOrigin(0).setDepth(1000).setAlpha(0)
         this.cursor = this.add.bitmapText(this.CURSORX, this.CURSORY, 'digi', '>', 8).setOrigin(0).setDepth(1000).setAlpha(0)
-
+        this.detailText = this.add.bitmapText(this.DETX+tileSize, this.DETY+tileSize, 'digi', `${UPGRADES[this.selectLoc][1]}<${UPGRADES[this.selectLoc][2]}\ngold:${RICHES}`, 8).setOrigin(0).setDepth(1000).setAlpha(0)
+        this.priceText = this.add.bitmapText(this.DETX+this.DETW-(tileSize*3), this.DETY+tileSize, 'digi', `${(UPGRADES[this.selectLoc][2])/5}$`, 8).setOrigin(0).setDepth(1000).setAlpha(0)
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
@@ -106,13 +108,13 @@ class ItemShop extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(UP) && this.cursorLoc > 0 && this.SHOPPING == true) {
                 this.cursorLoc--
                 this.cursor.setY(this.cursor.y-tileSize)
+                this.setText()
             }
             if (Phaser.Input.Keyboard.JustDown(DOWN) && this.cursorLoc < 6 && this.SHOPPING == true) {
                 this.cursorLoc++
                 this.cursor.setY(this.cursor.y+tileSize)
+                this.setText()
             }
-        } else {
-            
         }
     }
     // helper function, set alpha
@@ -126,6 +128,45 @@ class ItemShop extends Phaser.Scene {
         this.graphics.fillRectShape(this.shopBackground)
         this.shopText.setAlpha(num)
         this.cursor.setAlpha(num)
+        this.detailText.setAlpha(num)
+        this.priceText.setAlpha(num)
+    }
+    // set detail text
+    setText() {
+        switch (this.cursorLoc) {
+            case 0:
+                this.selectLoc = 0
+                var price = (UPGRADES[this.selectLoc][2])/5
+                break
+            case 1:
+                this.selectLoc = 2
+                var price = (UPGRADES[this.selectLoc][2])/5
+                break
+            case 2:
+                this.selectLoc = 4
+                var price = (UPGRADES[this.selectLoc][2])
+                break
+            case 3:
+                this.selectLoc = 5
+                var price = (UPGRADES[this.selectLoc][2])-1
+                break
+            case 4:
+                this.selectLoc = 6
+                var price = (UPGRADES[this.selectLoc][2])-3
+                break
+            case 5:
+                this.selectLoc = 7
+                var price = (UPGRADES[this.selectLoc][2])
+                break
+            case 6:
+                this.selectLoc = 8
+                var price = (UPGRADES[this.selectLoc][2])-2
+                break
+            default:
+                break
+        }
+        this.detailText.setText(`${UPGRADES[this.selectLoc][1]}<${UPGRADES[this.selectLoc][2]}\ngold:${RICHES}`)
+        this.priceText.setText(`${price}$`)
     }
 
     // ------------------------------------------------------------------------------ GRID MOVEMENT
@@ -159,7 +200,6 @@ class ItemShop extends Phaser.Scene {
     // move player
     movement() {
         if (Phaser.Input.Keyboard.JustDown(LEFT)) {
-            console.log('hello there')
             this.move(LEFT, this.wallsLayer, false)
             if (this.PLAYERDIRECT != 'left') {
                 this.PLAYERDIRECT = 'left'

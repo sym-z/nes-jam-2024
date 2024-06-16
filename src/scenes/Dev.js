@@ -6,7 +6,7 @@ class Dev extends Phaser.Scene {
     init() {
         this.DEFAULTLEVEL = 0
         this.DEFAULTRICHES = 0
-        this.DEFAULTUPGRADES = [["max HP", 15], ["HP restore", 0], ["max mana", 10], ["mana restore", 0], ["attack dmg", 1], ["crit chance", 4], ["crit dmg", 5], ["magic heal", 1], ["magic dmg", 3], ["sickness", -1], ["paralysis", -1], ["charm", -1], ["fear", -1]]
+        this.DEFAULTUPGRADES = [["max HP", 15, 20], ["HP restore", 0, 1], ["max mana", 10, 15], ["mana restore", 0, 1], ["attack dmg", 1, 3], ["crit chance", 4, 7], ["crit dmg", 5, 7], ["magic heal", 1, 2], ["magic dmg", 3, 5], ["sickness", -1, 1], ["paralysis", -1, 1], ["charm", -1, 1], ["fear", -1, 1]]
     }
 
     create() {
