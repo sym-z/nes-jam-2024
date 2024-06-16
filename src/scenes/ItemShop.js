@@ -11,6 +11,18 @@ class ItemShop extends Phaser.Scene {
         this.PLAYERX = this.SCREENX / 2 
         this.PLAYERY = this.SCREENY / 2
         this.PLAYERDIRECT = 'down'
+        this.SHOPPING = false
+        // UI box
+        this.UIX = tileSize*0
+        this.UIY = tileSize*6
+        this.UIW = tileSize*13
+        this.UIH = tileSize*14
+        this.DETX = tileSize*0
+        this.DETY = tileSize*20
+        this.DETW = tileSize*13
+        this.DETH = tileSize*4
+        this.CURSORX = tileSize*1
+        this.CURSORY = tileSize*12
     }
 
     preload() {
@@ -44,8 +56,25 @@ class ItemShop extends Phaser.Scene {
         // foreground layer
         this.foregroundLayer = this.map.createLayer('Foreground', this.tilesetArr, 0, 0)
         this.foregroundLayer.setCollisionByProperty({ collides: true })
-
+        // animation setup
         this.animatedTiles.init(this.map)
+
+        // -------------------------------------------------------------------------------- SHOP UI
+        this.graphics = this.add.graphics()
+        this.graphics.lineStyle(1, 0xffffff, 0)
+        this.graphics.fillStyle(0x000000, 0)
+        this.shopDetails = new Phaser.Geom.Rectangle(this.DETX, this.DETY, this.DETW, this.DETH)
+        this.graphics.strokeRectShape(this.shopDetails)
+        this.graphics.fillRectShape(this.shopDetails)
+        this.shopBackground = new Phaser.Geom.Rectangle(this.UIX, this.UIY, this.UIW, this.UIH)
+        this.graphics.strokeRectShape(this.shopBackground)
+        this.graphics.fillRectShape(this.shopBackground)
+        this.cursorLoc = 0
+        this.shopText = this.add.bitmapText(this.UIX+tileSize, this.UIY+tileSize, 'digi',
+        'UPGRADES\n\nA: purchase\nB: exit\n\n  max HP\n  max mana\n  atk dmg\n  crit %\n  crit dmg\n  mgc heal\n  mgc dmg'
+        , 8).setOrigin(0).setDepth(1000).setAlpha(0)
+        this.cursor = this.add.bitmapText(this.CURSORX, this.CURSORY, 'digi', '>', 8).setOrigin(0).setDepth(1000).setAlpha(0)
+
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
@@ -56,10 +85,50 @@ class ItemShop extends Phaser.Scene {
         this.devShop()
         this.consoleShop()
         // player movement
-        this.movement()
+        if (this.SHOPPING == false) { this.movement() }
+        this.purchase()
     }
 
-    // --------------------------------------------------- FUNCTIONS TO SIMPLIFY GRID MOVEMENT CODE
+    // ---------------------------------------------------------------------------------- ITEM SHOP
+    // make purchases
+    purchase() {
+        this.tileLoc = this.world_to_tile(this.player.x, this.player.y-1, this.wallsLayer)
+        this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.wallsLayer);
+        if (this.tile.properties.interactable) {
+            if (Phaser.Input.Keyboard.JustDown(A)) {
+                this.uiAlpha(1)
+                this.SHOPPING = true
+            }
+            if (Phaser.Input.Keyboard.JustDown(B)) {
+                this.uiAlpha(0)
+                this.SHOPPING = false
+            }
+            if (Phaser.Input.Keyboard.JustDown(UP) && this.cursorLoc > 0 && this.SHOPPING == true) {
+                this.cursorLoc--
+                this.cursor.setY(this.cursor.y-tileSize)
+            }
+            if (Phaser.Input.Keyboard.JustDown(DOWN) && this.cursorLoc < 6 && this.SHOPPING == true) {
+                this.cursorLoc++
+                this.cursor.setY(this.cursor.y+tileSize)
+            }
+        } else {
+            
+        }
+    }
+    // helper function, set alpha
+    uiAlpha(num) {
+        this.graphics.clear()
+        this.graphics.lineStyle(1, 0xffffff, num)
+        this.graphics.fillStyle(0x000000, num)
+        this.graphics.strokeRectShape(this.shopDetails)
+        this.graphics.fillRectShape(this.shopDetails)
+        this.graphics.strokeRectShape(this.shopBackground)
+        this.graphics.fillRectShape(this.shopBackground)
+        this.shopText.setAlpha(num)
+        this.cursor.setAlpha(num)
+    }
+
+    // ------------------------------------------------------------------------------ GRID MOVEMENT
     // This function takes world coordinates in as an argument, 
     // with a tilemap layer, and returns a Vector2 of the tile coords
     world_to_tile(worldX, worldY, layer) {
@@ -87,17 +156,17 @@ class ItemShop extends Phaser.Scene {
         if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
         return retval
     }
-
-    // ------------------------------------------------------------------------ GRID MOVEMENT CODE
+    // move player
     movement() {
         if (Phaser.Input.Keyboard.JustDown(LEFT)) {
+            console.log('hello there')
             this.move(LEFT, this.wallsLayer, false)
             if (this.PLAYERDIRECT != 'left') {
                 this.PLAYERDIRECT = 'left'
                 this.player.anims.play(this.PLAYERDIRECT)
             }
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            this.tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.backgroundLayer);
             if (this.tile.properties.to_castle) {
                 this.scene.start("roomScene")
             }
@@ -108,8 +177,8 @@ class ItemShop extends Phaser.Scene {
                 this.PLAYERDIRECT = 'right'
                 this.player.anims.play(this.PLAYERDIRECT)
             }
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            this.tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.backgroundLayer);
             if (this.tile.properties.to_castle) {
                 this.scene.start("roomScene")
             } 
@@ -120,11 +189,11 @@ class ItemShop extends Phaser.Scene {
                 this.PLAYERDIRECT = 'up'
                 this.player.anims.play(this.PLAYERDIRECT)
             }
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            this.tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.backgroundLayer);
             if (this.tile.properties.to_castle) {
-                    this.scene.start("roomScene")
-                }
+                this.scene.start("roomScene")
+            }
         }
         if (Phaser.Input.Keyboard.JustDown(DOWN)) {
             this.move(DOWN, this.wallsLayer, false)
@@ -132,8 +201,8 @@ class ItemShop extends Phaser.Scene {
                 this.PLAYERDIRECT = 'down'
                 this.player.anims.play(this.PLAYERDIRECT)
             }
-            this.tileLoc = this.world_to_tile(this.player.x,this.player.y, this.backgroundLayer)
-            this.tile = this.get_tile(this.tileLoc.x,this.tileLoc.y,this.backgroundLayer);
+            this.tileLoc = this.world_to_tile(this.player.x, this.player.y, this.backgroundLayer)
+            this.tile = this.get_tile(this.tileLoc.x, this.tileLoc.y, this.backgroundLayer);
             if (this.tile.properties.to_castle) {
                 this.scene.start("roomScene")
             }
