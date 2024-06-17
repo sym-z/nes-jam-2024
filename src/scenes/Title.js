@@ -45,10 +45,12 @@ class Title extends Phaser.Scene {
                     case this.CONTROLS:
                         // TODO: SHOW CONTROLS TEXTURE
                         this.splash.setTexture('controlsPNG')
+                        this.menuSound.play({ volume: 0.35 })
                         this.CURRENT_ROOM = this.CONTROLS
                         break
                     case this.CREDITS:
                         this.CURRENT_ROOM = this.CREDITS
+                        this.menuSound.play({ volume: 0.35 })
                         // TODO: SHOW CREDITS TEXTURE
                         break
                 }
@@ -56,20 +58,24 @@ class Title extends Phaser.Scene {
             else if (this.CURRENT_ROOM == this.CONTROLS) {
                 this.CURRENT_ROOM = this.START_GAME
                 this.splash.setTexture("mainMenu" + this.SELECTION + "PNG")
+                this.menuSound.play({ volume: 0.35 })
             }
             else if (this.CURRENT_ROOM == this.CREDITS) {
                 this.CURRENT_ROOM = this.START_GAME
                 this.splash.setTexture("mainMenu" + this.SELECTION + "PNG")
+                this.menuSound.play({ volume: 0.35 })
             }
         }
         if (Phaser.Input.Keyboard.JustDown(B)) {
             if (this.CURRENT_ROOM == this.CONTROLS) {
                 this.CURRENT_ROOM = this.START_GAME
                 this.splash.setTexture("mainMenu" + this.SELECTION + "PNG")
+                this.menuSound.play({ volume: 0.35 })
             }
             else if (this.CURRENT_ROOM == this.CREDITS) {
                 this.CURRENT_ROOM = this.START_GAME
                 this.splash.setTexture("mainMenu" + this.SELECTION + "PNG")
+                this.menuSound.play({ volume: 0.35 })
             }
         }
 
