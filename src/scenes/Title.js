@@ -44,8 +44,11 @@ class Title extends Phaser.Scene {
                         break
                     case this.CONTROLS:
                         // TODO: SHOW CONTROLS TEXTURE
+                        this.splash.setTexture('controlsPNG')
+                        this.CURRENT_ROOM = this.CONTROLS
                         break
                     case this.CREDITS:
+                        this.CURRENT_ROOM = this.CREDITS
                         // TODO: SHOW CREDITS TEXTURE
                         break
                 }

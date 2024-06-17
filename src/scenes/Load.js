@@ -23,6 +23,7 @@ class Load extends Phaser.Scene {
         this.load.image('mainMenu0PNG', './assets/sprites/png/main_menu2.png')
         this.load.image('mainMenu1PNG', './assets/sprites/png/main_menu3.png')
         this.load.image('mainMenu2PNG', './assets/sprites/png/main_menu4.png')
+        this.load.image('controlsPNG', './assets/sprites/png/controls.png')
         // load bitmap font
         this.load.bitmapFont('digi', './assets/fonts/digi.png', './assets/fonts/digi.xml')
         // load tilesheets
