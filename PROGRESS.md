@@ -18,12 +18,13 @@
 - [x] **Font** 06-15-2024
 - [x] **A Star Pathfinding** 06-16-2024
 - [x] **Tile Grabbing Function for Attacking Enemies** [JACK]
-- [ ] **Enemies collide with eachother** [JACK]
 - [x] **Enemies can attack the player** [JACK]
 - [x] **Player can attack enemies** 
 - [ ] **Main Menu**
 - [ ] **NES Control Binding Diagram**
 - [ ] **Basic Ranged Attack with Collision**
+- [ ] **Player Death**
+- [ ] **Player Death Sound**
 
 ## UPGRADES
 

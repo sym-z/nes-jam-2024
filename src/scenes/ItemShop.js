@@ -62,6 +62,7 @@ class ItemShop extends Phaser.Scene {
         this.animatedTiles.init(this.map)
 
         // ---------------------------------------------------------------------------------- MUSIC
+        this.game.sound.stopAll()
         this.music = this.sound.add('shop_theme');
         this.music.play({loop: true, volume: 0.35});
         this.buy_sound = this.sound.add('buy_item')

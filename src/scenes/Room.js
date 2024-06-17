@@ -147,6 +147,15 @@ class Room extends Phaser.Scene {
         this.completions = 0
         this.win = false
 
+        // ---------------------------------------------------------------------------------- MUSIC
+        this.game.sound.stopAll()
+        this.music2 = this.sound.add('battle_jam')
+        this.music2.play({loop: true, volume: 0.35});
+        this.magicSound = this.sound.add('magic')
+        this.roomCompleteSound = this.sound.add('room_complete')
+        this.slashSound = this.sound.add('slash')
+        this.deathSound = this.sound.add('wiz_death')
+        this.hurtSound = this.sound.add('wiz_hurt')
         // ------------------------------------------------------------------------------------- UI
         this.graphics = this.add.graphics()
         this.graphics.lineStyle(1, 0xffffff)
@@ -222,6 +231,7 @@ class Room extends Phaser.Scene {
     // attack
     attack() {
         if (Phaser.Input.Keyboard.JustDown(A) && this.OCCUPIED == false) {
+            this.slashSound.play({volume:0.35})
             // prevent player from moving
             this.OCCUPIED = true
             // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -243,6 +253,7 @@ class Room extends Phaser.Scene {
     // magical attack
     magic() {
         if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false && this.MANA >= 1) {
+            this.magicSound.play({volume:0.35})
             // prevent player from moving
             this.OCCUPIED = true
             this.grab_facing_tiles(this.MGCDMG)
@@ -826,6 +837,7 @@ class Room extends Phaser.Scene {
                     this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                     if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
                         this.HP -= this.LVL
+                        this.hurtSound.play({volume:0.35})
                         this.player.anims.play(this.PLAYERDIRECT + 'Hurt').once('animationcomplete', () => {
                             this.player.anims.play(this.PLAYERDIRECT)
                         })
@@ -852,6 +864,7 @@ class Room extends Phaser.Scene {
     }
     unlock_rooms() {
         // For each tile in Door array, turn its collision off, and make it invisible
+        this.roomCompleteSound.play({volume:0.75})
         for(let door of this.doorTiles) {
             switch(this.player.room)
             {
