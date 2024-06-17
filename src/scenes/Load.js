@@ -19,7 +19,10 @@ class Load extends Phaser.Scene {
         this.load.image('spawnPNG', './assets/spritesheets/spawn.png')
         this.load.image('keeperPNG', './assets/spritesheets/keeper-Sheet.png')
         this.load.image('doorsPNG', './assets/spritesheets/lock-Sheet.png')
-        this.load.image('mainMenuPNG', './assets/spritesheets/main_menu-Sheet.png')
+        this.load.image('mainMenu3PNG', './assets/sprites/png/main_menu1.png')
+        this.load.image('mainMenu0PNG', './assets/sprites/png/main_menu2.png')
+        this.load.image('mainMenu1PNG', './assets/sprites/png/main_menu3.png')
+        this.load.image('mainMenu2PNG', './assets/sprites/png/main_menu4.png')
         // load bitmap font
         this.load.bitmapFont('digi', './assets/fonts/digi.png', './assets/fonts/digi.xml')
         // load tilesheets
