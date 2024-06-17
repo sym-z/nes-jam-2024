@@ -4,6 +4,7 @@ class Room extends Phaser.Scene {
     }
 
     init() {
+        ROOM = LEVEL
         // screen x and y for camera movement
         this.SCREENX = 256
         this.SCREENY = 240
@@ -13,7 +14,6 @@ class Room extends Phaser.Scene {
         this.PLAYERDIRECT = 'down'
         this.OCCUPIED = false
         // grab player shorthands from UPGRADES array
-        console.log(UPGRADES[0][1])
         this.HP = UPGRADES[0][1]
         this.MANA = UPGRADES[2][1]
         this.ATKDMG = UPGRADES[4][1]
@@ -25,10 +25,10 @@ class Room extends Phaser.Scene {
         this.ENEMYX = 300
         this.ENEMYY = 8
         // Enemy will detect you if you are 8 tiles away
-        this.enemyRange = 8
+        this.RANGE = 16
         // This is so the player cannot be hit too many times per second
-        this.can_hit = true
-        this.hitCooldown = 500
+        this.CANHIT = true
+        this.HCD = 500
         if (LEVEL <= 5) {
             this.COLOR = 'green'
         } else if (LEVEL <= 5) {
@@ -46,7 +46,7 @@ class Room extends Phaser.Scene {
 
     preload() {
         // load tile animation plugin
-        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles')
     }
 
     create() {
@@ -94,13 +94,10 @@ class Room extends Phaser.Scene {
         this.spawnLayer.visible = false
         // animation setup
         this.animatedTiles.init(this.map)
-        //console.log(this.spawnLayer)
         // door setup
         this.doorTiles = []
         this.wallsLayer.forEachTile((tile) => {
-            //console.log(tile)
             if (tile && tile.index != -1) {
-                console.log(tile.properties.isDoor)
                 if (tile.properties.collides && tile.properties.isDoor) {
                     this.doorTiles.push(tile)
                 }
@@ -147,6 +144,8 @@ class Room extends Phaser.Scene {
         this.room2_enemy_count = this.enemyArr2.length
         this.room3_enemy_count = this.enemyArr3.length
         this.riches = 0
+        this.completions = 0
+        this.win = false
     }
 
     update() {
@@ -158,7 +157,21 @@ class Room extends Phaser.Scene {
         this.devRoom()
         this.enemy_ai()
         this.enemy_attack()
-
+        // room
+        if (this.completions == 1 && this.win == true) {
+            this.win = false
+            ROOM++
+        }
+        if (this.completions == 2 && this.win == true) {
+            this.win = false
+            ROOM++
+        }
+        if (this.completions == 3 && this.win == true) {
+            this.win = false
+            ROOM++
+            LEVEL = ROOM
+            this.events.emit('addLevel')
+        }
     }
 
     // ----------------------------------------------------------------------------- COMBAT HELPERS
@@ -221,7 +234,7 @@ class Room extends Phaser.Scene {
     get_tile(tileX, tileY, layer) {
         // Instead of returning a null tile, empty tiles return tiles of index -1
         let retval = this.map.getTileAt(tileX, tileY, true, layer)
-        if (retval === null) console.log("ERROR in get_tile(): Returning null tile.", badColor)
+        if (retval === null) console.log("%cERROR in get_tile(): Returning null tile.", badColor)
         return retval
     }
     // Allows for player grid movement, and camera movement at exit
@@ -471,7 +484,6 @@ class Room extends Phaser.Scene {
                 break
         }
         for (let tile of this.hitTiles) {
-            console.log('something is happening')
             for (let enemy of this.enemyList) {
                 let eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                 let eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
@@ -492,22 +504,25 @@ class Room extends Phaser.Scene {
                         this.update_count()
                         switch(this.player.room) {
                             case this.ROOMS.COURTYARD:
-                                if(this.room1_enemy_count == 0)
-                                    {
-                                        this.unlock_rooms()
-                                    }
+                                if(this.room1_enemy_count == 0) {
+                                    this.unlock_rooms()
+                                    this.completions = 1
+                                    this.win = true
+                                }
                                 break
                             case this.ROOMS.CASTLE:
-                                if(this.room2_enemy_count == 0)
-                                    {
-                                        this.unlock_rooms()
-                                    }
+                                if(this.room2_enemy_count == 0) {
+                                    this.unlock_rooms()
+                                    this.completions = 2
+                                    this.win = true
+                                }
                                 break
                             case this.ROOMS.DUNGEON:
-                                if(this.room3_enemy_count == 0)
-                                    {
-                                        this.unlock_rooms()
-                                    }
+                                if(this.room3_enemy_count == 0) {
+                                    this.unlock_rooms()
+                                    this.completions = 3
+                                    this.win = true
+                                }
                                 break
                         }
                     }
@@ -519,28 +534,26 @@ class Room extends Phaser.Scene {
         // src = https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
         this.wiggleX = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
         this.wiggleY = Math.floor(Math.random() * (Math.floor(2) - Math.ceil(-1)) + Math.ceil(-1))
-        //console.log(this.tweens.tweens)
         if (enemy == null) {
             switch (this.player.room) {
                 case this.ROOMS.COURTYARD:
                     for (let enemy of this.enemyArr1) {
                         if (!enemy.isMoving) {
                             // Calculate distance from player to enemy, if theyre out of range, dont bother
-                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.RANGE) continue
                             if (enemy.room != this.player.room) continue
                             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
                             this.playerLocX = this.world_to_tile(this.player.x, this.player.y, this.navLayer).x
                             this.playerLocY = this.world_to_tile(this.player.y, this.player.y, this.navLayer).y
                             this.result = enemy.find_path(this.enemyLocX, this.enemyLocY, this.playerLocX + this.wiggleX, this.playerLocY + this.wiggleY)
-                            if (!this.result) console.log("Hit player")
                         }
                     }
                     break
                 case this.ROOMS.CASTLE:
                     for (let enemy of this.enemyArr2) {
                         if (!enemy.isMoving) {
-                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.RANGE) continue
                             if (enemy.room != this.player.room) continue
                             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
@@ -553,7 +566,7 @@ class Room extends Phaser.Scene {
                 case this.ROOMS.DUNGEON:
                     for (let enemy of this.enemyArr3) {
                         if (!enemy.isMoving) {
-                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) continue
+                            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.RANGE) continue
                             if (enemy.room != this.player.room) continue
                             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
                             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
@@ -565,7 +578,7 @@ class Room extends Phaser.Scene {
                     break
             }
         } else {
-            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.enemyRange) return
+            if (Math.floor(Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2)) / tileSize) > this.RANGE) return
             if (enemy.room != this.player.room) return
             this.enemyLocX = this.world_to_tile(enemy.x, enemy.y, this.navLayer).x
             this.enemyLocY = this.world_to_tile(enemy.y, enemy.y, this.navLayer).y
@@ -604,7 +617,6 @@ class Room extends Phaser.Scene {
             default:
                 break
         }
-        //console.log(this.player.room)
         // Move camera based on argument
         this.cameras.main.scrollX += deltaX
         this.cameras.main.scrollY += deltaY
@@ -617,7 +629,6 @@ class Room extends Phaser.Scene {
         let room2_spawns = []
         let room3_spawns = []
         this.spawnLayer.forEachTile((tile) => {
-            //console.log(tile)
             if (tile && tile.index != -1) {
                 if (tile.properties.room == 1) {
                     room1_spawns.push(tile)
@@ -632,9 +643,9 @@ class Room extends Phaser.Scene {
         })
         // Figure out number of enemies to spawn in each room
         // TODO: ADJUST SCALE OF ENEMY COUNT
-        let room1_count = (ROOM + 0) + 3
-        let room2_count = (ROOM + 1) + 3
-        let room3_count = (ROOM + 2) + 3
+        let room1_count = (ROOM + 0) + 2
+        let room2_count = (ROOM + 1) + 2
+        let room3_count = (ROOM + 2) + 2
         // Pull that number of random indices from the arrays and store them in arrays
 
         let room1_points = []
@@ -653,14 +664,10 @@ class Room extends Phaser.Scene {
             room3_points.push(room3_spawns[index])
         }
 
-        //console.log("ROOM 1 SPAWNS: ", room1_points)
-        //console.log("ROOM 2 SPAWNS: ", room2_points)
-        //console.log("ROOM 3 SPAWNS: ", room3_points)
         // Spawn an enemy at each of the tile's locations
         for (let tile of room1_points) {
             if (!tile) continue
             let worldCoord = this.tile_to_world(tile.x, tile.y, this.spawnLayer)
-            //console.log(worldCoord)
             var enemy = new Enemy(this, worldCoord.x, worldCoord.y, this.finder, this.map, this.ROOMS.COURTYARD, this.COLOR).setOrigin(0)
             enemy.anims.play(enemy.color)
             // Load enemies into array so that their pathfinding can be generalized
@@ -687,8 +694,6 @@ class Room extends Phaser.Scene {
         switch (this.player.room) {
             case 1:
                 for (let enemy of this.enemyArr1) {
-                    //console.log(enemy.isMoving)
-                    //console.log(enemy.isMoving)
                     if (!enemy.isMoving) {
                         this.recalculate_paths(enemy)
                     }
@@ -736,7 +741,7 @@ class Room extends Phaser.Scene {
         }
     }
     enemy_attack() {
-        if(this.can_hit) {
+        if(this.CANHIT) {
             // List of tiles hit
             this.hitTiles = []
             // List of enemies in the room
@@ -758,16 +763,13 @@ class Room extends Phaser.Scene {
                     this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                     this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                     if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
-                        console.log("Enemy Tile Loc: ", this.eTileX, this.eTileY)
-                        console.log("Player Tile Loc: ", this.tileLocX, this.tileLocY)
-                        console.log("Enemy ", enemy, " is currently hitting the player")
                         this.player.anims.play(this.PLAYERDIRECT + 'Hurt').once('animationcomplete', () => {
                             this.player.anims.play(this.PLAYERDIRECT)
                         })
                         // TODO: TICK DAMAGE
-                        this.can_hit = false
-                        this.time.delayedCall(this.hitCooldown, () => {
-                            this.can_hit = true
+                        this.CANHIT = false
+                        this.time.delayedCall(this.HCD, () => {
+                            this.CANHIT = true
                         })
                     }
                 }
@@ -777,71 +779,53 @@ class Room extends Phaser.Scene {
     }
 
     // ---------------------------------------------------------------------- ROOM LOCKING CODE
-    lock_rooms()
-    {
+    lock_rooms() {
         // For each tile in Door array, turn its collision on, and make it visible
-        for(let door of this.doorTiles)
-            {
-                door.visible = true
-                //this.wallsLayer.setCollision(door.index,true)
-                door.properties.collides = true
-            }
+        for(let door of this.doorTiles) {
+            door.visible = true
+            //this.wallsLayer.setCollision(door.index,true)
+            door.properties.collides = true
+        }
     }
-    unlock_rooms()
-    {
-        console.log("UNLOCKING DOORS", this.doorTiles)
+    unlock_rooms() {
         // For each tile in Door array, turn its collision off, and make it invisible
-        for(let door of this.doorTiles)
-            {
-                door.visible = false
-                //this.wallsLayer.setCollision(door.index,false)
-                door.properties.collides = false;
-            }
-
+        for(let door of this.doorTiles) {
+            door.visible = false
+            //this.wallsLayer.setCollision(door.index,false)
+            door.properties.collides = false
+        }
     }
-    update_count()
-    {
-        let new_count = 0;
-        switch(this.player.room)
-        {
+    update_count() {
+        let new_count = 0
+        switch(this.player.room) {
             case this.ROOMS.COURTYARD:
-                for(let enemy of this.enemyArr1)
-                    {
-                        if(enemy.alive)
-                            {
-                                new_count += 1
-                            }
+                for (let enemy of this.enemyArr1) {
+                    if(enemy.alive) {
+                        new_count += 1
                     }
+                }
                 this.room1_enemy_count = new_count
-                console.log("ROOM POPULATION IS NOW", this.room1_enemy_count)
                 break
             case this.ROOMS.CASTLE:
-                for(let enemy of this.enemyArr2)
-                    {
-                        if(enemy.alive)
-                            {
-                                new_count += 1
-                            }
+                for(let enemy of this.enemyArr2) {
+                    if(enemy.alive) {
+                        new_count += 1
                     }
+                }
                 this.room2_enemy_count = new_count
-                console.log("ROOM POPULATION IS NOW", this.room2_enemy_count)
                 break
             case this.ROOMS.DUNGEON:
-                for(let enemy of this.enemyArr3)
-                    {
-                        if(enemy.alive)
-                            {
-                                new_count += 1
-                            }
+                for(let enemy of this.enemyArr3) {
+                    if(enemy.alive) {
+                        new_count += 1
                     }
+                }
                 this.room3_enemy_count = new_count
-                console.log("ROOM POPULATION IS NOW", this.room3_enemy_count)
-                if(this.room3_enemy_count == 0)
-                    {
-                        this.time.delayedCall(1000, () => {
-                            this.scene.start("itemShopScene")
-                        })
-                    }
+                if(this.room3_enemy_count == 0) {
+                    this.time.delayedCall(1000, () => {
+                        this.scene.start("itemShopScene")
+                    })
+                }
                 break
         }
     }
