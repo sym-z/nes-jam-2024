@@ -61,6 +61,12 @@ class ItemShop extends Phaser.Scene {
         // animation setup
         this.animatedTiles.init(this.map)
 
+        // ---------------------------------------------------------------------------------- MUSIC
+        this.music = this.sound.add('shop_theme');
+        this.music.play({loop: true, volume: 0.35});
+        this.buy_sound = this.sound.add('buy_item')
+        this.fail_sound = this.sound.add('buy_fail')
+        this.menu_sound = this.sound.add('menu_choice')
         // -------------------------------------------------------------------------------- SHOP UI
         this.graphics = this.add.graphics()
         this.graphics.lineStyle(1, 0xffffff, 0)
@@ -109,11 +115,13 @@ class ItemShop extends Phaser.Scene {
             }
             if (Phaser.Input.Keyboard.JustDown(UP) && this.cursorLoc > 0 && this.SHOPPING == true) {
                 this.cursorLoc--
+                this.menu_sound.play({volume:0.35})
                 this.cursor.setY(this.cursor.y-tileSize)
                 this.selection()
             }
             if (Phaser.Input.Keyboard.JustDown(DOWN) && this.cursorLoc < 6 && this.SHOPPING == true) {
                 this.cursorLoc++
+                this.menu_sound.play({volume:0.35})
                 this.cursor.setY(this.cursor.y+tileSize)
                 this.selection()
             }
@@ -173,20 +181,27 @@ class ItemShop extends Phaser.Scene {
     }
     // actually making the purchases
     completion() {
-        if (RICHES >= this.price && Phaser.Input.Keyboard.JustDown(A)) {
-            if (this.selectLoc == 0 || this.selectLoc == 2) {
-                UPGRADES[this.selectLoc][1] += 5
-                UPGRADES[this.selectLoc][2] += 5
-            } else if (this.selectLoc == 4 || this.selectLoc == 6 || this.selectLoc == 8) {
-                UPGRADES[this.selectLoc][1] += 2
-                UPGRADES[this.selectLoc][2] += 2
-            } else if (this.selectLoc == 5 || this.selectLoc == 7) {
-                UPGRADES[this.selectLoc][1] += 3
-                UPGRADES[this.selectLoc][2] += 3
+        if (Phaser.Input.Keyboard.JustDown(A)) {
+            if (RICHES >= this.price) {
+                this.buy_sound.play({ volume: 0.35 })
+                if (this.selectLoc == 0 || this.selectLoc == 2) {
+                    UPGRADES[this.selectLoc][1] += 5
+                    UPGRADES[this.selectLoc][2] += 5
+                } else if (this.selectLoc == 4 || this.selectLoc == 6 || this.selectLoc == 8) {
+                    UPGRADES[this.selectLoc][1] += 2
+                    UPGRADES[this.selectLoc][2] += 2
+                } else if (this.selectLoc == 5 || this.selectLoc == 7) {
+                    UPGRADES[this.selectLoc][1] += 3
+                    UPGRADES[this.selectLoc][2] += 3
+                }
+                RICHES -= this.price
+                this.events.emit('takeRiches')
+                this.events.emit('addUpgrades')
             }
-            RICHES -= this.price
-            this.events.emit('takeRiches')
-            this.events.emit('addUpgrades')
+            else{
+
+                this.fail_sound.play({volume:0.65})
+            }
         }
     }
 
