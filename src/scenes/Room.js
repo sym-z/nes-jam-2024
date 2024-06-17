@@ -837,7 +837,7 @@ class Room extends Phaser.Scene {
                     this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                     this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                     if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
-                        this.HP -= this.LVL
+                        this.HP -= Math.ceil((this.LVL/2))
                         this.hurtSound.play({volume:0.35})
                         this.player.anims.play(this.PLAYERDIRECT + 'Hurt').once('animationcomplete', () => {
                             this.player.anims.play(this.PLAYERDIRECT)
@@ -867,8 +867,7 @@ class Room extends Phaser.Scene {
         // For each tile in Door array, turn its collision off, and make it invisible
         this.roomCompleteSound.play({volume:0.75})
         for(let door of this.doorTiles) {
-            switch(this.player.room)
-            {
+            switch(this.player.room) {
                 case this.ROOMS.COURTYARD:
                     door.visible = false
                     door.properties.collides = false
