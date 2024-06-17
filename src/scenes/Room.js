@@ -853,9 +853,25 @@ class Room extends Phaser.Scene {
     unlock_rooms() {
         // For each tile in Door array, turn its collision off, and make it invisible
         for(let door of this.doorTiles) {
-            door.visible = false
-            //this.wallsLayer.setCollision(door.index,false)
-            door.properties.collides = false
+            switch(this.player.room)
+            {
+                case this.ROOMS.COURTYARD:
+                    door.visible = false
+                    door.properties.collides = false
+                    break;
+
+                case this.ROOMS.CASTLE:
+                    if(door.properties.door == 2)
+                    {
+                        door.visible = false
+                        door.properties.collides = false
+                    }
+                    break;
+
+                case this.ROOMS.DUNGEON:
+                    break;
+
+            }
         }
     }
     update_count() {
