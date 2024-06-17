@@ -11,8 +11,8 @@
 - [x] **Enemies** 06-15-2024
 - [x] **Player Animations** 06-12-2024
 - [x] **Enemy Spawner Tiles** 06-16-2024
-- [ ] **Wave Based Difficulty**
-- [ ] **Polish Level Design** 06-15-2024
+- [x] **Wave Based Difficulty**
+- [x] **Polish Level Design** 06-15-2024
 - [x] **Item Shop Setup** 06-14-2023
 - [x] **Movement Fix** 06-14-2023
 - [x] **Font** 06-15-2024
@@ -20,11 +20,11 @@
 - [x] **Tile Grabbing Function for Attacking Enemies** [JACK]
 - [x] **Enemies can attack the player** [JACK]
 - [x] **Player can attack enemies** 
-- [ ] **Main Menu**
-- [ ] **NES Control Binding Diagram**
-- [ ] **Basic Ranged Attack with Collision**
-- [ ] **Player Death**
-- [ ] **Player Death Sound**
+- [x] **Main Menu**
+- [x] **NES Control Binding Diagram**
+- [ ] **Basic Ranged Attack with Collision** [SKIP]
+- [x] **Player Death**
+- [x] **Player Death Sound**
 
 ## UPGRADES
 
