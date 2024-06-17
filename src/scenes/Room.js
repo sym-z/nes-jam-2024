@@ -4,7 +4,7 @@ class Room extends Phaser.Scene {
     }
 
     init() {
-        ROOM = LEVEL
+        ROOM = this.LVL = LEVEL
         // screen x and y for camera movement
         this.SCREENX = 256
         this.SCREENY = 240
@@ -146,6 +146,19 @@ class Room extends Phaser.Scene {
         this.riches = 0
         this.completions = 0
         this.win = false
+
+        // ------------------------------------------------------------------------------------- UI
+        this.graphics = this.add.graphics()
+        this.graphics.lineStyle(1, 0xffffff)
+        this.graphics.fillStyle(0x000000)
+        this.hudGame = new Phaser.Geom.Rectangle(tileSize*0, tileSize*0, tileSize*15, tileSize)
+        this.hudPlayer = new Phaser.Geom.Rectangle(tileSize*0, tileSize*29, tileSize*15, tileSize)
+        this.graphics.strokeRectShape(this.hudGame)
+        this.graphics.fillRectShape(this.hudGame)
+        this.graphics.strokeRectShape(this.hudPlayer)
+        this.graphics.fillRectShape(this.hudPlayer)
+        this.textGame = this.add.bitmapText(0, tileSize*0, 'digi', `gold:${RICHES}, lvl:${LEVEL}`)
+        this.textPlayer = this.add.bitmapText(0, tileSize*29, 'digi', `HP:${this.HP}, MANA:${this.MANA}`)
     }
 
     update() {
@@ -171,6 +184,15 @@ class Room extends Phaser.Scene {
             ROOM++
             LEVEL = ROOM
             this.events.emit('addLevel')
+        }
+        this.textPlayer.setText(`HP:${this.HP}, MANA:${this.MANA}`)
+        this.textGame.setText(`gold:${RICHES}, lvl:${LEVEL}`)
+        // die
+        if(this.HP == 0) {
+            ROOM -= this.completions
+            this.time.delayedCall(1000, () => {
+                this.scene.start("itemShopScene")
+            })
         }
     }
 
@@ -198,10 +220,12 @@ class Room extends Phaser.Scene {
     }
     // magical attack
     magic() {
-        if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false) {
+        if (Phaser.Input.Keyboard.JustDown(B) && this.OCCUPIED == false && this.MANA >= 1) {
             // prevent player from moving
             this.OCCUPIED = true
             this.grab_facing_tiles(this.MGCDMG)
+            this.MANA -= 1
+            this.HP += this.MGCHEAL
             var anim = this.add.sprite(this.player.x - tileSize - 1, this.player.y - tileSize - 1, 'magic').setOrigin(0).play(this.PLAYERDIRECT + 'Magic').once('animationcomplete', () => {
                 anim.destroy()
                 this.time.delayedCall(50, () => { this.OCCUPIED = false })
@@ -597,21 +621,37 @@ class Room extends Phaser.Scene {
             // Moving from CASTLE to COURTYARD
             case 'LEFT':
                 deltaX = -this.SCREENX
+                this.hudGame.setPosition(this.hudGame.x+deltaX, this.hudGame.y)
+                this.hudPlayer.setPosition(this.hudPlayer.x+deltaX, this.hudPlayer.y)
+                this.textGame.x -= this.SCREENX
+                this.textPlayer.x -= this.SCREENX
                 this.player.room = this.ROOMS.COURTYARD
                 break
             // Moving from COURTYARD to CASTLE 
             case 'RIGHT':
                 deltaX = this.SCREENX
+                this.hudGame.setPosition(this.hudGame.x+deltaX, this.hudGame.y)
+                this.hudPlayer.setPosition(this.hudPlayer.x+deltaX, this.hudPlayer.y)
+                this.textGame.x += this.SCREENX
+                this.textPlayer.x += this.SCREENX
                 this.player.room = this.ROOMS.CASTLE
                 break
             // Moving from DUNGEON to CASTLE 
             case 'UP':
                 deltaY = -this.SCREENY
+                this.hudGame.setPosition(this.hudGame.x, this.hudGame.y+deltaY)
+                this.hudPlayer.setPosition(this.hudPlayer.x, this.hudPlayer.y+deltaY)
+                this.textGame.y -= this.SCREENY
+                this.textPlayer.y -= this.SCREENY
                 this.player.room = this.ROOMS.CASTLE
                 break
             // Moving from CASTLE to DUNGEON 
             case 'DOWN':
                 deltaY = this.SCREENY
+                this.hudGame.setPosition(this.hudGame.x, this.hudGame.y+deltaY)
+                this.hudPlayer.setPosition(this.hudPlayer.x, this.hudPlayer.y+deltaY)
+                this.textGame.y += this.SCREENY
+                this.textPlayer.y += this.SCREENY
                 this.player.room = this.ROOMS.DUNGEON
                 break
             default:
@@ -763,6 +803,7 @@ class Room extends Phaser.Scene {
                     this.eTileX = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).x
                     this.eTileY = this.world_to_tile(enemy.x, enemy.y, this.backgroundLayer).y
                     if (this.eTileX == this.tileLocX && this.eTileY == this.tileLocY) {
+                        this.HP -= this.LVL
                         this.player.anims.play(this.PLAYERDIRECT + 'Hurt').once('animationcomplete', () => {
                             this.player.anims.play(this.PLAYERDIRECT)
                         })

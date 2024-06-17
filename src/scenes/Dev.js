@@ -44,6 +44,7 @@ class Dev extends Phaser.Scene {
         // -------------------------------------------------------------------------------- DISPLAY
         // dev ui
         this.devUI = this.add.text(centerX, tileSize*3, 'level: ' + LEVEL + ' riches: ' + RICHES, { fontSize: 8 }).setOrigin(.5, 0)
+        this.devUI.setAlpha(0)
         // connect to game
         // src = https://labs.phaser.io/edit.html?src=src%5Cscenes%5Cui%20scene.js
         this.itemShop = this.scene.get('itemShopScene')
