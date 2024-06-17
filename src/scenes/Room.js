@@ -210,7 +210,7 @@ class Room extends Phaser.Scene {
         this.textPlayer.setText(`HP:${this.HP}, MANA:${this.MANA}`)
         this.textGame.setText(`gold:${RICHES}, lvl:${LEVEL}`)
         // die
-        if(this.HP == 0) {
+        if(this.HP <= 0) {
             ROOM -= this.completions
             this.time.delayedCall(1000, () => {
                 this.scene.start("itemShopScene")
