@@ -221,6 +221,7 @@ class Room extends Phaser.Scene {
         // die
         if(this.HP <= 0) {
             ROOM -= this.completions
+            this.deathSound.play({volume:0.35})
             this.time.delayedCall(1000, () => {
                 this.scene.start("itemShopScene")
             })
