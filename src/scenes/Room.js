@@ -214,6 +214,7 @@ class Room extends Phaser.Scene {
             this.win = false
             ROOM++
             LEVEL = ROOM
+            localStorage.setItem('level', LEVEL.toString())
             this.events.emit('addLevel')
         }
         this.textPlayer.setText(`HP:${this.HP}, MANA:${this.MANA}`)

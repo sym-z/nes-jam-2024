@@ -90,6 +90,10 @@ class ItemShop extends Phaser.Scene {
         // ------------------------------------------------------------------------- STARTING SETUP
         this.player = new Player(this, this.PLAYERX, this.PLAYERY).setOrigin(0)
         this.player.anims.play('down')
+        // -------------------------------------------------------------------------- CHECK STORAGE
+        localStorage.setItem('level', LEVEL.toString())
+        localStorage.setItem('riches', RICHES.toString())
+        localStorage.setItem('upgrades', JSON.stringify(UPGRADES))
     }
 
     update() {
