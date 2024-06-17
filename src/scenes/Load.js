@@ -33,6 +33,17 @@ class Load extends Phaser.Scene {
         this.load.spritesheet('attack', './assets/spritesheets/attack-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
         this.load.spritesheet('crit', './assets/spritesheets/crit-Sheet.png', { frameWidth: tileSize*3, frameHeight: tileSize*3 })
         this.load.spritesheet('magic', './assets/spritesheets/magic-Sheet.png', { frameWidth: (tileSize*3)+2, frameHeight: (tileSize*3)+2 })
+        //load audio
+        this.load.audio("battle_jam", "./assets/audio/battle_jam.mp3")
+        this.load.audio("buy_fail", "./assets/audio/buy_fail.mp3")
+        this.load.audio("buy_item", "./assets/audio/buy_item.mp3")
+        this.load.audio("magic", "./assets/audio/magic.mp3")
+        this.load.audio("menu_choice", "./assets/audio/menu_choice.mp3")
+        this.load.audio("room_complete", "./assets/audio/room_complete.mp3")
+        this.load.audio("shop_theme", "./assets/audio/shop_theme.mp3")
+        this.load.audio("slash", "./assets/audio/slash.mp3")
+        this.load.audio("wiz_death", "./assets/audio/wiz_death.mp3")
+        this.load.audio("wiz_hurt", "./assets/audio/wiz_hurt.mp3")
     }
 
     create() {
