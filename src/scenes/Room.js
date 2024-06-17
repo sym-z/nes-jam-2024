@@ -151,12 +151,34 @@ class Room extends Phaser.Scene {
         this.graphics = this.add.graphics()
         this.graphics.lineStyle(1, 0xffffff)
         this.graphics.fillStyle(0x000000)
+        
         this.hudGame = new Phaser.Geom.Rectangle(tileSize*0, tileSize*0, tileSize*15, tileSize)
         this.hudPlayer = new Phaser.Geom.Rectangle(tileSize*0, tileSize*29, tileSize*15, tileSize)
+        
+        this.hudGame2 = new Phaser.Geom.Rectangle(tileSize*0+this.SCREENX, tileSize*0, tileSize*15, tileSize)
+        this.hudPlayer2 = new Phaser.Geom.Rectangle(tileSize*0+this.SCREENX, tileSize*29, tileSize*13, tileSize)
+        
+        this.hudGame3 = new Phaser.Geom.Rectangle(tileSize*0+this.SCREENX, tileSize*0+this.SCREENY, tileSize*14, tileSize)
+        this.hudPlayer3 = new Phaser.Geom.Rectangle(tileSize*0+this.SCREENX, tileSize*29+this.SCREENY, tileSize*15, tileSize)
+        
         this.graphics.strokeRectShape(this.hudGame)
         this.graphics.fillRectShape(this.hudGame)
+        
+        this.graphics.strokeRectShape(this.hudGame2)
+        this.graphics.fillRectShape(this.hudGame2)
+        
+        this.graphics.strokeRectShape(this.hudGame3)
+        this.graphics.fillRectShape(this.hudGame3)
+        
         this.graphics.strokeRectShape(this.hudPlayer)
         this.graphics.fillRectShape(this.hudPlayer)
+        
+        this.graphics.strokeRectShape(this.hudPlayer2)
+        this.graphics.fillRectShape(this.hudPlayer2)
+        
+        this.graphics.strokeRectShape(this.hudPlayer3)
+        this.graphics.fillRectShape(this.hudPlayer3)
+        
         this.textGame = this.add.bitmapText(0, tileSize*0, 'digi', `gold:${RICHES}, lvl:${LEVEL}`)
         this.textPlayer = this.add.bitmapText(0, tileSize*29, 'digi', `HP:${this.HP}, MANA:${this.MANA}`)
     }
